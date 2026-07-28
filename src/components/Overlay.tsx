@@ -19,9 +19,17 @@ export default function Overlay() {
   );
   const nameScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
-  // Subtext: fades out quickly as we scroll down
-  const subtextOpacity = useTransform(scrollYProgress, [0, 0.1, 0.2], [1, 1, 0]);
-  const subtextY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
+  // Subtext: behaves identically to the name, fading out during paragraphs and fading back in
+  const subtextOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.2, 0.8, 0.9, 1],
+    [1, 1, 0, 0, 1, 1]
+  );
+  const subtextY = useTransform(
+    scrollYProgress, 
+    [0, 0.2, 0.8, 0.9, 1], 
+    [0, -50, -50, 0, 0]
+  );
 
   // Section 2 (The Approach): 30% to 50%
   const opacity2 = useTransform(scrollYProgress, [0.2, 0.3, 0.4, 0.5], [0, 1, 1, 0]);
