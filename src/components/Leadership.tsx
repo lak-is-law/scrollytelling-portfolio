@@ -24,7 +24,7 @@ const milestones = [
     org: "SRMIST Directorate of Student Affairs",
     desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
     logo: "/logos/images.png",
-    scale: 1
+    scale: 1.1
   },
   {
     role: "Trainee Lead",
@@ -87,7 +87,7 @@ export default function Leadership() {
                   </div>
                 </motion.div>
 
-                <div className={`flex-1 pl-20 md:pl-0 w-full ${index % 2 === 0 ? "md:text-left" : "md:text-right"}`}>
+                <div className={`flex-1 w-full pl-20 ${index % 2 === 0 ? "md:pl-24 md:pr-0 md:text-left" : "md:pl-0 md:pr-24 md:text-right"}`}>
                   <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
                   <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
                   <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
