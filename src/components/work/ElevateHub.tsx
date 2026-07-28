@@ -62,7 +62,7 @@ export default function ElevateHub() {
           >
             <div className="relative w-full h-full border border-zinc-800/50 rounded-[2.5rem] overflow-hidden bg-black/50">
               <Image 
-                src="/projects/elevate-hub.png"
+                src="/projects/elevate-hub.jpg"
                 alt="Elevate Hub"
                 fill
                 className="object-contain scale-[0.6] drop-shadow-2xl"
