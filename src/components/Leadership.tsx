@@ -71,7 +71,7 @@ export default function Leadership() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="relative flex items-center w-full"
+                  className="relative flex items-center w-full z-10"
                 >
                   {/* Left Text Block */}
                   <div className={`w-[calc(50%-40px)] pr-8 text-right ${isEven ? 'opacity-100' : 'opacity-0 hidden md:block'}`}>
