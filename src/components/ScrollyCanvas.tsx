@@ -109,6 +109,8 @@ export default function ScrollyCanvas() {
           ref={canvasRef}
           className="absolute inset-0 h-full w-full"
         />
+        {/* Cinematic vignette to elegantly obscure the watermark at the bottom */}
+        <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-[#09090b] to-transparent pointer-events-none" />
       </div>
     </div>
   );
