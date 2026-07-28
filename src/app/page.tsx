@@ -1,15 +1,23 @@
 import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
-import Projects from "@/components/Projects";
+import RedGambit from "@/components/work/RedGambit";
+import Todar from "@/components/work/Todar";
+import ElevateHub from "@/components/work/ElevateHub";
+import Leadership from "@/components/Leadership";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="bg-[#121212] min-h-screen">
+    <main className="bg-[#09090b] min-h-screen">
       <div className="relative">
         <ScrollyCanvas />
         <Overlay />
       </div>
-      <Projects />
+      <RedGambit />
+      <Todar />
+      <ElevateHub />
+      <Leadership />
+      <Contact />
     </main>
   );
 }
