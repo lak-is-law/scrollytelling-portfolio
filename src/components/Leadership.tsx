@@ -24,14 +24,14 @@ const milestones = [
     org: "SRMIST Directorate of Student Affairs",
     desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
     logo: "/logos/images.png",
-    scale: 1.1,
+    scale: 1.2,
   },
   {
     role: "Trainee Lead",
     org: "Alumni Relations (DAA)",
     desc: "Mentored recruits, spearheaded engagement strategy, and served as the primary POC for high-profile alumni.",
     logo: "/logos/daa.png",
-    scale: 1.2,
+    scale: 1.3,
   }
 ];
 
@@ -58,8 +58,8 @@ export default function Leadership() {
         </div>
 
         <div className="relative">
-          {/* Vertical Timeline Line - passes perfectly over the exact center of logos */}
-          <div className="absolute left-[28px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent z-20 pointer-events-none" />
+          {/* Vertical Timeline Line - passes perfectly under the center of logos */}
+          <div className="absolute left-[28px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent z-0 pointer-events-none" />
 
           <div className="space-y-24 md:space-y-32">
             {milestones.map((item, index) => {
@@ -88,7 +88,7 @@ export default function Leadership() {
                   <div className="absolute left-[28px] md:left-1/2 w-14 h-14 md:w-20 md:h-20 -translate-x-1/2 z-10 flex items-center justify-center cursor-default">
                     <motion.div 
                       style={{ rotate }}
-                      className="relative w-full h-full rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] overflow-hidden"
+                      className="relative w-full h-full rounded-full bg-[#09090b] shadow-[0_0_20px_rgba(0,0,0,0.5)] overflow-hidden"
                     >
                       <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
                         <Image 
