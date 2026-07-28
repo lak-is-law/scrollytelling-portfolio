@@ -11,8 +11,12 @@ export default function Overlay() {
     offset: ["start start", "end end"],
   });
 
-  // Name: stays visible, fades out only at the very end to transition to the next section
-  const nameOpacity = useTransform(scrollYProgress, [0.8, 0.9], [1, 0]);
+  // Name: Visible at start, fades out during paragraphs, fades back in after.
+  const nameOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.2, 0.8, 0.9, 1],
+    [1, 1, 0, 0, 1, 1]
+  );
   const nameScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   // Subtext: fades out quickly as we scroll down
