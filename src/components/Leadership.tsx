@@ -62,41 +62,58 @@ export default function Leadership() {
           <div className="absolute left-[28px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent z-20 pointer-events-none" />
 
           <div className="space-y-24 md:space-y-32">
-            {milestones.map((item, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-center ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}
-              >
-                {/* Logo Node */}
+            {milestones.map((item, index) => {
+              const isEven = index % 2 === 0;
+              return (
                 <motion.div 
-                  style={{ rotate }}
-                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="relative flex items-center w-full"
                 >
-                  <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
-                    <Image 
-                      src={item.logo} 
-                      alt={item.org}
-                      fill
-                      sizes="(max-width: 768px) 56px, 80px"
-                      className="object-cover"
-                    />
+                  {/* Left Text Block */}
+                  <div className={`w-[calc(50%-40px)] pr-8 text-right ${isEven ? 'opacity-100' : 'opacity-0 hidden md:block'}`}>
+                    {isEven && (
+                      <>
+                        <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
+                        <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
+                        <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
+                      </>
+                    )}
                   </div>
-                </motion.div>
 
-                {/* Text Node - pushed away from the axis to prevent overlap */}
-                <div className={`flex-1 w-full pl-20 ${index % 2 === 0 ? "md:pl-16 md:pr-0 md:text-left" : "md:pl-0 md:pr-16 md:text-right"}`}>
-                  <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
-                  <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
-                  <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
-                </div>
-                
-                <div className="hidden md:block flex-1" />
-              </motion.div>
-            ))}
+                  {/* Logo Node - Absolutely Centered */}
+                  <motion.div 
+                    style={{ rotate }}
+                    className="absolute left-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
+                  >
+                    <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
+                      <Image 
+                        src={item.logo} 
+                        alt={item.org}
+                        fill
+                        sizes="(max-width: 768px) 56px, 80px"
+                        className="object-cover"
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Right Text Block */}
+                  <div className={`w-[calc(50%-40px)] pl-8 ml-auto text-left ${!isEven ? 'opacity-100' : 'opacity-0 hidden md:block'}`}>
+                    {!isEven && (
+                      <>
+                        <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
+                        <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
+                        <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
+                      </>
+                    )}
+                  </div>
+                  
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
