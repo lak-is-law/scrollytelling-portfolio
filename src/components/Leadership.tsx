@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 const milestones = [
@@ -31,8 +32,17 @@ const milestones = [
 ];
 
 export default function Leadership() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Oscillates rapidly between -10 and 10 degrees as we scroll
+  const rotate = useTransform(scrollYProgress, (v) => Math.sin(v * 200) * 10);
+
   return (
-    <section className="relative bg-[#09090b] py-40 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
+    <section ref={containerRef} className="relative bg-[#09090b] py-40 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
       <div className="mx-auto max-w-4xl w-full">
         <div className="mb-24 text-center">
           <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6">
@@ -59,9 +69,8 @@ export default function Leadership() {
               >
                 {/* Logo Node */}
                 <motion.div 
-                  whileHover={{ scale: 1.15, rotate: index % 2 === 0 ? 5 : -5 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-white border-4 border-[#09090b] shadow-[0_0_30px_rgba(255,255,255,0.15)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center p-2 md:p-3 cursor-pointer"
+                  style={{ rotate }}
+                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
                 >
                   <div className="relative w-full h-full">
                     <Image 
@@ -69,7 +78,7 @@ export default function Leadership() {
                       alt={item.org}
                       fill
                       sizes="(max-width: 768px) 56px, 80px"
-                      className="object-contain"
+                      className="object-cover"
                     />
                   </div>
                 </motion.div>
