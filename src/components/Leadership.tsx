@@ -24,14 +24,14 @@ const milestones = [
     org: "SRMIST Directorate of Student Affairs",
     desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
     logo: "/logos/images.png",
-    scale: 1.2,
+    scale: 1.25,
   },
   {
     role: "Trainee Lead",
     org: "Alumni Relations (DAA)",
     desc: "Mentored recruits, spearheaded engagement strategy, and served as the primary POC for high-profile alumni.",
     logo: "/logos/daa.png",
-    scale: 1.3,
+    scale: 1.4,
   }
 ];
 
