@@ -3,6 +3,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
+import Image from "next/image";
+
 export default function ElevateHub() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -10,7 +12,8 @@ export default function ElevateHub() {
     offset: ["start end", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["15%", "-15%"]);
+  const rotate = useTransform(scrollYProgress, (v) => Math.sin(v * 200) * 3);
 
   return (
     <section ref={ref} className="relative min-h-screen bg-[#09090b] flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
@@ -51,23 +54,22 @@ export default function ElevateHub() {
           </div>
         </div>
 
-        {/* Abstract Visual Presentation (Parallaxing) */}
-        <motion.div style={{ y }} className="relative aspect-square rounded-[2.5rem] overflow-hidden bg-zinc-900/50 border border-zinc-800/50 flex items-center justify-center p-12">
-          
-          <div className="relative w-full h-full">
-            {/* Networking nodes simulation */}
-            <div className="absolute top-1/4 left-1/4 w-16 h-16 rounded-full bg-zinc-800 border border-zinc-700/50" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-zinc-200 shadow-[0_0_40px_rgba(255,255,255,0.1)] z-10" />
-            <div className="absolute bottom-1/4 right-1/4 w-20 h-20 rounded-full bg-zinc-800 border border-zinc-700/50" />
-            
-            {/* Connecting lines */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
-              <line x1="25%" y1="25%" x2="50%" y2="50%" stroke="white" strokeWidth="2" strokeDasharray="4 4" />
-              <line x1="75%" y1="75%" x2="50%" y2="50%" stroke="white" strokeWidth="2" strokeDasharray="4 4" />
-            </svg>
-          </div>
-          
-        </motion.div>
+        {/* Project Image */}
+        <div className="relative aspect-[4/3] lg:aspect-square z-10 perspective-1000">
+          <motion.div 
+            style={{ y, rotate }} 
+            className="w-full h-full relative rounded-[2.5rem] overflow-hidden bg-transparent flex items-center justify-center group shadow-2xl"
+          >
+            <div className="relative w-full h-full border border-zinc-800/50 rounded-[2.5rem] overflow-hidden bg-black/50">
+              <Image 
+                src="/projects/elevate-hub.png"
+                alt="Elevate Hub"
+                fill
+                className="object-contain scale-[0.6] drop-shadow-2xl"
+              />
+            </div>
+          </motion.div>
+        </div>
         
       </div>
     </section>

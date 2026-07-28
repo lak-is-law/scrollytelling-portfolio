@@ -3,6 +3,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
+import Image from "next/image";
+
 export default function Todar() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -10,31 +12,29 @@ export default function Todar() {
     offset: ["start end", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["15%", "-15%"]);
+  const rotate = useTransform(scrollYProgress, (v) => Math.sin(v * 200) * 3);
 
   return (
     <section ref={ref} className="relative min-h-screen bg-[#09090b] flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
       <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         
-        {/* Abstract Visual Presentation (Parallaxing) */}
-        <motion.div style={{ y }} className="relative aspect-square rounded-[2.5rem] overflow-hidden bg-zinc-900/50 border border-zinc-800/50 flex flex-col p-8 group order-last lg:order-first">
-          {/* Subtle dashboard lines */}
-          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
-          
-          <div className="flex-1 flex flex-col justify-end space-y-4 relative z-10">
-             <div className="w-full h-1/3 bg-zinc-800/30 backdrop-blur-md rounded-2xl border border-zinc-700/30 flex items-end p-6 gap-2">
-                {[40, 70, 45, 90, 60, 100].map((h, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ height: 0 }}
-                    whileInView={{ height: `${h}%` }}
-                    transition={{ duration: 1, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex-1 bg-zinc-600/20 rounded-t-sm"
-                  />
-                ))}
-             </div>
-          </div>
-        </motion.div>
+        {/* Project Image */}
+        <div className="relative aspect-[4/3] lg:aspect-square z-10 perspective-1000 order-last lg:order-first">
+          <motion.div 
+            style={{ y, rotate }} 
+            className="w-full h-full relative rounded-[2.5rem] overflow-hidden bg-transparent flex items-center justify-center group shadow-2xl"
+          >
+            <div className="relative w-full h-full border border-zinc-800/50 rounded-[2.5rem] overflow-hidden bg-white/5">
+              <Image 
+                src="/projects/todar.png"
+                alt="Todar 2.0"
+                fill
+                className="object-contain scale-[0.85] drop-shadow-2xl"
+              />
+            </div>
+          </motion.div>
+        </div>
 
         {/* Story */}
         <div className="space-y-12 relative z-10">

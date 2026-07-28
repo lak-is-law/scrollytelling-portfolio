@@ -3,6 +3,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
+import Image from "next/image";
+
 export default function RedGambit() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -10,7 +12,8 @@ export default function RedGambit() {
     offset: ["start end", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["15%", "-15%"]);
+  const rotate = useTransform(scrollYProgress, (v) => Math.sin(v * 200) * 3);
 
   return (
     <section ref={ref} className="relative min-h-screen bg-[#09090b] flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
@@ -51,25 +54,28 @@ export default function RedGambit() {
           </div>
         </div>
 
-        {/* Abstract Visual Presentation (Parallaxing) */}
-        <motion.div style={{ y }} className="relative aspect-square rounded-[2.5rem] overflow-hidden bg-zinc-900/50 border border-zinc-800/50 flex items-center justify-center group">
-          {/* Subtle glowing orb / mesh simulation */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(100,50,50,0.05),transparent_70%)]" />
-          
-          <div className="absolute w-full h-full p-12">
-            <div className="w-full h-full border border-zinc-800/50 rounded-full flex items-center justify-center animate-[spin_60s_linear_infinite]">
-              <div className="w-3/4 h-3/4 border border-zinc-800/50 rounded-full flex items-center justify-center animate-[spin_40s_linear_infinite_reverse]">
-                <div className="w-1/2 h-1/2 bg-zinc-800/20 backdrop-blur-xl rounded-full" />
-              </div>
+        {/* Project Image */}
+        <div className="relative aspect-[4/3] lg:aspect-square z-10 perspective-1000">
+          <motion.div 
+            style={{ y, rotate }} 
+            className="w-full h-full relative rounded-[2.5rem] overflow-hidden bg-transparent flex items-center justify-center group shadow-2xl"
+          >
+            <div className="relative w-full h-full border border-zinc-800/50 rounded-[2.5rem] overflow-hidden">
+              <Image 
+                src="/projects/red-gambit.png"
+                alt="Red Gambit"
+                fill
+                className="object-contain scale-110 drop-shadow-2xl"
+              />
             </div>
-          </div>
-          
-          <div className="absolute bottom-8 right-8 text-right opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-             <a href="https://red-gambit.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-zinc-400 transition-colors">
-               View Live Experience ↗
-             </a>
-          </div>
-        </motion.div>
+            
+            <div className="absolute bottom-8 right-8 text-right opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 bg-zinc-900/90 px-5 py-3 rounded-full backdrop-blur-md border border-zinc-800">
+               <a href="https://red-gambit.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-zinc-400 transition-colors">
+                 View Live Experience ↗
+               </a>
+            </div>
+          </motion.div>
+        </div>
         
       </div>
     </section>
