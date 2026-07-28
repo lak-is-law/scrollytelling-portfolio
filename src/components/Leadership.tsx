@@ -10,28 +10,28 @@ const milestones = [
     org: "CSI, Hackathon & Outreach",
     desc: "Organized hackathons and managed outreach, building the foundation of event execution.",
     logo: "/logos/images.jpeg",
-    scale: 1
+    scale: 1,
   },
   {
     role: "Editorial Associate",
     org: "Coding Ninjas 10X Club",
     desc: "Led editorial strategy and organized technical events, shifting from execution to strategic planning.",
     logo: "/logos/images-2.jpeg",
-    scale: 1
+    scale: 1,
   },
   {
     role: "Official EMCEE",
     org: "SRMIST Directorate of Student Affairs",
     desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
     logo: "/logos/images.png",
-    scale: 1.1
+    scale: 1.1,
   },
   {
     role: "Trainee Lead",
     org: "Alumni Relations (DAA)",
     desc: "Mentored recruits, spearheaded engagement strategy, and served as the primary POC for high-profile alumni.",
     logo: "/logos/daa.png",
-    scale: 1.2 // 20% larger
+    scale: 1.2,
   }
 ];
 
@@ -59,7 +59,7 @@ export default function Leadership() {
 
         <div className="relative">
           {/* Vertical Timeline Line */}
-          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent md:-translate-x-1/2" />
+          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent md:-translate-x-1/2 z-0" />
 
           <div className="space-y-24 md:space-y-32">
             {milestones.map((item, index) => (
@@ -73,10 +73,10 @@ export default function Leadership() {
               >
                 {/* Logo Node */}
                 <motion.div 
-                  style={{ rotate, scale: item.scale }}
+                  style={{ rotate }}
                   className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#09090b] shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
                 >
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
                     <Image 
                       src={item.logo} 
                       alt={item.org}
@@ -87,7 +87,7 @@ export default function Leadership() {
                   </div>
                 </motion.div>
 
-                <div className={`flex-1 w-full pl-20 ${index % 2 === 0 ? "md:pl-24 md:pr-0 md:text-left" : "md:pl-0 md:pr-24 md:text-right"}`}>
+                <div className={`flex-1 pl-20 md:pl-0 w-full ${index % 2 === 0 ? "md:text-left" : "md:text-right"}`}>
                   <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
                   <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
                   <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
