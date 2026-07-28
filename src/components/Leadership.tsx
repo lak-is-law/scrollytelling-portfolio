@@ -9,25 +9,29 @@ const milestones = [
     role: "Community Volunteer",
     org: "CSI, Hackathon & Outreach",
     desc: "Organized hackathons and managed outreach, building the foundation of event execution.",
-    logo: "/logos/images.jpeg"
+    logo: "/logos/images.jpeg",
+    scale: 1
   },
   {
     role: "Editorial Associate",
     org: "Coding Ninjas 10X Club",
     desc: "Led editorial strategy and organized technical events, shifting from execution to strategic planning.",
-    logo: "/logos/images-2.jpeg"
+    logo: "/logos/images-2.jpeg",
+    scale: 1
   },
   {
     role: "Official EMCEE",
     org: "SRMIST Directorate of Student Affairs",
     desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
-    logo: "/logos/images.png"
+    logo: "/logos/images.png",
+    scale: 1
   },
   {
     role: "Trainee Lead",
     org: "Alumni Relations (DAA)",
     desc: "Mentored recruits, spearheaded engagement strategy, and served as the primary POC for high-profile alumni.",
-    logo: "/logos/daa.png"
+    logo: "/logos/daa.png",
+    scale: 1.2 // 20% larger
   }
 ];
 
@@ -69,8 +73,8 @@ export default function Leadership() {
               >
                 {/* Logo Node */}
                 <motion.div 
-                  style={{ rotate }}
-                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
+                  style={{ rotate, scale: item.scale }}
+                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#09090b] shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
                 >
                   <div className="relative w-full h-full">
                     <Image 
