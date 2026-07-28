@@ -85,20 +85,22 @@ export default function Leadership() {
                   </div>
 
                   {/* Logo Node - Absolutely Centered */}
-                  <motion.div 
-                    style={{ rotate }}
-                    className="absolute left-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
-                  >
-                    <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
-                      <Image 
-                        src={item.logo} 
-                        alt={item.org}
-                        fill
-                        sizes="(max-width: 768px) 56px, 80px"
-                        className="object-cover"
-                      />
-                    </div>
-                  </motion.div>
+                  <div className="absolute left-[28px] md:left-1/2 w-14 h-14 md:w-20 md:h-20 -translate-x-1/2 z-10 flex items-center justify-center cursor-default">
+                    <motion.div 
+                      style={{ rotate }}
+                      className="relative w-full h-full rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] overflow-hidden"
+                    >
+                      <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
+                        <Image 
+                          src={item.logo} 
+                          alt={item.org}
+                          fill
+                          sizes="(max-width: 768px) 56px, 80px"
+                          className="object-cover"
+                        />
+                      </div>
+                    </motion.div>
+                  </div>
 
                   {/* Right Text Block */}
                   <div className={`w-[calc(50%-40px)] pl-8 ml-auto text-left ${!isEven ? 'opacity-100' : 'opacity-0 hidden md:block'}`}>
