@@ -58,8 +58,8 @@ export default function Leadership() {
         </div>
 
         <div className="relative">
-          {/* Vertical Timeline Line */}
-          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent md:-translate-x-1/2 z-0" />
+          {/* Vertical Timeline Line - passes perfectly over the exact center of logos */}
+          <div className="absolute left-[28px] md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent z-20 pointer-events-none" />
 
           <div className="space-y-24 md:space-y-32">
             {milestones.map((item, index) => (
@@ -74,7 +74,7 @@ export default function Leadership() {
                 {/* Logo Node */}
                 <motion.div 
                   style={{ rotate }}
-                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#09090b] shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
+                  className="absolute left-[28px] md:left-1/2 top-0 md:top-1/2 w-14 h-14 md:w-20 md:h-20 rounded-full bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.5)] -translate-x-1/2 md:-translate-y-1/2 z-10 overflow-hidden flex items-center justify-center cursor-default"
                 >
                   <div className="relative w-full h-full" style={{ transform: `scale(${item.scale})`, transformOrigin: 'center' }}>
                     <Image 
@@ -87,7 +87,8 @@ export default function Leadership() {
                   </div>
                 </motion.div>
 
-                <div className={`flex-1 pl-20 md:pl-0 w-full ${index % 2 === 0 ? "md:text-left" : "md:text-right"}`}>
+                {/* Text Node - pushed away from the axis to prevent overlap */}
+                <div className={`flex-1 w-full pl-20 ${index % 2 === 0 ? "md:pl-16 md:pr-0 md:text-left" : "md:pl-0 md:pr-16 md:text-right"}`}>
                   <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
                   <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
                   <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
