@@ -84,19 +84,22 @@ export default function RedGambit() {
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full h-full relative rounded-[2.5rem] bg-zinc-900/40 border border-zinc-800/50 flex items-center justify-center group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="w-full h-full relative rounded-[2.5rem] bg-zinc-900/20 backdrop-blur-3xl border border-white/10 flex items-center justify-center group shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
           >
             {/* Dynamic Glare Overlay */}
             <motion.div 
               style={{ opacity: glareOpacity, x: glareX }}
-              className="absolute inset-0 z-50 pointer-events-none rounded-[2.5rem] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 mix-blend-overlay"
+              className="absolute inset-0 z-50 pointer-events-none rounded-[2.5rem] bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
             />
 
             {/* Inner Floating Image container in Z-space */}
             <div 
               style={{ transform: "translateZ(75px)", transformStyle: "preserve-3d" }}
-              className="relative w-full h-full border border-zinc-800/30 rounded-[2.5rem] overflow-hidden bg-black/20"
+              className="relative w-full h-full border border-white/10 rounded-[2.5rem] overflow-hidden bg-black/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
             >
+              {/* Permanent Glossy Edge Gradient */}
+              <div className="absolute inset-0 z-20 bg-gradient-to-br from-white/20 via-transparent to-black/60 mix-blend-overlay pointer-events-none" />
+              
               <Image 
                 src="/projects/red-gambit-v2.png"
                 alt="Red Gambit"
