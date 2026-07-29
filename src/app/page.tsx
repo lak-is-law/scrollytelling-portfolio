@@ -5,10 +5,12 @@ import Todar from "@/components/work/Todar";
 import ElevateHub from "@/components/work/ElevateHub";
 import Leadership from "@/components/Leadership";
 import Contact from "@/components/Contact";
+import BackgroundAudio from "@/components/BackgroundAudio";
 
 export default function Home() {
   return (
     <main className="bg-[#09090b] min-h-screen">
+      <BackgroundAudio />
       <div className="relative">
         <ScrollyCanvas />
         <Overlay />
