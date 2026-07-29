@@ -27,7 +27,7 @@ export default function BackgroundAudio() {
         window.removeEventListener("click", playAudio, { capture: true });
         window.removeEventListener("touchstart", playAudio, { capture: true });
         window.removeEventListener("keydown", playAudio, { capture: true });
-      } catch (err) {
+      } catch {
         // Failed due to strict autoplay. Unlock to allow next attempt.
         playAttempted.current = false;
         console.warn("Audio autoplay blocked by browser. Waiting for explicit click.");
