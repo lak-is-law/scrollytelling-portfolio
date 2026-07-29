@@ -6,47 +6,7 @@ export default function BackgroundAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hasPlayed, setHasPlayed] = useState(false);
 
-  useEffect(() => {
-    const playAudio = async () => {
-      if (hasPlayed || !audioRef.current) return;
-      
-      try {
-        await audioRef.current.play();
-        setHasPlayed(true);
-        // Once playback successfully starts, detach all listeners
-        window.removeEventListener("scroll", playAudio);
-        window.removeEventListener("click", playAudio);
-        window.removeEventListener("touchstart", playAudio);
-        window.removeEventListener("keydown", playAudio);
-        window.removeEventListener("mousemove", playAudio);
-        window.removeEventListener("wheel", playAudio);
-      } catch {
-        // Browsers block autoplay until user interaction. 
-        // We catch the error and keep the listeners active.
-      }
-    };
-
-    // Attempt playback immediately in JS just in case
-    playAudio();
-
-    // Browsers block audio unless the user has interacted. 
-    // We try to play it the millisecond they do literally anything.
-    window.addEventListener("scroll", playAudio, { passive: true });
-    window.addEventListener("click", playAudio, { passive: true });
-    window.addEventListener("touchstart", playAudio, { passive: true });
-    window.addEventListener("keydown", playAudio, { passive: true });
-    window.addEventListener("mousemove", playAudio, { passive: true });
-    window.addEventListener("wheel", playAudio, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", playAudio);
-      window.removeEventListener("click", playAudio);
-      window.removeEventListener("touchstart", playAudio);
-      window.removeEventListener("keydown", playAudio);
-      window.removeEventListener("mousemove", playAudio);
-      window.removeEventListener("wheel", playAudio);
-    };
-  }, [hasPlayed]);
+  const playAttempted = useRef(false);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -54,12 +14,49 @@ export default function BackgroundAudio() {
     }
   }, []);
 
+  useEffect(() => {
+    const playAudio = async () => {
+      if (hasPlayed || !audioRef.current || playAttempted.current) return;
+      
+      playAttempted.current = true; // Lock to prevent spamming play()
+
+      try {
+        await audioRef.current.play();
+        setHasPlayed(true);
+        // Success! Remove listeners
+        window.removeEventListener("click", playAudio, { capture: true });
+        window.removeEventListener("touchstart", playAudio, { capture: true });
+        window.removeEventListener("keydown", playAudio, { capture: true });
+      } catch (err) {
+        // Failed due to strict autoplay. Unlock to allow next attempt.
+        playAttempted.current = false;
+        console.warn("Audio autoplay blocked by browser. Waiting for explicit click.");
+      }
+    };
+
+    // Attach to highly privileged user interaction events in the capture phase.
+    // This allows the event to propagate down to buttons/links normally, but triggers audio first!
+    window.addEventListener("click", playAudio, { capture: true });
+    window.addEventListener("touchstart", playAudio, { capture: true });
+    window.addEventListener("keydown", playAudio, { capture: true });
+
+    // Note: We intentionally DO NOT use 'scroll' or 'mousemove' because browsers 
+    // explicitly do not count those as user activation, and spamming play() on scroll 
+    // will cause the browser to permanently shadow-ban the audio element.
+
+    return () => {
+      window.removeEventListener("click", playAudio, { capture: true });
+      window.removeEventListener("touchstart", playAudio, { capture: true });
+      window.removeEventListener("keydown", playAudio, { capture: true });
+    };
+  }, [hasPlayed]);
+
   return (
     <audio 
       ref={audioRef}
       src="/audio/bgm.wav" 
       preload="auto"
-      autoPlay
+      // Removed autoPlay to prevent browser from instantly blacklisting the element
     />
   );
 }
