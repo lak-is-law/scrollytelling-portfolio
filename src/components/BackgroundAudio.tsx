@@ -42,9 +42,8 @@ export default function BackgroundAudio() {
   return (
     <audio 
       ref={audioRef}
-      src="/audio/bgm.mp4" 
+      src="/audio/bgm.m4a" 
       preload="auto"
-      // Browsers can play .mp4 files perfectly as audio sources! No ffmpeg extraction needed.
     />
   );
 }
