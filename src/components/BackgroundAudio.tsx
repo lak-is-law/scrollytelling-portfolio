@@ -18,7 +18,7 @@ export default function BackgroundAudio() {
         window.removeEventListener("click", playAudio);
         window.removeEventListener("touchstart", playAudio);
         window.removeEventListener("keydown", playAudio);
-      } catch (err) {
+      } catch {
         // Browsers block autoplay until user interaction. 
         // We catch the error and keep the listeners active.
       }
