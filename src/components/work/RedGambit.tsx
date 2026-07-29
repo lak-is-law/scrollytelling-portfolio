@@ -62,7 +62,7 @@ export default function RedGambit() {
           >
             <div className="relative w-full h-full border border-zinc-800/50 rounded-[2.5rem] overflow-hidden">
               <Image 
-                src="/projects/red-gambit.png"
+                src="/projects/red-gambit-v2.png"
                 alt="Red Gambit"
                 fill
                 className="object-contain scale-110 drop-shadow-2xl"
