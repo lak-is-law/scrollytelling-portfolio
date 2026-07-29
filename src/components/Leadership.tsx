@@ -6,18 +6,11 @@ import Image from "next/image";
 
 const milestones = [
   {
-    role: "Community Volunteer",
-    org: "CSI, Hackathon & Outreach",
-    desc: "Organized hackathons and managed outreach, building the foundation of event execution.",
-    logo: "/logos/images.jpeg",
-    scale: 1,
-  },
-  {
     role: "Public Relations Intern",
     org: "Cherry+ Network",
     desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
-    logo: "/logos/images-2.jpeg", // using placeholder
-    scale: 1,
+    logo: "/logos/cherry.png",
+    scale: 2.2, // Zoomed in to focus on the logo
   },
   {
     role: "Editorial Associate",
@@ -30,7 +23,7 @@ const milestones = [
     role: "Committee Member",
     org: "Aaruush, SRM University",
     desc: "Planning and execution for Asia's largest student-run tech fest. Managed corporate communications and community events.",
-    logo: "/logos/images.png", // using placeholder
+    logo: "/logos/aaruush.png",
     scale: 1.1,
   },
   {
