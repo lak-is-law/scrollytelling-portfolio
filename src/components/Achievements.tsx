@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import Image from "next/image";
 
 const otherAchievements = [
   { title: "Semi-Finalist", context: "TechXcelerate, BITS Hyderabad" },
@@ -20,6 +21,30 @@ export default function Achievements() {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.3]);
 
+  // 3D Hover Physics
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], ["10deg", "-10deg"]), { stiffness: 400, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], ["-10deg", "10deg"]), { stiffness: 400, damping: 30 });
+  const glareOpacity = useSpring(useTransform(mouseX, [-0.5, 0.5], [0, 0.2]), { stiffness: 400, damping: 30 });
+  const glareX = useTransform(mouseX, [-0.5, 0.5], ["-100%", "100%"]);
+
+  function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseXPos = event.clientX - rect.left;
+    const mouseYPos = event.clientY - rect.top;
+    mouseX.set(mouseXPos / width - 0.5);
+    mouseY.set(mouseYPos / height - 0.5);
+  }
+
+  function handleMouseLeave() {
+    mouseX.set(0);
+    mouseY.set(0);
+  }
+
   return (
     <section ref={containerRef} className="relative bg-[#09090b] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
       <div className="mx-auto max-w-7xl w-full">
@@ -27,12 +52,12 @@ export default function Achievements() {
         {/* Spotlight UCSI Achievement */}
         <motion.div 
           style={{ scale, opacity }}
-          className="relative rounded-[3rem] bg-gradient-to-br from-zinc-900/40 to-black border border-white/10 p-12 md:p-20 flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_30px_100px_-20px_rgba(0,0,0,1)]"
+          className="relative rounded-[3rem] bg-gradient-to-br from-zinc-900/40 to-black border border-white/10 p-12 md:p-20 flex flex-col xl:flex-row items-center justify-between gap-16 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_30px_100px_-20px_rgba(0,0,0,1)]"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/10 via-transparent to-transparent pointer-events-none" />
           
-          <div className="relative z-10 w-full md:w-2/3 space-y-6">
+          <div className="relative z-10 w-full xl:w-1/2 space-y-6">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-500/80 uppercase mb-4">
               <span>07 // Pinnacle Achievement</span>
               <div className="h-px w-12 bg-yellow-500/30" />
@@ -49,10 +74,37 @@ export default function Achievements() {
             </p>
           </div>
           
-          <div className="relative z-10 w-full md:w-1/3 flex justify-center md:justify-end">
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-yellow-500/20 bg-yellow-500/5 flex items-center justify-center backdrop-blur-md shadow-[0_0_50px_rgba(234,179,8,0.1)]">
-              <span className="text-7xl font-light text-yellow-500/40">🏆</span>
-            </div>
+          {/* 3D Image Container */}
+          <div className="relative z-10 w-full xl:w-1/2 perspective-[2000px] h-[300px] sm:h-[400px] lg:h-[500px]">
+            <motion.div 
+              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }} 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="w-full h-full relative rounded-3xl bg-zinc-900/20 backdrop-blur-3xl border border-white/10 flex items-center justify-center group shadow-2xl"
+            >
+              {/* Dynamic Glare Overlay */}
+              <motion.div 
+                style={{ opacity: glareOpacity, x: glareX }}
+                className="absolute inset-0 z-50 pointer-events-none rounded-3xl bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
+              />
+
+              {/* Inner Floating Image container in Z-space */}
+              <div 
+                style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
+                className="relative w-full h-full rounded-3xl overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
+              >
+                {/* Permanent Glossy Edge Gradient */}
+                <div className="absolute inset-0 z-20 bg-gradient-to-br from-white/10 via-transparent to-black/60 mix-blend-overlay pointer-events-none" />
+                
+                <Image 
+                  src="/images/ucsi-award.jpg"
+                  alt="UCSI Award Achievement"
+                  fill
+                  quality={100}
+                  className="object-contain p-2"
+                />
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 
