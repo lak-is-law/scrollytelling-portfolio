@@ -13,7 +13,8 @@ export default function RedGambit() {
   });
   
   const y = useTransform(scrollYProgress, [0, 1], ["15%", "-15%"]);
-  const x = useTransform(scrollYProgress, (v) => Math.sin(v * 200) * 8);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1, 0.85]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.3]);
 
   return (
     <section ref={ref} className="relative min-h-screen bg-[#09090b] flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
@@ -57,7 +58,7 @@ export default function RedGambit() {
         {/* Project Image */}
         <div className="relative aspect-[4/3] lg:aspect-square z-10 perspective-1000">
           <motion.div 
-            style={{ y, x }} 
+            style={{ y, scale, opacity }} 
             className="w-full h-full relative rounded-[2.5rem] overflow-hidden bg-transparent flex items-center justify-center group shadow-2xl"
           >
             <div className="relative w-full h-full border border-zinc-800/50 rounded-[2.5rem] overflow-hidden">
