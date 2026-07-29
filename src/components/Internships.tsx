@@ -12,13 +12,6 @@ const internships = [
     tech: ["React.js", "Firebase", "RESTful APIs", "JavaScript"]
   },
   {
-    company: "Cherry+ Network",
-    role: "Public Relations Intern",
-    date: "Sep 2024 – May 2025",
-    desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
-    tech: ["Public Relations", "Corporate Communications", "CSR"]
-  },
-  {
     company: "6Pistons",
     role: "Co-lead, Design, Media & Editing",
     date: "Dec 2024 – Sep 2025",

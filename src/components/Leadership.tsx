@@ -13,11 +13,25 @@ const milestones = [
     scale: 1,
   },
   {
+    role: "Public Relations Intern",
+    org: "Cherry+ Network",
+    desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
+    logo: "/logos/images-2.jpeg", // using placeholder
+    scale: 1,
+  },
+  {
     role: "Editorial Associate",
     org: "Coding Ninjas 10X Club",
     desc: "Led editorial strategy and organized technical events, shifting from execution to strategic planning.",
     logo: "/logos/images-2.jpeg",
     scale: 1,
+  },
+  {
+    role: "Committee Member",
+    org: "Aaruush, SRM University",
+    desc: "Planning and execution for Asia's largest student-run tech fest. Managed corporate communications and community events.",
+    logo: "/logos/images.png", // using placeholder
+    scale: 1.1,
   },
   {
     role: "Official EMCEE",
