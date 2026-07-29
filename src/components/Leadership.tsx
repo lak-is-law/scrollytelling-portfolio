@@ -73,18 +73,7 @@ export default function Leadership() {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   className="relative flex items-center w-full z-10"
                 >
-                  {/* Left Text Block */}
-                  <div className={`w-[calc(50%-40px)] pr-8 text-right ${isEven ? 'opacity-100' : 'opacity-0 hidden md:block'}`}>
-                    {isEven && (
-                      <>
-                        <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
-                        <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
-                        <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Logo Node - Absolutely Centered */}
+                  {/* Logo Node - Absolutely Centered on Desktop, Left on Mobile */}
                   <div className="absolute left-[28px] md:left-1/2 w-14 h-14 md:w-20 md:h-20 -translate-x-1/2 z-10 flex items-center justify-center cursor-default">
                     <motion.div 
                       style={{ rotate }}
@@ -102,15 +91,11 @@ export default function Leadership() {
                     </motion.div>
                   </div>
 
-                  {/* Right Text Block */}
-                  <div className={`w-[calc(50%-40px)] pl-8 ml-auto text-left ${!isEven ? 'opacity-100' : 'opacity-0 hidden md:block'}`}>
-                    {!isEven && (
-                      <>
-                        <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
-                        <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
-                        <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
-                      </>
-                    )}
+                  {/* Responsive Text Block */}
+                  <div className={`w-full md:w-[calc(50%-40px)] pl-[80px] md:pl-0 ${isEven ? 'md:pr-8 md:text-right md:mr-auto' : 'md:pl-8 md:text-left md:ml-auto'}`}>
+                    <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">{item.role}</h3>
+                    <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium mb-4">{item.org}</p>
+                    <p className="text-zinc-400 text-lg leading-relaxed">{item.desc}</p>
                   </div>
                   
                 </motion.div>
