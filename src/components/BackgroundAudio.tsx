@@ -18,11 +18,16 @@ export default function BackgroundAudio() {
         window.removeEventListener("click", playAudio);
         window.removeEventListener("touchstart", playAudio);
         window.removeEventListener("keydown", playAudio);
+        window.removeEventListener("mousemove", playAudio);
+        window.removeEventListener("wheel", playAudio);
       } catch {
         // Browsers block autoplay until user interaction. 
         // We catch the error and keep the listeners active.
       }
     };
+
+    // Attempt playback immediately in JS just in case
+    playAudio();
 
     // Browsers block audio unless the user has interacted. 
     // We try to play it the millisecond they do literally anything.
@@ -30,12 +35,16 @@ export default function BackgroundAudio() {
     window.addEventListener("click", playAudio, { passive: true });
     window.addEventListener("touchstart", playAudio, { passive: true });
     window.addEventListener("keydown", playAudio, { passive: true });
+    window.addEventListener("mousemove", playAudio, { passive: true });
+    window.addEventListener("wheel", playAudio, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", playAudio);
       window.removeEventListener("click", playAudio);
       window.removeEventListener("touchstart", playAudio);
       window.removeEventListener("keydown", playAudio);
+      window.removeEventListener("mousemove", playAudio);
+      window.removeEventListener("wheel", playAudio);
     };
   }, [hasPlayed]);
 
@@ -50,6 +59,7 @@ export default function BackgroundAudio() {
       ref={audioRef}
       src="/audio/bgm.wav" 
       preload="auto"
+      autoPlay
     />
   );
 }
