@@ -39,10 +39,16 @@ export default function BackgroundAudio() {
     };
   }, [hasPlayed]);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 1.0;
+    }
+  }, []);
+
   return (
     <audio 
       ref={audioRef}
-      src="/audio/bgm.m4a" 
+      src="/audio/bgm.wav" 
       preload="auto"
     />
   );
