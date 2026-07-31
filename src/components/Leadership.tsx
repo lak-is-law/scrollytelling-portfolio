@@ -10,7 +10,7 @@ const milestones = [
     org: "Cherry+ Network",
     desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
     logo: "/logos/cherry.png",
-    scale: 1, // Reset scale to normal to display the full logo
+    scale: 0.7, // Zoom out more
   },
   {
     role: "Editorial Associate",
