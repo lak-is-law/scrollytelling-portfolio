@@ -18,7 +18,6 @@ export default function Achievements() {
     offset: ["start end", "end start"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.3]);
 
   // 3D Hover Physics
@@ -50,14 +49,13 @@ export default function Achievements() {
       <div className="mx-auto max-w-7xl w-full">
         
         {/* Spotlight UCSI Achievement */}
-        <motion.div 
-          style={{ scale, opacity }}
-          className="relative rounded-[3rem] bg-gradient-to-br from-zinc-900/40 to-black border border-white/10 p-12 md:p-20 flex flex-col xl:flex-row items-center justify-between gap-16 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_30px_100px_-20px_rgba(0,0,0,1)]"
+        <div 
+          className="relative rounded-[3rem] bg-gradient-to-br from-zinc-900/40 to-black border border-white/10 p-12 md:p-20 flex flex-col xl:flex-row items-center justify-between gap-16 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_30px_100px_-20px_rgba(0,0,0,1)]"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/10 via-transparent to-transparent pointer-events-none" />
           
-          <div className="relative z-10 w-full xl:w-1/2 space-y-6">
+          <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-6">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-500/80 uppercase mb-4">
               <span>07 // Pinnacle Achievement</span>
               <div className="h-px w-12 bg-yellow-500/30" />
@@ -72,7 +70,7 @@ export default function Achievements() {
             <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
               Awarded during an intensive Entrepreneurship Immersion Programme at UCSI University in Kuala Lumpur, Malaysia (Jan 2025). Recognized for delivering a groundbreaking strategic solution under high-pressure consulting constraints.
             </p>
-          </div>
+          </motion.div>
           
           {/* 3D Image Container */}
           <div className="relative z-10 w-full xl:w-1/2 perspective-[2000px] h-[300px] sm:h-[400px] lg:h-[500px]">
@@ -106,7 +104,7 @@ export default function Achievements() {
               </div>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Other Accolades Grid */}
         <div className="mt-24">

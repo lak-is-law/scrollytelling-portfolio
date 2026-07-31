@@ -10,7 +10,7 @@ const milestones = [
     org: "Cherry+ Network",
     desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
     logo: "/logos/cherry.png",
-    scale: 2.2, // Zoomed in to focus on the logo
+    scale: 1, // Reset scale to normal to display the full logo
   },
   {
     role: "Editorial Associate",
@@ -92,7 +92,7 @@ export default function Leadership() {
                           alt={item.org}
                           fill
                           sizes="(max-width: 768px) 56px, 80px"
-                          className="object-cover"
+                          className="object-contain p-1.5"
                         />
                       </div>
                     </motion.div>
