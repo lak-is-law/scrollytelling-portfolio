@@ -48,9 +48,14 @@ export default function Overlay() {
           style={{ opacity: nameOpacity, scale: nameScale }}
           className="absolute inset-0 flex items-center justify-center pointer-events-auto mix-blend-difference z-0"
         >
-          <h1 className="text-6xl md:text-9xl font-bold tracking-tighter text-white">
+          <motion.h1 
+            initial={{ opacity: 0, y: 100, filter: "blur(20px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-6xl md:text-9xl font-bold tracking-tighter text-white"
+          >
             LAKSHYA
-          </h1>
+          </motion.h1>
         </motion.div>
 
         {/* Subtext (Fades out) */}
@@ -58,9 +63,14 @@ export default function Overlay() {
           style={{ opacity: subtextOpacity, y: subtextY }}
           className="absolute inset-0 flex items-center justify-center pointer-events-auto mt-32 md:mt-48 z-10"
         >
-          <p className="text-lg md:text-2xl text-zinc-400 font-light tracking-widest uppercase">
+          <motion.p 
+            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg md:text-2xl text-zinc-400 font-light tracking-widest uppercase"
+          >
             Creative AI Engineer
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Philosophy */}
