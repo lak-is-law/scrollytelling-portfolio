@@ -7,23 +7,24 @@ export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   
+  // Instant values for the inner dot
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   
-  const springConfig = { damping: 25, stiffness: 200, mass: 0.1 };
+  // Spring values for the trailing outer ring
+  const springConfig = { damping: 20, stiffness: 150, mass: 0.2 };
   const smoothX = useSpring(cursorX, springConfig);
   const smoothY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Check if device has a fine pointer (mouse)
     if (!window.matchMedia("(pointer: fine)").matches) {
       return;
     }
 
     const moveCursor = (e: MouseEvent) => {
       setIsVisible(true);
-      cursorX.set(e.clientX - 16);
-      cursorY.set(e.clientY - 16);
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -33,7 +34,8 @@ export default function CustomCursor() {
         target.tagName.toLowerCase() === "button" ||
         target.closest("a") ||
         target.closest("button") ||
-        window.getComputedStyle(target).cursor === "pointer"
+        window.getComputedStyle(target).cursor === "pointer" ||
+        target.classList.contains("hover-magnetic")
       ) {
         setIsHovered(true);
       } else {
@@ -67,27 +69,38 @@ export default function CustomCursor() {
           }
         }
       `}} />
+      
+      {/* Outer trailing ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[99999] mix-blend-difference bg-white flex items-center justify-center"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[99999] border border-white/40 flex items-center justify-center mix-blend-difference"
         style={{
           x: smoothX,
           y: smoothY,
+          translateX: "-50%",
+          translateY: "-50%"
         }}
         animate={{
-          scale: isHovered ? 2.5 : 1,
+          scale: isHovered ? 1.5 : 1,
+          backgroundColor: isHovered ? "rgba(255, 255, 255, 1)" : "rgba(255, 255, 255, 0)",
+          borderWidth: isHovered ? "0px" : "1px"
         }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 25
+        transition={{ duration: 0.2 }}
+      />
+      
+      {/* Inner precise dot (instant follow) */}
+      <motion.div 
+        className="fixed top-0 left-0 w-2 h-2 rounded-full pointer-events-none z-[99999] bg-white mix-blend-difference"
+        style={{
+          x: cursorX,
+          y: cursorY,
+          translateX: "-50%",
+          translateY: "-50%"
         }}
-      >
-        {/* Subtle inner dot for precision */}
-        <motion.div 
-          className="w-1 h-1 bg-black rounded-full transition-opacity duration-300"
-          animate={{ opacity: isHovered ? 0 : 1 }}
-        />
-      </motion.div>
+        animate={{
+          opacity: isHovered ? 0 : 1
+        }}
+        transition={{ duration: 0.1 }}
+      />
     </>
   );
 }
