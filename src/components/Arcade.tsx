@@ -18,13 +18,14 @@ export default function Arcade() {
 
   return (
     <>
-      {/* Easter Egg Trigger */}
+      {/* Massive Glowing Trigger Button */}
       <button 
         onClick={() => setIsOpen(true)}
-        className="text-zinc-500 hover:text-white transition-colors flex items-center justify-center hover-magnetic"
+        className="mt-8 px-8 py-4 rounded-full border border-zinc-700 bg-zinc-900/50 text-white font-medium tracking-[0.2em] hover:bg-white hover:text-black hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 hover-magnetic shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] uppercase w-full max-w-md mx-auto"
         title="Arcade"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>
+        Enter The Arcade
       </button>
 
       {/* Arcade Modal Overlay */}
