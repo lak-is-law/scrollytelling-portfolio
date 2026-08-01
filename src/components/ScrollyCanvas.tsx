@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useScroll, useMotionValueEvent } from "framer-motion";
 
-const FRAME_COUNT = 240;
+const FRAME_COUNT = 303;
 
 const getFramePath = (index: number) => {
-  return `/sequence/frame_${String(index).padStart(3, "0")}_delay-0.041s.webp`;
+  return `/sequence/frame_${String(index).padStart(3, "0")}_delay-0.033s.webp`;
 };
 
 export default function ScrollyCanvas() {
