@@ -46,6 +46,18 @@ const LANGUAGES: Language[] = [
     labelOffset: { dx: -60, dy: -35 },
   },
   {
+    id: "guj",
+    name: "Gujarati",
+    level: "Conversational / Heritage",
+    usage: "Regional Business Communication & Heritage Fluency",
+    region: "Western India",
+    colorHex: "#f97316", // orange-400
+    lng: 72.6,
+    lat: 23.0,
+    isLearning: false,
+    labelOffset: { dx: -60, dy: 35 },
+  },
+  {
     id: "asm",
     name: "Assamese",
     level: "Native / Heritage",
@@ -79,19 +91,19 @@ const LANGUAGES: Language[] = [
     lng: 127.0,
     lat: 37.5,
     isLearning: true,
-    labelOffset: { dx: -55, dy: -40 },
+    labelOffset: { dx: 55, dy: 25 },
   },
   {
-    id: "jap",
-    name: "Japanese",
-    level: "Introductory",
-    usage: "Cultural Immersion — Scripts, Phonetics & Technical Lexicon",
-    region: "Japan",
+    id: "man",
+    name: "Mandarin Chinese",
+    level: "Elementary / Active Study",
+    usage: "Active Study — Hanzi Characters, Pinyin & Global Commerce",
+    region: "East Asia",
     colorHex: "#22d3ee", // cyan-400
-    lng: 139.7,
-    lat: 35.7,
+    lng: 116.4,
+    lat: 39.9,
     isLearning: true,
-    labelOffset: { dx: 55, dy: 25 },
+    labelOffset: { dx: -55, dy: -40 },
   },
 ];
 
@@ -100,7 +112,7 @@ const ORIGIN_LNG = 77.2;
 const ORIGIN_LAT = 28.6;
 
 export default function GlobalMatrix() {
-  const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set(["eng", "hin"]));
+  const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set(["eng", "hin", "guj"]));
   const [hoveredLang, setHoveredLang] = useState<string | null>(null);
   const [rotation, setRotation] = useState<[number, number]>([-70, -15]); // [lambda, phi]
   const isDragging = useRef(false);
@@ -336,7 +348,7 @@ export default function GlobalMatrix() {
             Communication Matrix.
           </h2>
           <p className="text-xl text-zinc-400 font-light max-w-2xl">
-            Multilingual fluency spanning 6 languages across international technical documentation, regional dialects, and active studies.
+            Multilingual fluency spanning 7 languages across international technical documentation, regional heritage dialects, and active studies.
           </p>
         </div>
 
