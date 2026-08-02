@@ -209,24 +209,24 @@ export default function Arcade() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed inset-0 z-[9000] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-between p-4 md:p-8 overflow-hidden select-none"
+            className="fixed inset-0 z-[9000] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-between p-2 sm:p-4 md:p-8 overflow-hidden select-none"
           >
             {/* Ambient Background Lighting */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-[140px] pointer-events-none" />
 
             {/* TOP HEADER HUD */}
-            <div className="relative z-20 w-full max-w-6xl flex items-center justify-between py-2 border-b border-zinc-800/80">
+            <div className="relative z-20 w-full max-w-6xl flex items-center justify-between py-1.5 sm:py-2 border-b border-zinc-800/80">
               {/* Cabinet Brand */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="font-mono text-xs uppercase tracking-[0.3em] text-zinc-400">
+                <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-zinc-400">
                   ARCADE 2.0 // SYSTEM ONLINE
                 </span>
               </div>
 
               {/* Badge Collection Status & Vault Trigger */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div className="hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-[11px] font-mono">
                   <span className={`flex items-center gap-1.5 ${badges.football ? "text-amber-400 font-semibold" : "text-zinc-600"}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><circle cx="12" cy="12" r="4"/></svg>
@@ -250,7 +250,7 @@ export default function Arcade() {
                     setActiveGame("vault");
                   }}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500 hover:to-yellow-400 border border-amber-500/40 text-amber-300 hover:text-black font-mono text-[11px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 cursor-pointer"
+                  className="px-2.5 sm:px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500 hover:to-yellow-400 border border-amber-500/40 text-amber-300 hover:text-black font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 cursor-pointer"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5a1.5 1.5 0 0 0 0 3h9a1.5 1.5 0 0 0 0-3H15c-.55 0-1-.45-1-1v-2.34"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4Z"/></svg>
                   <span>VAULT</span>
@@ -260,7 +260,7 @@ export default function Arcade() {
                 <button
                   onClick={handleToggleMute}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                  className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
                   title={isMuted ? "Unmute Sound" : "Mute Sound"}
                 >
                   {isMuted ? (
@@ -274,7 +274,7 @@ export default function Arcade() {
                 <button
                   onClick={handleCloseArcade}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-red-500/50 transition-colors cursor-pointer"
+                  className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-red-500/50 transition-colors cursor-pointer"
                   title="Exit Arcade"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
@@ -283,26 +283,26 @@ export default function Arcade() {
             </div>
 
             {/* MAIN STAGE: HUB OR GAME */}
-            <div className="relative z-10 w-full max-w-6xl flex-1 flex flex-col items-center justify-center my-4 overflow-hidden">
+            <div className="relative z-10 w-full max-w-6xl flex-1 flex flex-col items-center justify-center my-2 sm:my-4 overflow-hidden">
               {!activeGame ? (
                 /* 3D CARTRIDGE SELECTION HUB */
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="w-full flex flex-col items-center justify-center space-y-10"
+                  className="w-full flex flex-col items-center justify-center space-y-6 sm:space-y-10"
                 >
-                  <div className="text-center space-y-3">
-                    <span className="text-xs uppercase font-mono tracking-[0.4em] text-cyan-400/90 font-bold block">
+                  <div className="text-center space-y-2 sm:space-y-3">
+                    <span className="text-[10px] sm:text-xs uppercase font-mono tracking-[0.3em] sm:tracking-[0.4em] text-cyan-400/90 font-bold block">
                       INSERT CARTRIDGE TO PLAY
                     </span>
-                    <h2 className="text-4xl md:text-7xl font-black tracking-tighter text-white uppercase drop-shadow-[0_0_35px_rgba(255,255,255,0.2)]">
+                    <h2 className="text-3xl sm:text-4xl md:text-7xl font-black tracking-tighter text-white uppercase drop-shadow-[0_0_35px_rgba(255,255,255,0.2)]">
                       SELECT YOUR CARTRIDGE
                     </h2>
                   </div>
 
                   {/* Cartridges 3D Shelf */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-5xl px-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 w-full max-w-5xl px-2 sm:px-4 max-h-[65vh] overflow-y-auto sm:max-h-none">
                     {CARTRIDGES.map((c) => {
                       const isInserting = insertingId === c.id;
                       const hasBadge = badges[c.id === "football" ? "football" : c.id === "factory" ? "ai_engineer" : "system_hacker"];
@@ -318,7 +318,7 @@ export default function Arcade() {
                           className="relative cursor-pointer group rounded-3xl p-1 bg-gradient-to-b from-zinc-700 via-zinc-800 to-zinc-950 shadow-2xl border border-zinc-700 hover:border-white transition-all duration-300"
                         >
                           {/* Inner Cartridge Body */}
-                          <div className="w-full h-80 rounded-[22px] bg-zinc-950 p-6 flex flex-col justify-between relative overflow-hidden">
+                          <div className="w-full h-72 sm:h-80 rounded-[22px] bg-zinc-950 p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden">
                             {/* Metallic Edge Grip Ribs */}
                             <div className="absolute top-0 right-4 flex gap-1 pointer-events-none">
                               {[...Array(6)].map((_, i) => (
@@ -332,7 +332,7 @@ export default function Arcade() {
                                 {c.tag}
                               </span>
                               <div className="pt-2 flex items-center justify-between">
-                                <h3 className="text-xl font-black tracking-tight text-white group-hover:text-amber-300 transition-colors">
+                                <h3 className="text-lg sm:text-xl font-black tracking-tight text-white group-hover:text-amber-300 transition-colors">
                                   {c.title}
                                 </h3>
                                 <CartridgeSvg type={c.iconType} size={24} />
@@ -343,7 +343,7 @@ export default function Arcade() {
                             </div>
 
                             {/* Cartridge Art Centerpiece */}
-                            <div className={`w-full h-24 rounded-2xl bg-gradient-to-tr ${c.color} p-0.5 shadow-lg group-hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-shadow`}>
+                            <div className={`w-full h-20 sm:h-24 rounded-2xl bg-gradient-to-tr ${c.color} p-0.5 shadow-lg group-hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-shadow`}>
                               <div className="w-full h-full bg-black/60 backdrop-blur-md rounded-[14px] flex items-center justify-center">
                                 <span className="text-xs font-mono tracking-widest text-white/90 uppercase font-bold">
                                   {hasBadge ? "★ UNLOCKED" : "INSERT TO PLAY ➔"}
@@ -370,26 +370,27 @@ export default function Arcade() {
                 /* ACTIVE GAME DISPLAY CONTAINER */
                 <div className="w-full h-full flex flex-col">
                   {/* Sub-Header Back Navigation */}
-                  <div className="flex items-center justify-between mb-3 px-2">
+                  <div className="flex items-center justify-between mb-2 sm:mb-3 px-1 sm:px-2">
                     <button
                       onClick={() => {
                         arcadeAudio.playClick();
                         setActiveGame(null);
                       }}
                       onMouseEnter={() => arcadeAudio.playHover()}
-                      className="text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                      className="text-[11px] sm:text-xs uppercase font-mono tracking-wider text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <span>←</span>
-                      <span>Eject Cartridge & Return to Shelf</span>
+                      <span>Eject Cartridge</span>
+                      <span className="hidden sm:inline">& Return to Shelf</span>
                     </button>
 
-                    <span className="text-xs font-mono text-zinc-500 uppercase">
+                    <span className="text-[10px] sm:text-xs font-mono text-zinc-500 uppercase">
                       ACTIVE: {activeGame.toUpperCase()}
                     </span>
                   </div>
 
                   {/* Active Screen Frame */}
-                  <div className="flex-1 w-full bg-zinc-950/80 border border-zinc-800 rounded-3xl overflow-hidden relative shadow-[0_0_60px_rgba(0,0,0,0.9)]">
+                  <div className="flex-1 w-full bg-zinc-950/80 border border-zinc-800 rounded-2xl md:rounded-3xl overflow-hidden relative shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col">
                     {activeGame === "football" && (
                       <PixelFootballGame onUnlockVault={() => setActiveGame("vault")} />
                     )}
