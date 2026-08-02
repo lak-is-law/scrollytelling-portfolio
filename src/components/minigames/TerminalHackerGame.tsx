@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { arcadeAudio } from "@/utils/arcadeAudio";
 
 interface TerminalHackerGameProps {
@@ -16,7 +15,6 @@ interface CommandHistory {
 
 export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGameProps) {
   const [input, setInput] = useState("");
-  const [copiedEmail, setCopiedEmail] = useState(false);
   const [history, setHistory] = useState<CommandHistory[]>([
     {
       cmd: "system --boot",
@@ -34,7 +32,6 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
       )
     }
   ]);
-  const [isRecruiterUnlocked, setIsRecruiterUnlocked] = useState(false);
   const [showMatrixRain, setShowMatrixRain] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -87,13 +84,6 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
     return () => cancelAnimationFrame(animationId);
   }, [showMatrixRain]);
 
-  const copySecretEmail = () => {
-    arcadeAudio.playClick();
-    navigator.clipboard.writeText("contact@lakshya.uk");
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2500);
-  };
-
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanCmd = input.trim().toLowerCase();
@@ -113,9 +103,10 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
             <p><span className="text-emerald-300 font-bold">resume</span>       : Download verified PDF resume</p>
             <p><span className="text-emerald-300 font-bold">matrix</span>       : Toggle cyberpunk Matrix rain</p>
             <p><span className="text-emerald-300 font-bold">contact</span>      : Official & direct channels</p>
+            <p><span className="text-emerald-300 font-bold">vault</span>        : Open Developer Vault rewards</p>
             <p><span className="text-emerald-300 font-bold">ping</span>         : Test network telemetry latency</p>
             <p><span className="text-emerald-300 font-bold">clear</span>        : Wipe terminal window</p>
-            <p><span className="text-amber-400 font-bold">hire lakshya</span> : [CONFIDENTIAL] Recruiter priority secret mail</p>
+            <p><span className="text-amber-400 font-bold">hire lakshya</span> : [CONFIDENTIAL] Unlock System Breacher badge</p>
           </div>
         );
         break;
@@ -135,9 +126,9 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
         response = (
           <div className="space-y-2 text-zinc-300">
             <p className="text-emerald-400 font-bold">DIRECT COMMUNICATIONS:</p>
-            <p>• Secret VIP Mail: <span className="text-amber-300 font-bold">contact@lakshya.uk</span></p>
             <p>• Portfolio: <a href="https://lakshya.uk" className="underline text-cyan-400">https://lakshya.uk</a></p>
             <p>• GitHub: <a href="https://github.com/lak-is-law" target="_blank" rel="noreferrer" className="underline text-cyan-400">github.com/lak-is-law</a></p>
+            <p>• Secret VIP Mail: Available exclusively inside the <span className="text-amber-300 font-bold">Developer Vault</span></p>
           </div>
         );
         break;
@@ -165,7 +156,7 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
       case "resume":
         response = (
           <div className="text-emerald-400 space-y-1">
-            <p>✔ Downloading verified resume...</p>
+            <p>Downloading verified resume...</p>
             <a href="/Resume.pdf" download="Lakshya_Resume.pdf" className="underline text-amber-300 hover:text-white">
               Click here if download doesn&apos;t start automatically.
             </a>
@@ -186,6 +177,15 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
         response = <p className="text-emerald-400">64 bytes from lakshya.uk: icmp_seq=1 ttl=58 time=11.2ms [EXCELLENT]</p>;
         break;
 
+      case "vault":
+        if (onUnlockVault) {
+          onUnlockVault();
+          response = <p className="text-amber-300">Opening Developer Vault...</p>;
+        } else {
+          response = <p className="text-zinc-400">Use the Vault button in the top bar to open.</p>;
+        }
+        break;
+
       case "clear":
         setHistory([]);
         setInput("");
@@ -195,15 +195,14 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
       case "hire lakshya":
         arcadeAudio.playTerminalBreach();
         localStorage.setItem("badge_system_hacker", "true");
-        setIsRecruiterUnlocked(true);
         response = (
           <div className="p-4 rounded-2xl bg-amber-950/40 border border-amber-500/50 text-amber-300 space-y-2">
-            <p className="font-bold text-lg">★★★ ACCESS GRANTED: VIP RECRUITER CHANNEL ★★★</p>
+            <p className="font-bold text-base tracking-wide">ACCESS GRANTED: SYSTEM BREACHER BADGE UNLOCKED</p>
             <p className="text-xs text-zinc-300">
-              Direct Secret Mail Unlocked: <span className="text-amber-300 font-bold text-sm select-all">contact@lakshya.uk</span>
+              System credentials verified. You have earned the <strong className="text-amber-400">System Breacher Badge</strong>!
             </p>
             <p className="text-xs text-emerald-400">
-              System credentials unlocked. You have been awarded the <strong>System Breacher Badge</strong>!
+              Your confidential recruiter rewards and priority direct email channel are now accessible inside the <strong>Developer Vault</strong>. Click the Vault button in the top header or type <span className="text-white font-bold">&apos;vault&apos;</span> to enter.
             </p>
           </div>
         );
@@ -251,54 +250,6 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
         <div ref={bottomRef} />
       </div>
 
-      {/* VIP Recruiter Card Modal */}
-      <AnimatePresence>
-        {isRecruiterUnlocked && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="relative z-30 my-4 p-4 rounded-2xl bg-zinc-950/95 border border-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.3)] flex flex-col sm:flex-row items-center justify-between gap-4"
-          >
-            <div className="space-y-1 text-center sm:text-left">
-              <span className="text-[10px] text-amber-400 font-bold uppercase tracking-widest block">
-                ⚡ VIP Recruiter Fast-Track Channel
-              </span>
-              <h4 className="text-base font-bold text-white">Direct Executive Contact</h4>
-              <p className="text-xs text-zinc-300">
-                Secret Mail: <span className="text-amber-300 font-bold font-mono text-sm">contact@lakshya.uk</span>
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2 justify-center sm:justify-end">
-              <button
-                onClick={copySecretEmail}
-                className="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs uppercase tracking-wider transition-colors border border-zinc-700 flex items-center gap-1.5"
-              >
-                {copiedEmail ? "✓ Copied!" : "📋 Copy Email"}
-              </button>
-              
-              <a
-                href="mailto:contact@lakshya.uk?subject=Priority%20Opportunity%20-%20Lakshya%20Agarwal"
-                onClick={() => arcadeAudio.playClick()}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-300 hover:from-amber-300 hover:to-yellow-200 text-black font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
-              >
-                Open Mail App ➔
-              </a>
-
-              {onUnlockVault && (
-                <button
-                  onClick={onUnlockVault}
-                  className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black font-bold text-xs uppercase tracking-wider transition-colors"
-                >
-                  Vault 🏆
-                </button>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Command Input Prompt */}
       <form onSubmit={handleCommand} className="relative z-10 flex items-center gap-2 pt-4 border-t border-emerald-950">
         <span className="text-emerald-500 font-bold shrink-0">root@lakshya-mainframe:~#</span>
@@ -310,7 +261,7 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
             arcadeAudio.playKeyClick();
             setInput(e.target.value);
           }}
-          placeholder="type 'hire lakshya'..."
+          placeholder="type 'hire lakshya' or 'help'..."
           className="flex-1 bg-transparent text-white focus:outline-none placeholder-zinc-700 caret-emerald-400"
           autoFocus
         />

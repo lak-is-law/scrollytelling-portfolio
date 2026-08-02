@@ -12,7 +12,7 @@ interface RobotPart {
   id: string;
   name: string;
   category: string;
-  icon: string;
+  iconType: string;
   color: string;
   slotX: number; // Percentage on blueprint
   slotY: number; // Percentage on blueprint
@@ -24,7 +24,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "npu",
     name: "Quantum NPU Core",
     category: "Cognition",
-    icon: "🧠",
+    iconType: "chip",
     color: "#38bdf8",
     slotX: 50,
     slotY: 28,
@@ -34,7 +34,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "gpu",
     name: "Tensor GPU Matrix",
     category: "Compute",
-    icon: "⚡",
+    iconType: "zap",
     color: "#a855f7",
     slotX: 50,
     slotY: 42,
@@ -44,7 +44,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "lidar",
     name: "LiDAR Vision Sensor",
     category: "Perception",
-    icon: "👁️",
+    iconType: "radar",
     color: "#34d399",
     slotX: 50,
     slotY: 18,
@@ -54,7 +54,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "battery",
     name: "Graphene Reactor",
     category: "Power",
-    icon: "🔋",
+    iconType: "battery",
     color: "#fbbf24",
     slotX: 50,
     slotY: 56,
@@ -64,7 +64,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "ram",
     name: "Cryo RAM Modules",
     category: "Memory",
-    icon: "💾",
+    iconType: "database",
     color: "#f43f5e",
     slotX: 38,
     slotY: 36,
@@ -74,7 +74,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "antenna",
     name: "Sub-THz Antenna",
     category: "Telemetry",
-    icon: "📡",
+    iconType: "radio",
     color: "#38bdf8",
     slotX: 62,
     slotY: 10,
@@ -84,7 +84,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "arm_l",
     name: "Servo Arm (Left)",
     category: "Actuation",
-    icon: "🦾",
+    iconType: "arm",
     color: "#94a3b8",
     slotX: 25,
     slotY: 46,
@@ -94,7 +94,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "arm_r",
     name: "Servo Arm (Right)",
     category: "Actuation",
-    icon: "🦾",
+    iconType: "arm",
     color: "#94a3b8",
     slotX: 75,
     slotY: 46,
@@ -104,7 +104,7 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "legs",
     name: "Hydraulic Legs",
     category: "Mobility",
-    icon: "🦿",
+    iconType: "legs",
     color: "#64748b",
     slotX: 50,
     slotY: 80,
@@ -114,13 +114,78 @@ const ROBOT_PARTS: RobotPart[] = [
     id: "cooling",
     name: "Cryogenic Cooling",
     category: "Thermal",
-    icon: "❄️",
+    iconType: "fan",
     color: "#06b6d4",
     slotX: 62,
     slotY: 36,
     description: "Superconductive heat pipe distribution grid."
   }
 ];
+
+function PartSvgIcon({ type, color = "currentColor", size = 18 }: { type: string; color?: string; size?: number }) {
+  switch (type) {
+    case "chip":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8.5 9h7"/><path d="M8.5 15h7"/><path d="M9 8.5v7"/><path d="M15 8.5v7"/>
+        </svg>
+      );
+    case "zap":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      );
+    case "radar":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+        </svg>
+      );
+    case "battery":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="16" height="10" x="2" y="7" rx="2"/><line x1="22" x2="22" y1="11" y2="13"/><line x1="6" x2="6" y1="11" y2="13"/><line x1="10" x2="10" y1="11" y2="13"/>
+        </svg>
+      );
+    case "database":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>
+        </svg>
+      );
+    case "radio":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/>
+        </svg>
+      );
+    case "arm":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+        </svg>
+      );
+    case "legs":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M6 3v12l3 3v3"/><path d="M18 3v12l-3 3v3"/><line x1="6" y1="9" x2="18" y2="9"/>
+        </svg>
+      );
+    case "fan":
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 12c-3.5 0-6.5-1.5-6.5-4s3-4 6.5-4 6.5 1.5 6.5 4-3 4-6.5 4Z"/><path d="M12 12c0 3.5-1.5 6.5-4 6.5s-4-3-4-6.5 1.5-6.5 4-6.5 4 3 4 6.5Z"/><path d="M12 12c3.5 0 6.5 1.5 6.5 4s-3 4-6.5 4-6.5-1.5-6.5-4 3-4 6.5-4Z"/><path d="M12 12c0-3.5 1.5-6.5 4-6.5s4 3 4 6.5-1.5 6.5-4 6.5-4-3-4-6.5Z"/>
+        </svg>
+      );
+    default:
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+      );
+  }
+}
 
 export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps) {
   const [placedParts, setPlacedParts] = useState<string[]>([]);
@@ -203,7 +268,7 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                   }}
                   onMouseEnter={() => arcadeAudio.playHover()}
                   disabled={isPlaced}
-                  className={`w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition-all duration-200 ${
+                  className={`w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition-all duration-200 cursor-pointer ${
                     isPlaced
                       ? "bg-zinc-900/40 border-zinc-800 text-zinc-600 opacity-60 cursor-default"
                       : isCurrent
@@ -212,7 +277,9 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-lg">{part.icon}</span>
+                    <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                      <PartSvgIcon type={part.iconType} color={part.color} size={16} />
+                    </div>
                     <div>
                       <h4 className="text-xs font-semibold">{part.name}</h4>
                       <p className="text-[10px] text-zinc-500">{part.category}</p>
@@ -220,7 +287,7 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                   </div>
 
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border border-zinc-700 bg-zinc-950">
-                    {isPlaced ? "✓ DOCKED" : "INSTALL ➔"}
+                    {isPlaced ? "DOCKED" : "INSTALL ➔"}
                   </span>
                 </button>
               );
@@ -231,7 +298,7 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
         {/* Action button */}
         <button
           onClick={handleReset}
-          className="py-2 px-4 rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 text-zinc-400 hover:text-white text-xs uppercase tracking-wider transition-colors"
+          className="py-2 px-4 rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 text-zinc-400 hover:text-white text-xs uppercase tracking-wider transition-colors cursor-pointer"
         >
           ↺ Reset Assembly
         </button>
@@ -303,7 +370,7 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                     className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-zinc-900 border flex flex-col items-center justify-center shadow-lg relative"
                     style={{ borderColor: part.color, boxShadow: `0 0 20px ${part.color}40` }}
                   >
-                    <span className="text-base md:text-lg">{part.icon}</span>
+                    <PartSvgIcon type={part.iconType} color={part.color} size={18} />
                     <span className="text-[8px] font-bold" style={{ color: part.color }}>
                       {part.id.toUpperCase()}
                     </span>
@@ -330,8 +397,8 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                 className="absolute inset-0 bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center z-40 space-y-4"
               >
                 <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-500 to-emerald-400 p-0.5 shadow-[0_0_50px_rgba(6,182,212,0.6)]">
-                  <div className="w-full h-full bg-black/80 rounded-[22px] flex items-center justify-center text-4xl animate-bounce">
-                    🤖
+                  <div className="w-full h-full bg-black/80 rounded-[22px] flex items-center justify-center text-cyan-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8.5 9h7"/><path d="M8.5 15h7"/><path d="M9 8.5v7"/><path d="M15 8.5v7"/></svg>
                   </div>
                 </div>
 
@@ -339,8 +406,8 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                   <span className="text-xs uppercase tracking-[0.3em] text-cyan-400 font-bold">
                     System Fully Operational
                   </span>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white">
-                    READY TO HIRE
+                  <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                    AI ARCHITECTURE ASSEMBLED
                   </h3>
                   <p className="text-xs text-zinc-400 max-w-xs mx-auto">
                     You assembled the full AI Architecture and earned the <strong>AI Architect Badge</strong>!
@@ -350,7 +417,7 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
                 {onUnlockVault && (
                   <button
                     onClick={onUnlockVault}
-                    className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(6,182,212,0.6)]"
+                    className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(6,182,212,0.6)] cursor-pointer"
                   >
                     Open Developer Vault ➔
                   </button>

@@ -195,11 +195,11 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     }
 
     if (hitTargetLabel) {
-      triggerBanner(`🎯 ${hitTargetLabel}! +${bonusPoints * newStreak} PTS`);
+      triggerBanner(`TARGET: ${hitTargetLabel} (+${bonusPoints * newStreak} PTS)`);
     } else if (isPower) {
-      triggerBanner("⚡ SUPERSONIC GOAL! ⚡");
+      triggerBanner("SUPERSONIC GOAL!");
     } else {
-      triggerBanner("⚽ GOAL!!!");
+      triggerBanner("GOAL SCORED!");
     }
 
     // Check 15 Goals Victory
@@ -416,32 +416,70 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       ctx.restore();
     };
 
+    // Shooter / Striker: LAK with Jersey #7
     const drawStriker = (w: number, h: number) => {
       if (ball.current.inFlight) return;
 
       ctx.save();
-      ctx.translate(w / 2 - 32, h - 70);
+      ctx.translate(w / 2 - 34, h - 72);
 
-      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+      // Shadow
+      ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
       ctx.beginPath();
-      ctx.ellipse(0, 16, 14, 5, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 18, 16, 6, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = "#ef4444";
-      ctx.fillRect(-9, -26, 18, 24);
+      // Jersey (Red)
+      ctx.fillStyle = "#dc2626";
+      ctx.fillRect(-12, -28, 24, 28);
 
+      // Gold Trim / Collar
+      ctx.fillStyle = "#fbbf24";
+      ctx.fillRect(-12, -28, 24, 3);
+      ctx.fillRect(-12, -10, 24, 2);
+
+      // Player Name: LAK
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(-7, -2, 6, 11);
-      ctx.fillRect(1, -2, 6, 11);
+      ctx.font = "bold 6.5px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("LAK", 0, -20);
 
+      // Jersey Number: 7
+      ctx.font = "900 13px monospace";
+      ctx.fillText("7", 0, -8);
+
+      // Shorts (White with Red side stripes)
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(-9, 0, 8, 12);
+      ctx.fillRect(1, 0, 8, 12);
+      ctx.fillStyle = "#dc2626";
+      ctx.fillRect(-9, 0, 2, 12);
+      ctx.fillRect(7, 0, 2, 12);
+
+      // Legs / Socks
+      ctx.fillStyle = "#fcd34d"; // skin
+      ctx.fillRect(-8, 12, 6, 4);
+      ctx.fillRect(2, 12, 6, 4);
+
+      // Red & Gold Socks
+      ctx.fillStyle = "#dc2626";
+      ctx.fillRect(-8, 16, 6, 8);
+      ctx.fillRect(2, 16, 6, 8);
+      ctx.fillStyle = "#fbbf24";
+      ctx.fillRect(-8, 16, 6, 2);
+      ctx.fillRect(2, 16, 6, 2);
+
+      // Boots
+      ctx.fillStyle = "#09090b";
+      ctx.fillRect(-9, 24, 8, 4);
+      ctx.fillRect(2, 24, 8, 4);
+
+      // Head & Hair
       ctx.fillStyle = "#fcd34d";
-      ctx.fillRect(-6, -38, 12, 12);
+      ctx.fillRect(-7, -42, 14, 14);
       ctx.fillStyle = "#1e293b";
-      ctx.fillRect(-7, -41, 14, 5);
-
-      ctx.fillStyle = "#f59e0b";
-      ctx.fillRect(-8, 9, 8, 5);
-      ctx.fillRect(2, 9, 8, 5);
+      ctx.fillRect(-8, -46, 16, 6);
+      ctx.fillRect(-8, -43, 3, 5);
 
       ctx.restore();
     };
@@ -614,7 +652,7 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
           b.vx = -b.vx * 0.6;
           b.vy = 3.5;
           arcadeAudio.playClick();
-          triggerBanner("💥 OFF THE POST!");
+          triggerBanner("OFF THE POST!");
           handleMiss();
           return;
         }
@@ -629,7 +667,7 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
           b.vx = (Math.random() - 0.5) * 5;
           b.vy = 4;
           arcadeAudio.playClick();
-          triggerBanner("🧤 SAVED BY KEEPER!");
+          triggerBanner("SAVED BY KEEPER!");
           handleMiss();
           return;
         }
@@ -780,11 +818,12 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
         <div className="flex items-center gap-4 text-right">
           {streak >= 2 && (
             <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
+              animate={{ scale: [1, 1.08, 1] }}
               transition={{ repeat: Infinity, duration: 0.8 }}
-              className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-red-500 text-black text-xs font-black uppercase tracking-wider"
+              className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-red-500 text-black text-xs font-black uppercase tracking-wider flex items-center gap-1"
             >
-              🔥 {streak}x Combo
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>{streak}x COMBO</span>
             </motion.div>
           )}
 
@@ -823,7 +862,7 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
               exit={{ scale: 0.8, opacity: 0 }}
               className="absolute inset-0 flex items-center justify-center pointer-events-none z-30"
             >
-              <div className="px-6 py-3 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/20 text-white font-mono font-black text-xl md:text-2xl shadow-2xl tracking-widest uppercase">
+              <div className="px-6 py-3 rounded-2xl bg-black/85 backdrop-blur-xl border border-white/20 text-white font-mono font-black text-lg md:text-xl shadow-2xl tracking-widest uppercase">
                 {bannerMessage}
               </div>
             </motion.div>
@@ -842,13 +881,13 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
             animate={{ opacity: 1 }}
             className="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-40 space-y-4"
           >
-            <h3 className="text-3xl font-bold font-mono text-red-500">FULL TIME</h3>
+            <h3 className="text-3xl font-bold font-mono text-red-500 tracking-wider">FULL TIME</h3>
             <p className="text-zinc-400 text-sm max-w-xs">
               You scored {goals} goals with a final score of {score.toLocaleString()} points.
             </p>
             <button
               onClick={handleRestart}
-              className="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-lg"
+              className="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-lg cursor-pointer"
             >
               Play Again ↺
             </button>
@@ -862,17 +901,17 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
             animate={{ scale: 1, opacity: 1 }}
             className="absolute inset-0 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center z-50 space-y-4"
           >
-            <div className="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center text-3xl animate-bounce">
-              🏆
+            <div className="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center text-amber-400 animate-bounce">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5a1.5 1.5 0 0 0 0 3h9a1.5 1.5 0 0 0 0-3H15c-.55 0-1-.45-1-1v-2.34"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4Z"/></svg>
             </div>
-            <h3 className="text-3xl font-bold font-mono text-amber-400">15 GOALS SCORED!</h3>
+            <h3 className="text-3xl font-bold font-mono text-amber-400 tracking-wider">15 GOALS SCORED</h3>
             <p className="text-zinc-300 text-sm max-w-sm">
-              Legendary performance! You unlocked the <strong>Football Champion Badge</strong> and earned access to the Developer Vault.
+              Legendary striker performance! You unlocked the <strong>Football Champion Badge</strong> and earned access to the Developer Vault.
             </p>
             {onUnlockVault && (
               <button
                 onClick={onUnlockVault}
-                className="px-8 py-3 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(245,158,11,0.6)]"
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(245,158,11,0.6)] cursor-pointer"
               >
                 Enter Developer Vault ➔
               </button>
@@ -882,8 +921,9 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       </div>
 
       {/* Footer Instructions */}
-      <div className="text-center text-[11px] text-zinc-500 font-mono">
-        💡 Drag back from ball to aim & power • Release to shoot • Curve the ball past the keeper!
+      <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-mono">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Drag back from ball to aim & power • Release to shoot • Curve the ball past the keeper</span>
       </div>
     </div>
   );

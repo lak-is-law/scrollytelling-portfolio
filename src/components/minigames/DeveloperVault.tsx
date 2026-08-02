@@ -124,8 +124,8 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
           className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 p-0.5 shadow-[0_0_40px_rgba(245,158,11,0.5)] flex items-center justify-center"
         >
-          <div className="w-full h-full bg-black/80 backdrop-blur-xl rounded-[22px] flex items-center justify-center text-3xl">
-            🏆
+          <div className="w-full h-full bg-black/80 backdrop-blur-xl rounded-[22px] flex items-center justify-center text-amber-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5a1.5 1.5 0 0 0 0 3h9a1.5 1.5 0 0 0 0-3H15c-.55 0-1-.45-1-1v-2.34"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4Z"/></svg>
           </div>
         </motion.div>
 
@@ -147,8 +147,8 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
         {/* Reward 1: Confidential Resume */}
         <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group">
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
-              📄
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
             <h3 className="text-lg font-semibold text-white group-hover:text-amber-300 transition-colors">
               Official Resume
@@ -163,15 +163,16 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
             onClick={() => arcadeAudio.playClick()}
             className="mt-6 w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black text-xs font-semibold uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
           >
-            Download PDF ↗
+            <span>Download PDF</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
           </a>
         </div>
 
         {/* Reward 2: Golden Cyber Theme Switcher */}
         <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group">
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
-              ✨
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
             <h3 className="text-lg font-semibold text-white group-hover:text-amber-300 transition-colors">
               24K Cyber Theme
@@ -188,15 +189,15 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
                 : "bg-white/10 hover:bg-white text-white hover:text-black"
             }`}
           >
-            {isGoldenTheme ? "★ 24K Gold Active" : "Activate 24K Gold"}
+            {isGoldenTheme ? "24K Gold Active" : "Activate 24K Gold"}
           </button>
         </div>
 
         {/* Reward 3: Fast-Track Priority Interview */}
         <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group">
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
-              ⚡
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
             <h3 className="text-lg font-semibold text-white group-hover:text-amber-300 transition-colors">
               Secret Priority Mail
@@ -210,14 +211,16 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               onClick={copySecretEmail}
               className="w-full py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-[11px] font-mono font-bold uppercase tracking-wider transition-colors border border-zinc-700 flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              {copiedEmail ? "✓ Copied!" : "📋 Copy Email"}
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+              <span>{copiedEmail ? "Copied" : "Copy Email"}</span>
             </button>
             <a
               href="mailto:contact@lakshya.uk?subject=Found%20Your%20Hidden%20Arcade%20Vault%20-%20Let's%20Talk"
               onClick={() => arcadeAudio.playClick()}
-              className="w-full py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-[11px] font-bold uppercase tracking-wider transition-colors text-center shadow-md cursor-pointer"
+              className="w-full py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-[11px] font-bold uppercase tracking-wider transition-colors text-center shadow-md cursor-pointer flex items-center justify-center gap-1.5"
             >
-              Send Priority Email ✉
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>Send Priority Email</span>
             </a>
           </div>
         </div>
@@ -246,9 +249,10 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-semibold text-xs uppercase tracking-wider shadow-lg hover:shadow-amber-500/20 transition-all disabled:opacity-50 cursor-pointer"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-semibold text-xs uppercase tracking-wider shadow-lg hover:shadow-amber-500/20 transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
           >
-            {isSubmitting ? "Dispatching..." : "Send Dossier 🚀"}
+            <span>{isSubmitting ? "Dispatching..." : "Send Dossier"}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </form>
 
@@ -258,9 +262,10 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-4 p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs text-center"
+              className="mt-4 p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs text-center flex items-center justify-center gap-2"
             >
-              🎉 Success! Dossier dispatched to {email}. Check your inbox!
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>Success! Dossier dispatched to {email}. Check your inbox!</span>
             </motion.div>
           )}
           {submitStatus === "error" && (
@@ -268,9 +273,10 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-4 p-3 rounded-xl bg-red-950/60 border border-red-500/30 text-red-400 text-xs text-center"
+              className="mt-4 p-3 rounded-xl bg-red-950/60 border border-red-500/30 text-red-400 text-xs text-center flex items-center justify-center gap-2"
             >
-              ❌ Could not dispatch dossier. Please verify your email or use direct mail: contact@lakshya.uk
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <span>Could not dispatch dossier. Please verify your email or use direct mail: contact@lakshya.uk</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -282,9 +288,10 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
           arcadeAudio.playClick();
           onClose();
         }}
-        className="mt-8 text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer"
+        className="mt-8 text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
       >
-        ← Return to Arcade Machine
+        <span>←</span>
+        <span>Return to Arcade Machine</span>
       </button>
     </motion.div>
   );
