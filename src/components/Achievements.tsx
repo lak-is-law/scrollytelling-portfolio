@@ -56,9 +56,9 @@ export default function Achievements() {
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/10 via-transparent to-transparent pointer-events-none" />
           
           <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-6">
-            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-500/80 uppercase mb-4">
-              <span>07 // Pinnacle Achievement</span>
-              <div className="h-px w-12 bg-yellow-500/30" />
+            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-4">
+              <span>08 // Pinnacle Achievement</span>
+              <div className="h-px w-12 bg-zinc-800" />
             </div>
             
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white leading-[1.1]">

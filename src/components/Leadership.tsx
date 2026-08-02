@@ -56,6 +56,10 @@ export default function Leadership() {
     <section ref={containerRef} className="relative bg-[#09090b] py-40 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
       <div className="mx-auto max-w-4xl w-full">
         <div className="mb-24 text-center">
+          <div className="flex items-center justify-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-6">
+            <span>07 // Leadership</span>
+            <div className="h-px w-12 bg-zinc-800" />
+          </div>
           <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6">
             The Leadership Progression.
           </h2>

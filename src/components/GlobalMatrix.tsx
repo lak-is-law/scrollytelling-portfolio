@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 // Language Data
 const LANGUAGES = [
@@ -11,9 +11,9 @@ const LANGUAGES = [
     level: "Fluent",
     usage: "Professional Communication & Technical Documentation",
     region: "Global",
-    colorHex: "#22d3ee", // cyan-400
-    lat: 40,
-    lng: -74,
+    colorHex: "#38bdf8", // sky-400
+    lat: 38,
+    lng: -77,
     isLearning: false,
   },
   {
@@ -35,7 +35,7 @@ const LANGUAGES = [
     region: "Northeast India",
     colorHex: "#34d399", // emerald-400
     lat: 26,
-    lng: 91,
+    lng: 92,
     isLearning: false,
   },
   {
@@ -66,68 +66,35 @@ const LANGUAGES = [
     level: "Introductory",
     usage: "Cultural Immersion — Scripts, Phonetics & Technical Lexicon",
     region: "Japan",
-    colorHex: "#38bdf8", // sky-400
-    lat: 35,
-    lng: 139,
+    colorHex: "#22d3ee", // cyan-400
+    lat: 36,
+    lng: 138,
     isLearning: true,
   },
 ];
 
-const langStyles: Record<string, { border: string; bg: string; text: string }> = {
-  eng: { border: "border-cyan-400", bg: "bg-cyan-400/10", text: "text-cyan-400" },
-  hin: { border: "border-amber-400", bg: "bg-amber-400/10", text: "text-amber-400" },
-  asm: { border: "border-emerald-400", bg: "bg-emerald-400/10", text: "text-emerald-400" },
-  nag: { border: "border-rose-400", bg: "bg-rose-400/10", text: "text-rose-400" },
-  kor: { border: "border-violet-400", bg: "bg-violet-400/10", text: "text-violet-400" },
-  jap: { border: "border-sky-400", bg: "bg-sky-400/10", text: "text-sky-400" },
-};
-
-const TelemetryHUD = ({ activeLinks }: { activeLinks: number }) => {
-  return (
-    <div className="mt-8 border border-white/10 bg-black/40 backdrop-blur-md p-4 rounded-xl flex flex-col gap-2 font-mono text-xs uppercase relative overflow-hidden">
-      {/* Scan line effect */}
-      <motion.div
-        className="absolute top-0 left-0 right-0 h-[2px] bg-white/20 blur-[1px]"
-        animate={{ y: [0, 200] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-      />
-      <div className="flex justify-between items-center text-white/50 mb-2 border-b border-white/10 pb-2">
-        <span>sys.telemetry_hud</span>
-        <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          ONLINE
-        </span>
-      </div>
-      <div className="grid grid-cols-2 gap-4 text-white/80">
-        <div className="flex flex-col">
-          <span className="text-white/40">Total Channels</span>
-          <span className="text-xl text-white">06</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-white/40">Active Links</span>
-          <span className="text-xl text-cyan-400">
-            {activeLinks < 10 ? `0${activeLinks}` : activeLinks}
-          </span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-white/40">Fluent/Native</span>
-          <span className="text-emerald-400">03</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-white/40">Learning/Dev</span>
-          <span className="text-violet-400">02</span>
-        </div>
-      </div>
-      <div className="mt-2 pt-2 border-t border-white/10 flex flex-col">
-        <span className="text-white/40">Network Coverage</span>
-        <span className="text-white tracking-widest">MULTI-CONTINENTAL</span>
-      </div>
-    </div>
-  );
-};
+// Simplified continent land points for rotating globe geometry
+const LAND_POINTS = [
+  // North America
+  { lat: 45, lng: -100 }, { lat: 55, lng: -110 }, { lat: 35, lng: -90 }, { lat: 30, lng: -100 }, { lat: 40, lng: -75 },
+  // South America
+  { lat: -10, lng: -55 }, { lat: -20, lng: -60 }, { lat: -30, lng: -65 }, { lat: 0, lng: -70 },
+  // Europe
+  { lat: 50, lng: 10 }, { lat: 48, lng: 2 }, { lat: 55, lng: 37 }, { lat: 40, lng: -3 }, { lat: 60, lng: 15 },
+  // Africa
+  { lat: 0, lng: 25 }, { lat: 20, lng: 15 }, { lat: -25, lng: 28 }, { lat: 10, lng: 40 }, { lat: 5, lng: 0 },
+  // Middle East / Central Asia
+  { lat: 30, lng: 45 }, { lat: 35, lng: 55 }, { lat: 45, lng: 65 },
+  // India / South Asia
+  { lat: 22, lng: 78 }, { lat: 13, lng: 80 }, { lat: 28, lng: 77 }, { lat: 24, lng: 88 },
+  // East Asia
+  { lat: 35, lng: 105 }, { lat: 40, lng: 116 }, { lat: 31, lng: 121 }, { lat: 37, lng: 127 }, { lat: 36, lng: 138 },
+  // Southeast Asia & Australia
+  { lat: 15, lng: 100 }, { lat: 1, lng: 104 }, { lat: -25, lng: 135 }, { lat: -33, lng: 151 },
+];
 
 export default function GlobalMatrix() {
-  const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set());
+  const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set(["eng", "hin"]));
   const [hoveredLang, setHoveredLang] = useState<string | null>(null);
   const [rotation, setRotation] = useState(0);
   const isDragging = useRef(false);
@@ -138,7 +105,7 @@ export default function GlobalMatrix() {
     let animationFrame: number;
     const rotate = () => {
       if (!isDragging.current) {
-        setRotation((prev) => (prev + 0.1) % 360);
+        setRotation((prev) => (prev + 0.15) % 360);
       }
       animationFrame = requestAnimationFrame(rotate);
     };
@@ -155,7 +122,7 @@ export default function GlobalMatrix() {
     if (!isDragging.current) return;
     const currentX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const delta = currentX - startX.current;
-    setRotation((prev) => (prev + delta * 0.5) % 360);
+    setRotation((prev) => (prev + delta * 0.6) % 360);
     startX.current = currentX;
   };
 
@@ -167,7 +134,7 @@ export default function GlobalMatrix() {
     setSelectedLangs((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
-        next.delete(id);
+        if (next.size > 1) next.delete(id); // keep at least one selected
       } else {
         next.add(id);
       }
@@ -177,7 +144,7 @@ export default function GlobalMatrix() {
 
   // Convert lat/lng to x,y on globe
   const getCoordinates = (lat: number, lng: number, globeRotation: number) => {
-    const r = 160; // radius
+    const r = 150; // sphere radius
     const latRad = (lat * Math.PI) / 180;
     const lngRad = ((lng + globeRotation) * Math.PI) / 180;
 
@@ -189,37 +156,33 @@ export default function GlobalMatrix() {
     return { x: x + 200, y: y + 200, z, isVisible: z > 0 };
   };
 
-  // Home position (India roughly)
-  const homeCoords = getCoordinates(20, 79, rotation);
+  // Home position (India roughly: 20° N, 78° E)
+  const homeCoords = getCoordinates(20, 78, rotation);
 
   return (
-    <section className="min-h-screen bg-[#09090b] text-white py-24 relative overflow-hidden flex items-center">
-      {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 w-full z-10">
-        <div className="mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col gap-2"
-          >
-            <div className="flex items-center gap-4 text-cyan-400 font-mono text-sm tracking-widest uppercase">
-              <span>09</span>
-              <span className="w-12 h-px bg-cyan-400/50" />
-              <span>Global Network</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Communication Matrix</h2>
-            <p className="text-white/50 text-lg">Select your frequency. Map the network.</p>
-          </motion.div>
+    <section className="relative bg-[#09090b] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
+      <div className="mx-auto max-w-7xl w-full">
+        
+        {/* Header */}
+        <div className="mb-20">
+          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-6">
+            <span>11 // Global Network</span>
+            <div className="h-px w-12 bg-zinc-800" />
+          </div>
+          <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6">
+            Communication Matrix.
+          </h2>
+          <p className="text-xl text-zinc-400 font-light max-w-2xl">
+            Multilingual fluency spanning 6 languages across international technical documentation, regional dialects, and active studies.
+          </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12 items-start justify-between">
-          {/* Globe Container */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          {/* Globe Display */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center">
             <div
-              className="relative w-[400px] h-[400px] cursor-grab active:cursor-grabbing scale-75 md:scale-100"
+              className="relative w-[340px] h-[340px] sm:w-[400px] sm:h-[400px] select-none cursor-grab active:cursor-grabbing flex items-center justify-center"
               onMouseDown={handleDragStart}
               onMouseMove={handleDragMove}
               onMouseUp={handleDragEnd}
@@ -228,57 +191,111 @@ export default function GlobalMatrix() {
               onTouchMove={handleDragMove}
               onTouchEnd={handleDragEnd}
             >
-              {/* Atmospheric Glow */}
-              <div className="absolute inset-0 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+              {/* Outer Atmosphere Ambient Halo */}
+              <div className="absolute inset-4 rounded-full bg-cyan-500/10 blur-2xl pointer-events-none" />
 
-              <svg width="400" height="400" className="relative z-10 pointer-events-none">
+              <svg width="400" height="400" viewBox="0 0 400 400" className="relative z-10 w-full h-full">
                 <defs>
-                  <radialGradient id="globeGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="80%" stopColor="rgba(0, 200, 255, 0.05)" />
-                    <stop offset="100%" stopColor="rgba(0, 200, 255, 0.3)" />
+                  {/* Sphere Deep Space Gradient */}
+                  <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
+                    <stop offset="0%" stopColor="#1e293b" stopOpacity="0.8" />
+                    <stop offset="60%" stopColor="#0f172a" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#020617" stopOpacity="0.95" />
                   </radialGradient>
+
+                  {/* Outer Rim Glow Filter */}
+                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
                 </defs>
 
-                {/* Base Sphere */}
-                <circle cx="200" cy="200" r="160" fill="url(#globeGlow)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+                {/* Coordinate Rim (Ticks) */}
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="164"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.12)"
+                  strokeWidth="1"
+                  strokeDasharray="4 8"
+                />
 
-                {/* Longitude lines */}
+                {/* PROMINENT GLOBE OUTLINE 1: Primary Outer Ring */}
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="150"
+                  fill="url(#sphereGrad)"
+                  stroke="rgba(56, 189, 248, 0.7)"
+                  strokeWidth="2.5"
+                  filter="url(#glow)"
+                />
+
+                {/* Secondary Sharp Inner Rim */}
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="149"
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.3)"
+                  strokeWidth="1"
+                />
+
+                {/* Longitude Grid Lines */}
                 {[0, 30, 60, 90, 120, 150].map((deg) => {
                   const rotatedLng = (deg + rotation) % 180;
-                  const rx = 160 * Math.sin((rotatedLng * Math.PI) / 180);
+                  const rx = 150 * Math.sin((rotatedLng * Math.PI) / 180);
                   return (
                     <ellipse
                       key={`lng-${deg}`}
                       cx="200"
                       cy="200"
-                      rx={Math.abs(rx)}
-                      ry="160"
+                      rx={Math.max(1, Math.abs(rx))}
+                      ry="150"
                       fill="none"
-                      stroke="rgba(255,255,255,0.05)"
+                      stroke="rgba(56, 189, 248, 0.15)"
                       strokeWidth="1"
                     />
                   );
                 })}
 
-                {/* Latitude lines */}
+                {/* Latitude Grid Lines */}
                 {[-60, -30, 0, 30, 60].map((lat) => {
-                  const ry = 160 * Math.cos((lat * Math.PI) / 180);
-                  const y = 200 - 160 * Math.sin((lat * Math.PI) / 180);
+                  const rLat = 150 * Math.cos((lat * Math.PI) / 180);
+                  const yLat = 200 - 150 * Math.sin((lat * Math.PI) / 180);
+                  const isEquator = lat === 0;
                   return (
                     <ellipse
                       key={`lat-${lat}`}
                       cx="200"
-                      cy={y}
-                      rx={ry}
-                      ry="0"
+                      cy={yLat}
+                      rx={rLat}
+                      ry={rLat * 0.25}
                       fill="none"
-                      stroke="rgba(255,255,255,0.05)"
-                      strokeWidth="1"
+                      stroke={isEquator ? "rgba(56, 189, 248, 0.4)" : "rgba(255, 255, 255, 0.08)"}
+                      strokeWidth={isEquator ? 1.5 : 1}
+                      strokeDasharray={isEquator ? "none" : "3 3"}
                     />
                   );
                 })}
 
-                {/* Connection Bridges */}
+                {/* Rotating Land Points */}
+                {LAND_POINTS.map((pt, idx) => {
+                  const coords = getCoordinates(pt.lat, pt.lng, rotation);
+                  if (!coords.isVisible) return null;
+                  return (
+                    <circle
+                      key={`land-${idx}`}
+                      cx={coords.x}
+                      cy={coords.y}
+                      r="2"
+                      fill="rgba(56, 189, 248, 0.35)"
+                    />
+                  );
+                })}
+
+                {/* Connection Bridge Flight Paths */}
                 {LANGUAGES.map((lang) => {
                   const isSelected = selectedLangs.has(lang.id) || hoveredLang === lang.id;
                   if (!isSelected) return null;
@@ -287,7 +304,7 @@ export default function GlobalMatrix() {
                   if (!target.isVisible || !homeCoords.isVisible) return null;
 
                   const midX = (homeCoords.x + target.x) / 2;
-                  const midY = (homeCoords.y + target.y) / 2 - 60;
+                  const midY = (homeCoords.y + target.y) / 2 - 40;
 
                   return (
                     <motion.path
@@ -298,17 +315,17 @@ export default function GlobalMatrix() {
                       strokeWidth="2"
                       strokeDasharray="4 4"
                       initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{ duration: 1, ease: "easeInOut" }}
+                      animate={{ pathLength: 1, opacity: 0.9 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
                     />
                   );
                 })}
 
-                {/* Home Node */}
+                {/* Home Position Dot (Origin) */}
                 {homeCoords.isVisible && (
                   <g>
-                    <circle cx={homeCoords.x} cy={homeCoords.y} r="4" fill="#fff" />
-                    <circle cx={homeCoords.x} cy={homeCoords.y} r="12" fill="none" stroke="#fff" strokeWidth="1" opacity="0.3" className="animate-ping" />
+                    <circle cx={homeCoords.x} cy={homeCoords.y} r="5" fill="#ffffff" />
+                    <circle cx={homeCoords.x} cy={homeCoords.y} r="14" fill="none" stroke="#38bdf8" strokeWidth="1.5" className="animate-ping" opacity="0.6" />
                   </g>
                 )}
 
@@ -323,41 +340,46 @@ export default function GlobalMatrix() {
                   return (
                     <g
                       key={lang.id}
-                      style={{ pointerEvents: "auto", cursor: "pointer" }}
+                      className="cursor-pointer"
                       onClick={() => toggleLanguage(lang.id)}
                       onMouseEnter={() => setHoveredLang(lang.id)}
                       onMouseLeave={() => setHoveredLang(null)}
                     >
-                      <circle
-                        cx={pos.x}
-                        cy={pos.y}
-                        r={isSelected || isHovered ? "6" : "3"}
-                        fill={lang.colorHex}
-                        className="transition-all duration-300"
-                      />
+                      {/* Node Outer Pulse */}
                       {(isSelected || isHovered) && (
                         <circle
                           cx={pos.x}
                           cy={pos.y}
-                          r="14"
+                          r="16"
                           fill="none"
                           stroke={lang.colorHex}
-                          strokeWidth="1"
-                          opacity="0.5"
+                          strokeWidth="1.5"
+                          opacity="0.6"
                           className="animate-ping"
                         />
                       )}
 
-                      {/* Floating Label */}
+                      {/* Node Core */}
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isSelected || isHovered ? "6" : "4"}
+                        fill={lang.colorHex}
+                        stroke="#ffffff"
+                        strokeWidth="1"
+                      />
+
+                      {/* Floating Text Label */}
                       <text
-                        x={pos.x + 12}
+                        x={pos.x + 10}
                         y={pos.y + 4}
-                        fill="rgba(255,255,255,0.8)"
-                        fontSize="10"
+                        fill="#ffffff"
+                        fontSize="11"
+                        fontWeight="600"
                         fontFamily="monospace"
-                        className="pointer-events-none tracking-widest uppercase drop-shadow-md"
+                        className="pointer-events-none tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
                       >
-                        {lang.id}
+                        {lang.id.toUpperCase()}
                       </text>
                     </g>
                   );
@@ -365,82 +387,72 @@ export default function GlobalMatrix() {
               </svg>
             </div>
 
-            <div className="w-full max-w-sm mt-4 md:mt-8">
-              <TelemetryHUD activeLinks={selectedLangs.size} />
-              
-              {selectedLangs.size > 0 && (
-                <div className="mt-4 text-center font-mono text-[10px] text-cyan-400 animate-pulse tracking-widest">
-                  &gt; COMMUNICATION BRIDGE ESTABLISHED
-                </div>
-              )}
-            </div>
+            {/* Instruction Tip */}
+            <p className="text-xs text-zinc-500 font-mono tracking-wider mt-4">
+              [ DRAG TO ROTATE GLOBE • CLICK NODES TO CONNECT ]
+            </p>
           </div>
 
-          {/* Details Panel */}
-          <div className="w-full lg:w-1/2 flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {LANGUAGES.map((lang) => {
-                const isSelected = selectedLangs.has(lang.id);
-                const styles = langStyles[lang.id];
+          {/* Language Cards Grid */}
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {LANGUAGES.map((lang) => {
+              const isSelected = selectedLangs.has(lang.id);
+              const isHovered = hoveredLang === lang.id;
 
-                return (
-                  <motion.div
-                    key={lang.id}
-                    onClick={() => toggleLanguage(lang.id)}
-                    onHoverStart={() => setHoveredLang(lang.id)}
-                    onHoverEnd={() => setHoveredLang(null)}
-                    className={`p-4 rounded-xl border cursor-pointer backdrop-blur-md transition-all duration-300 ${
-                      isSelected
-                        ? `${styles.border} ${styles.bg}`
-                        : "border-white/10 bg-white/5 hover:bg-white/10"
-                    }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className={`text-lg font-bold ${styles.text}`}>{lang.name}</h3>
+              return (
+                <motion.div
+                  key={lang.id}
+                  onClick={() => toggleLanguage(lang.id)}
+                  onHoverStart={() => setHoveredLang(lang.id)}
+                  onHoverEnd={() => setHoveredLang(null)}
+                  whileHover={{ y: -3 }}
+                  className={`p-6 rounded-3xl backdrop-blur-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                    isSelected || isHovered
+                      ? "bg-zinc-900/50 border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+                      : "bg-zinc-900/20 border-white/5 hover:border-zinc-700/50 hover:bg-zinc-900/30"
+                  }`}
+                  style={{
+                    boxShadow: isSelected ? `0 0 25px -5px ${lang.colorHex}33` : undefined,
+                  }}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <span
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: lang.colorHex, boxShadow: `0 0 10px ${lang.colorHex}` }}
+                        />
+                        <h3 className="text-xl font-semibold text-white tracking-tight">
+                          {lang.name}
+                        </h3>
+                      </div>
                       {lang.isLearning && (
-                        <span className="text-[10px] font-mono border border-violet-500/50 text-violet-400 px-2 py-1 rounded bg-violet-500/10 uppercase">
-                          Learning
+                        <span className="text-[10px] font-mono tracking-widest text-violet-400 px-2.5 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 uppercase">
+                          Study
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-col gap-1 text-xs font-mono mb-2">
-                      <div className="flex justify-between">
-                        <span className="text-white/40">LEVEL</span>
-                        <span className="text-white/80">{lang.level}</span>
+                    <div className="space-y-2 mb-4 font-mono text-xs">
+                      <div className="flex justify-between text-zinc-400">
+                        <span className="text-zinc-500">LEVEL:</span>
+                        <span className="text-zinc-200">{lang.level}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/40">REGION</span>
-                        <span className="text-white/80 text-right">{lang.region}</span>
+                      <div className="flex justify-between text-zinc-400">
+                        <span className="text-zinc-500">REGION:</span>
+                        <span className="text-zinc-300">{lang.region}</span>
                       </div>
                     </div>
+                  </div>
 
-                    <AnimatePresence>
-                      {isSelected && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pt-3 border-t border-white/10 mt-3">
-                            <span className="text-[10px] text-white/40 font-mono block mb-1">
-                              USAGE
-                            </span>
-                            <p className="text-xs text-white/70 leading-relaxed font-sans">
-                              {lang.usage}
-                            </p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                );
-              })}
-            </div>
+                  <p className="text-xs text-zinc-400 font-light leading-relaxed pt-3 border-t border-zinc-800/60">
+                    {lang.usage}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
+
         </div>
       </div>
     </section>

@@ -719,7 +719,7 @@ export default function Languages() {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 text-xs font-mono tracking-[0.3em] text-cyan-400 uppercase mb-4">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span>09 // SIMULATED FIRING RANGE</span>
+            <span>10 // INTERACTIVE ARSENAL</span>
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
           </div>
           <h2 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-4 uppercase drop-shadow-[0_0_35px_rgba(6,182,212,0.3)]">

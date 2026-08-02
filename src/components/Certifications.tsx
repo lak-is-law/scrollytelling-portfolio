@@ -53,7 +53,7 @@ export default function Certifications() {
         <div className="lg:w-1/3">
           <div className="sticky top-32">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-6">
-              <span>08 // Credentials</span>
+              <span>09 // Credentials</span>
               <div className="h-px w-12 bg-zinc-800" />
             </div>
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white mb-6">
