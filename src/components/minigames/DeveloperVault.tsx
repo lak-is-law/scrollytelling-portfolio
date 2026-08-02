@@ -14,14 +14,19 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [isGoldenTheme, setIsGoldenTheme] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
   useEffect(() => {
     arcadeAudio.playVaultUnlock();
 
     // Check if golden theme was previously active
-    const savedTheme = localStorage.getItem("portfolio_theme");
-    if (savedTheme === "gold") {
-      setIsGoldenTheme(true);
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("portfolio_theme");
+      const hasGoldClass = document.documentElement.classList.contains("gold-theme");
+      if (savedTheme === "gold" || hasGoldClass) {
+        setIsGoldenTheme(true);
+        document.documentElement.classList.add("gold-theme");
+      }
     }
   }, []);
 
@@ -37,6 +42,13 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
       document.documentElement.classList.remove("gold-theme");
       localStorage.setItem("portfolio_theme", "default");
     }
+  };
+
+  const copySecretEmail = () => {
+    arcadeAudio.playClick();
+    navigator.clipboard.writeText("contact@lakshya.uk");
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
   };
 
   const handleSendReward = async (e: React.FormEvent) => {
@@ -142,14 +154,14 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               Official Resume
             </h3>
             <p className="text-xs text-zinc-400 font-light">
-              Direct high-resolution PDF download with full internship credentials and technical index.
+              Direct high-resolution PDF download with full credentials and technical index.
             </p>
           </div>
           <a
             href="/Resume.pdf"
             download="Lakshya_Agarwal_Resume.pdf"
             onClick={() => arcadeAudio.playClick()}
-            className="mt-6 w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black text-xs font-semibold uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center gap-2"
+            className="mt-6 w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black text-xs font-semibold uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
           >
             Download PDF ↗
           </a>
@@ -165,18 +177,18 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               24K Cyber Theme
             </h3>
             <p className="text-xs text-zinc-400 font-light">
-              Unlock the golden VIP aesthetic with customized neon lighting across the entire portfolio.
+              Unlock the 24K Gold VIP aesthetic with customized neon lighting across the entire portfolio.
             </p>
           </div>
           <button
             onClick={toggleGoldenTheme}
-            className={`mt-6 w-full py-2.5 px-4 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
+            className={`mt-6 w-full py-2.5 px-4 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
               isGoldenTheme 
-                ? "bg-amber-400 text-black shadow-[0_0_20px_rgba(245,158,11,0.5)]" 
+                ? "bg-amber-400 text-black font-black shadow-[0_0_25px_rgba(245,158,11,0.8)] border border-amber-300" 
                 : "bg-white/10 hover:bg-white text-white hover:text-black"
             }`}
           >
-            {isGoldenTheme ? "★ Golden Mode Active" : "Activate 24K Gold"}
+            {isGoldenTheme ? "★ 24K Gold Active" : "Activate 24K Gold"}
           </button>
         </div>
 
@@ -187,19 +199,27 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               ⚡
             </div>
             <h3 className="text-lg font-semibold text-white group-hover:text-amber-300 transition-colors">
-              Direct Contact
+              Secret Priority Mail
             </h3>
             <p className="text-xs text-zinc-400 font-light">
-              Skip traditional screening queues and start a direct conversation with Lakshya.
+              Direct recruiter inbox: <span className="text-amber-300 font-mono font-bold">contact@lakshya.uk</span>
             </p>
           </div>
-          <a
-            href="mailto:contact.lakshya.tech@gmail.com?subject=Found%20Your%20Hidden%20Arcade%20Vault%20-%20Let's%20Talk"
-            onClick={() => arcadeAudio.playClick()}
-            className="mt-6 w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black text-xs font-semibold uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center gap-2"
-          >
-            Send Priority Email ✉
-          </a>
+          <div className="mt-6 flex flex-col gap-2">
+            <button
+              onClick={copySecretEmail}
+              className="w-full py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-[11px] font-mono font-bold uppercase tracking-wider transition-colors border border-zinc-700 flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              {copiedEmail ? "✓ Copied!" : "📋 Copy Email"}
+            </button>
+            <a
+              href="mailto:contact@lakshya.uk?subject=Found%20Your%20Hidden%20Arcade%20Vault%20-%20Let's%20Talk"
+              onClick={() => arcadeAudio.playClick()}
+              className="w-full py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-[11px] font-bold uppercase tracking-wider transition-colors text-center shadow-md cursor-pointer"
+            >
+              Send Priority Email ✉
+            </a>
+          </div>
         </div>
       </div>
 
@@ -226,7 +246,7 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-semibold text-xs uppercase tracking-wider shadow-lg hover:shadow-amber-500/20 transition-all disabled:opacity-50"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-semibold text-xs uppercase tracking-wider shadow-lg hover:shadow-amber-500/20 transition-all disabled:opacity-50 cursor-pointer"
           >
             {isSubmitting ? "Dispatching..." : "Send Dossier 🚀"}
           </button>
@@ -250,7 +270,7 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               exit={{ opacity: 0 }}
               className="mt-4 p-3 rounded-xl bg-red-950/60 border border-red-500/30 text-red-400 text-xs text-center"
             >
-              ❌ Could not dispatch dossier. Please verify your email or click Direct Email above.
+              ❌ Could not dispatch dossier. Please verify your email or use direct mail: contact@lakshya.uk
             </motion.div>
           )}
         </AnimatePresence>
@@ -262,7 +282,7 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
           arcadeAudio.playClick();
           onClose();
         }}
-        className="mt-8 text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white transition-colors"
+        className="mt-8 text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer"
       >
         ← Return to Arcade Machine
       </button>

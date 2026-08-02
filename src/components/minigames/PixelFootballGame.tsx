@@ -45,19 +45,18 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
   // Drag and Aim state
   const isDragging = useRef(false);
-  const dragStart = useRef({ x: 0, y: 0 });
-  const dragCurrent = useRef({ x: 0, y: 0 });
+  const dragStart = useRef({ x: 300, y: 350 });
+  const dragCurrent = useRef({ x: 300, y: 350 });
 
   // Physics & Animation refs
   const ball = useRef({
-    x: 0,
-    y: 0,
+    x: 300,
+    y: 350,
     z: 0,
     vx: 0,
     vy: 0,
     vz: 0,
-    radius: 12,
-    spin: 0,
+    radius: 11,
     inFlight: false,
     scored: false,
     saved: false,
@@ -66,24 +65,24 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
   });
 
   const keeper = useRef({
-    x: 0,
-    y: 0,
+    x: 300,
+    y: 110,
     width: 44,
     height: 64,
     vx: 0,
-    targetX: 0,
+    targetX: 300,
     state: "idle" as "idle" | "dive_left" | "dive_right" | "dive_high" | "save" | "concede",
     diveProgress: 0
   });
 
   const targets = useRef<Target[]>([
-    { x: 120, y: 110, radius: 24, speed: 0.8, dir: 1, points: 500, label: "TOP BIN" },
-    { x: 480, y: 110, radius: 24, speed: 0.8, dir: -1, points: 500, label: "TOP BIN" }
+    { x: 175, y: 78, radius: 20, speed: 0.6, dir: 1, points: 500, label: "TOP LEFT" },
+    { x: 425, y: 78, radius: 20, speed: 0.6, dir: -1, points: 500, label: "TOP RIGHT" }
   ]);
 
   const particles = useRef<Particle[]>([]);
   const screenShake = useRef(0);
-  const wind = useRef((Math.random() - 0.5) * 1.5);
+  const wind = useRef(0);
 
   // Initialize and load high score
   useEffect(() => {
@@ -105,7 +104,7 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
     for (let i = 0; i < 40; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 8 + 3;
+      const speed = Math.random() * 7 + 2;
       particles.current.push({
         x,
         y,
@@ -114,7 +113,7 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
         color: colors[Math.floor(Math.random() * colors.length)],
         size: Math.random() * 5 + 3,
         life: 1,
-        maxLife: 60 + Math.random() * 30
+        maxLife: 60 + Math.random() * 25
       });
     }
   };
@@ -124,14 +123,13 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     if (!canvas) return;
 
     ball.current = {
-      x: canvas.width / 2,
-      y: canvas.height - 70,
+      x: 300,
+      y: 350,
       z: 0,
       vx: 0,
       vy: 0,
       vz: 0,
-      radius: 12,
-      spin: 0,
+      radius: 11,
       inFlight: false,
       scored: false,
       saved: false,
@@ -140,9 +138,9 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     };
 
     keeper.current.state = "idle";
-    keeper.current.x = canvas.width / 2;
+    keeper.current.x = 300;
     keeper.current.diveProgress = 0;
-    wind.current = (Math.random() - 0.5) * 1.8;
+    wind.current = (Math.random() - 0.5) * 1.2;
   }, []);
 
   const handleMiss = useCallback(() => {
@@ -158,13 +156,13 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
   const handleGoal = useCallback((hitX: number, hitY: number) => {
     arcadeAudio.playGoal();
-    screenShake.current = streak >= 2 ? 14 : 8;
+    screenShake.current = streak >= 2 ? 12 : 7;
 
     // Check Bonus Targets
     let bonusPoints = 0;
     let hitTargetLabel = "";
     targets.current.forEach((t) => {
-      if (Math.hypot(hitX - t.x, hitY - t.y) < t.radius + 15) {
+      if (Math.hypot(hitX - t.x, hitY - t.y) < t.radius + 18) {
         bonusPoints += t.points;
         hitTargetLabel = t.label;
       }
@@ -226,7 +224,7 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set fixed internal resolution
+    // Fixed 600x420 standard resolution
     canvas.width = 600;
     canvas.height = 420;
 
@@ -236,38 +234,38 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
     const drawStadium = (w: number, h: number) => {
       // Crowd Stand (Top)
-      const crowdGrad = ctx.createLinearGradient(0, 0, 0, 110);
-      crowdGrad.addColorStop(0, "#090d16");
-      crowdGrad.addColorStop(1, "#1e293b");
+      const crowdGrad = ctx.createLinearGradient(0, 0, 0, 100);
+      crowdGrad.addColorStop(0, "#080c14");
+      crowdGrad.addColorStop(1, "#182234");
       ctx.fillStyle = crowdGrad;
-      ctx.fillRect(0, 0, w, 110);
+      ctx.fillRect(0, 0, w, 100);
 
       // Animated Pixel Crowd heads
       const time = Date.now() * 0.003;
-      for (let x = 10; x < w; x += 14) {
-        for (let y = 15; y < 90; y += 12) {
-          const bob = Math.sin(time + x * 0.1) * 2;
+      for (let x = 12; x < w - 10; x += 14) {
+        for (let y = 14; y < 85; y += 12) {
+          const bob = Math.sin(time + x * 0.12) * 2;
           ctx.fillStyle = (x + y) % 3 === 0 ? "#cbd5e1" : (x % 2 === 0 ? "#ef4444" : "#3b82f6");
           ctx.fillRect(x, y + bob, 6, 6);
         }
       }
 
       // Stadium Floodlights
-      ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
       ctx.beginPath();
       ctx.moveTo(30, 0);
-      ctx.lineTo(w / 2 - 100, 180);
-      ctx.lineTo(0, 250);
+      ctx.lineTo(w / 2 - 80, 160);
+      ctx.lineTo(0, 240);
       ctx.fill();
 
       ctx.beginPath();
       ctx.moveTo(w - 30, 0);
-      ctx.lineTo(w / 2 + 100, 180);
-      ctx.lineTo(w, 250);
+      ctx.lineTo(w / 2 + 80, 160);
+      ctx.lineTo(w, 240);
       ctx.fill();
 
       // Pitch Grass with Lush Stripes
-      const pitchTop = 100;
+      const pitchTop = 95;
       const pitchH = h - pitchTop;
       const stripeCount = 6;
       for (let i = 0; i < stripeCount; i++) {
@@ -278,51 +276,51 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       }
 
       // Penalty Box Outline
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.lineWidth = 3;
-      ctx.strokeRect(w / 2 - 190, 120, 380, 240);
-      ctx.strokeRect(w / 2 - 110, 120, 220, 100);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+      ctx.lineWidth = 2.5;
+      ctx.strokeRect(w / 2 - 180, 115, 360, 220);
+      ctx.strokeRect(w / 2 - 100, 115, 200, 90);
 
       // Penalty Arc
       ctx.beginPath();
-      ctx.arc(w / 2, 280, 50, Math.PI * 0.15, Math.PI * 0.85);
+      ctx.arc(w / 2, 270, 45, Math.PI * 0.15, Math.PI * 0.85);
       ctx.stroke();
 
       // Penalty Spot
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      ctx.arc(w / 2, h - 70, 4, 0, Math.PI * 2);
+      ctx.arc(300, 350, 4, 0, Math.PI * 2);
       ctx.fill();
     };
 
     const drawGoal = (w: number) => {
-      const goalX = w / 2 - 160;
-      const goalY = 60;
-      const goalW = 320;
-      const goalH = 120;
+      const goalX = w / 2 - 150;
+      const goalY = 55;
+      const goalW = 300;
+      const goalH = 110;
 
       // Rear Net Background
-      ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
-      ctx.fillRect(goalX + 15, goalY - 15, goalW - 30, goalH);
+      ctx.fillStyle = "rgba(10, 15, 29, 0.85)";
+      ctx.fillRect(goalX + 15, goalY - 12, goalW - 30, goalH);
 
       // Net Grid Mesh
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.22)";
       ctx.lineWidth = 1;
       for (let x = goalX + 15; x <= goalX + goalW - 15; x += 10) {
         ctx.beginPath();
-        ctx.moveTo(x, goalY - 15);
+        ctx.moveTo(x, goalY - 12);
         ctx.lineTo(x, goalY + goalH);
         ctx.stroke();
       }
-      for (let y = goalY - 15; y <= goalY + goalH; y += 10) {
+      for (let y = goalY - 12; y <= goalY + goalH; y += 10) {
         ctx.beginPath();
         ctx.moveTo(goalX + 15, y);
         ctx.lineTo(goalX + goalW - 15, y);
         ctx.stroke();
       }
 
-      // Heavy White Posts and Crossbar
-      ctx.strokeStyle = "#f8fafc";
+      // White Posts and Crossbar
+      ctx.strokeStyle = "#ffffff";
       ctx.lineWidth = 6;
       ctx.lineCap = "round";
 
@@ -337,12 +335,12 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       ctx.stroke();
 
       // Depth angle posts (back corners)
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
       ctx.beginPath();
       ctx.moveTo(goalX, goalY);
-      ctx.lineTo(goalX + 15, goalY - 15);
-      ctx.lineTo(goalX + goalW - 15, goalY - 15);
+      ctx.lineTo(goalX + 15, goalY - 12);
+      ctx.lineTo(goalX + goalW - 15, goalY - 12);
       ctx.lineTo(goalX + goalW, goalY);
       ctx.stroke();
     };
@@ -350,26 +348,26 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     const drawTargets = () => {
       targets.current.forEach((t) => {
         t.x += t.speed * t.dir;
-        if (t.x < 110 || t.x > 490) t.dir *= -1;
+        if (t.x < 170 || t.x > 430) t.dir *= -1;
 
         ctx.save();
         ctx.beginPath();
         ctx.arc(t.x, t.y, t.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(239, 68, 68, 0.3)";
+        ctx.fillStyle = "rgba(239, 68, 68, 0.35)";
         ctx.fill();
         ctx.strokeStyle = "#ef4444";
         ctx.lineWidth = 2;
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(t.x, t.y, t.radius * 0.5, 0, Math.PI * 2);
+        ctx.arc(t.x, t.y, t.radius * 0.45, 0, Math.PI * 2);
         ctx.fillStyle = "#fbbf24";
         ctx.fill();
 
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 9px monospace";
+        ctx.font = "bold 8.5px monospace";
         ctx.textAlign = "center";
-        ctx.fillText(t.label, t.x, t.y - t.radius - 4);
+        ctx.fillText(t.label, t.x, t.y - t.radius - 3);
         ctx.restore();
       });
     };
@@ -377,42 +375,42 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     const drawGoalkeeper = () => {
       const k = keeper.current;
       ctx.save();
-      ctx.translate(k.x, 150);
+      ctx.translate(k.x, 140);
 
       // Shadow
-      ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
       ctx.beginPath();
-      ctx.ellipse(0, 20, 20, 6, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 18, 18, 5, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Pixel Goalkeeper Sprite
+      // Dive rotation
       const isDiving = k.state.includes("dive");
-      const diveAngle = k.state === "dive_left" ? -0.4 : k.state === "dive_right" ? 0.4 : 0;
+      const diveAngle = k.state === "dive_left" ? -0.35 : k.state === "dive_right" ? 0.35 : 0;
       ctx.rotate(diveAngle);
 
       // Body (Neon Green Keeper Jersey)
       ctx.fillStyle = "#22c55e";
-      ctx.fillRect(-12, -26, 24, 28);
+      ctx.fillRect(-11, -24, 22, 26);
 
       // Shorts & Legs
       ctx.fillStyle = "#0f172a";
-      ctx.fillRect(-10, 2, 9, 12);
-      ctx.fillRect(1, 2, 9, 12);
+      ctx.fillRect(-9, 2, 8, 12);
+      ctx.fillRect(1, 2, 8, 12);
 
       // Head
       ctx.fillStyle = "#fcd34d";
-      ctx.fillRect(-8, -42, 16, 16);
+      ctx.fillRect(-7, -38, 14, 14);
       ctx.fillStyle = "#451a03";
-      ctx.fillRect(-8, -45, 16, 6);
+      ctx.fillRect(-7, -41, 14, 5);
 
       // Gloves
       ctx.fillStyle = "#fbbf24";
       if (isDiving) {
-        ctx.fillRect(-22, -36, 10, 10);
-        ctx.fillRect(12, -36, 10, 10);
+        ctx.fillRect(-20, -32, 9, 9);
+        ctx.fillRect(11, -32, 9, 9);
       } else {
-        ctx.fillRect(-18, -14, 8, 8);
-        ctx.fillRect(10, -14, 8, 8);
+        ctx.fillRect(-16, -12, 7, 7);
+        ctx.fillRect(9, -12, 7, 7);
       }
 
       ctx.restore();
@@ -422,28 +420,28 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       if (ball.current.inFlight) return;
 
       ctx.save();
-      ctx.translate(w / 2 - 35, h - 75);
+      ctx.translate(w / 2 - 32, h - 70);
 
-      ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
       ctx.beginPath();
-      ctx.ellipse(0, 18, 16, 5, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 16, 14, 5, 0, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.fillStyle = "#ef4444";
-      ctx.fillRect(-10, -28, 20, 26);
+      ctx.fillRect(-9, -26, 18, 24);
 
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(-8, -2, 7, 12);
-      ctx.fillRect(1, -2, 7, 12);
+      ctx.fillRect(-7, -2, 6, 11);
+      ctx.fillRect(1, -2, 6, 11);
 
       ctx.fillStyle = "#fcd34d";
-      ctx.fillRect(-7, -42, 14, 14);
+      ctx.fillRect(-6, -38, 12, 12);
       ctx.fillStyle = "#1e293b";
-      ctx.fillRect(-8, -45, 16, 5);
+      ctx.fillRect(-7, -41, 14, 5);
 
       ctx.fillStyle = "#f59e0b";
-      ctx.fillRect(-9, 10, 9, 6);
-      ctx.fillRect(2, 10, 9, 6);
+      ctx.fillRect(-8, 9, 8, 5);
+      ctx.fillRect(2, 9, 8, 5);
 
       ctx.restore();
     };
@@ -453,29 +451,29 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
       if (b.inFlight && b.trail.length > 0) {
         b.trail.forEach((pos, i) => {
-          const alpha = (i / b.trail.length) * 0.4;
+          const alpha = (i / b.trail.length) * 0.45;
           ctx.fillStyle = streak >= 2 ? `rgba(251, 191, 36, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
           ctx.beginPath();
-          ctx.arc(pos.x, pos.y - pos.z, b.radius * (1 - (pos.z / 300) * 0.4), 0, Math.PI * 2);
+          ctx.arc(pos.x, pos.y - pos.z, b.radius * (1 - (pos.z / 250) * 0.35), 0, Math.PI * 2);
           ctx.fill();
         });
       }
 
-      const shadowScale = Math.max(0.3, 1 - b.z / 180);
+      const shadowScale = Math.max(0.3, 1 - b.z / 160);
       ctx.fillStyle = `rgba(0, 0, 0, ${0.4 * shadowScale})`;
       ctx.beginPath();
       ctx.ellipse(b.x, b.y, b.radius * shadowScale, b.radius * 0.4 * shadowScale, 0, 0, Math.PI * 2);
       ctx.fill();
 
       const drawY = b.y - b.z;
-      const currentRadius = Math.max(6, b.radius * (1 - (b.y < 200 ? 0.3 : 0)));
+      const currentRadius = Math.max(6, b.radius * (1 - (b.y < 180 ? 0.25 : 0)));
 
       ctx.save();
       ctx.beginPath();
       ctx.arc(b.x, drawY, currentRadius, 0, Math.PI * 2);
       
       if (streak >= 2) {
-        const goldGrad = ctx.createRadialGradient(b.x - 3, drawY - 3, 2, b.x, drawY, currentRadius);
+        const goldGrad = ctx.createRadialGradient(b.x - 2, drawY - 2, 2, b.x, drawY, currentRadius);
         goldGrad.addColorStop(0, "#FEF08A");
         goldGrad.addColorStop(0.5, "#FBBF24");
         goldGrad.addColorStop(1, "#D97706");
@@ -501,27 +499,54 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       const b = ball.current;
       const dx = dragStart.current.x - dragCurrent.current.x;
       const dy = dragStart.current.y - dragCurrent.current.y;
-      const power = Math.min(Math.hypot(dx, dy), 120);
+      const rawDist = Math.hypot(dx, dy);
+      const power = Math.min(rawDist, 85);
+
+      // Only show guide if user started pulling back
+      if (power < 8) return;
+
       const angle = Math.atan2(dy, dx);
+      const speed = power * 0.125;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      const vz = Math.max(2.5, speed * 0.7);
 
       ctx.save();
-      const steps = 14;
+
+      // Accurately simulate real physics steps
+      const steps = 15;
       for (let i = 1; i <= steps; i++) {
         const progress = i / steps;
-        const speed = power * 0.18;
-        const simX = b.x + Math.cos(angle) * speed * i * 3.2 + (wind.current * i * i * 0.08);
-        const simY = b.y + Math.sin(angle) * speed * i * 3.2;
+        const simX = b.x + vx * i * 3.4 + (wind.current * i * i * 0.08);
+        const simY = b.y + vy * i * 3.4;
+        const simZ = Math.max(0, vz * i * 3.4 - 0.5 * 0.35 * (i * 3.4) ** 2);
+        const drawSimY = simY - simZ;
 
-        ctx.fillStyle = streak >= 2 ? "rgba(251, 191, 36, 0.8)" : "rgba(255, 255, 255, 0.7)";
+        // Keep inside top frame
+        if (drawSimY < 40 || simY < 50) break;
+
+        ctx.fillStyle = streak >= 2 ? "rgba(251, 191, 36, 0.85)" : "rgba(255, 255, 255, 0.75)";
         ctx.beginPath();
-        ctx.arc(simX, simY, Math.max(2, 6 * (1 - progress * 0.6)), 0, Math.PI * 2);
+        ctx.arc(simX, drawSimY, Math.max(2, 5.5 * (1 - progress * 0.5)), 0, Math.PI * 2);
         ctx.fill();
       }
 
-      ctx.strokeStyle = power > 90 ? "#ef4444" : power > 50 ? "#fbbf24" : "#38bdf8";
-      ctx.lineWidth = 3;
+      // Drag power circle around penalty spot (clamped cleanly)
+      const clampedDragX = b.x - Math.cos(angle) * power;
+      const clampedDragY = b.y - Math.sin(angle) * power;
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+      ctx.setLineDash([3, 3]);
       ctx.beginPath();
-      ctx.arc(b.x, b.y, 22 + power * 0.15, 0, Math.PI * 2 * (power / 120));
+      ctx.moveTo(b.x, b.y);
+      ctx.lineTo(clampedDragX, clampedDragY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = power > 70 ? "#ef4444" : power > 40 ? "#fbbf24" : "#38bdf8";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(clampedDragX, clampedDragY, 8, 0, Math.PI * 2);
       ctx.stroke();
 
       ctx.restore();
@@ -554,18 +579,19 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       b.trail.push({ x: b.x, y: b.y, z: b.z });
       if (b.trail.length > 8) b.trail.shift();
 
-      b.x += b.vx + wind.current * 0.4;
+      b.x += b.vx + wind.current * 0.35;
       b.y += b.vy;
       b.z += b.vz;
-      b.vz -= 0.35;
+      b.vz -= 0.32; // smooth gravity
 
       if (b.z < 0) {
         b.z = 0;
-        b.vz = -b.vz * 0.5;
+        b.vz = -b.vz * 0.45; // bounce
       }
 
+      // Goalkeeper AI reaction
       const k = keeper.current;
-      if (b.y < 280 && k.state === "idle") {
+      if (b.y < 260 && k.state === "idle") {
         const targetSide = b.x < w / 2 ? "dive_left" : "dive_right";
         k.state = targetSide;
         k.targetX = b.x;
@@ -574,38 +600,42 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
       if (k.state.includes("dive")) {
         k.x += k.vx;
-        k.x = Math.max(w / 2 - 120, Math.min(w / 2 + 120, k.x));
+        k.x = Math.max(w / 2 - 110, Math.min(w / 2 + 110, k.x));
       }
 
-      const goalLeft = w / 2 - 160;
-      const goalRight = w / 2 + 160;
+      const goalLeft = w / 2 - 150;
+      const goalRight = w / 2 + 150;
 
-      if (b.y <= 115 && !b.scored && !b.saved && !b.hitPost) {
-        if ((Math.abs(b.x - goalLeft) < 14 || Math.abs(b.x - goalRight) < 14) && b.z <= 120) {
+      // Goal line at y = 110
+      if (b.y <= 112 && !b.scored && !b.saved && !b.hitPost) {
+        // Check Post Hit
+        if ((Math.abs(b.x - goalLeft) < 14 || Math.abs(b.x - goalRight) < 14) && b.z <= 110) {
           b.hitPost = true;
-          b.vx = -b.vx * 0.7;
-          b.vy = 4;
+          b.vx = -b.vx * 0.6;
+          b.vy = 3.5;
           arcadeAudio.playClick();
           triggerBanner("💥 OFF THE POST!");
           handleMiss();
           return;
         }
 
-        const keeperDist = Math.hypot(b.x - k.x, (b.y - b.z) - (150 - 20));
-        const saveThreshold = streak >= 2 ? 22 : 36;
+        // Check Goalkeeper Save
+        const keeperDist = Math.hypot(b.x - k.x, (b.y - b.z) - (140 - 20));
+        const saveThreshold = streak >= 2 ? 20 : 34;
 
         if (keeperDist < saveThreshold) {
           b.saved = true;
           k.state = "save";
-          b.vx = (Math.random() - 0.5) * 6;
-          b.vy = 5;
+          b.vx = (Math.random() - 0.5) * 5;
+          b.vy = 4;
           arcadeAudio.playClick();
           triggerBanner("🧤 SAVED BY KEEPER!");
           handleMiss();
           return;
         }
 
-        if (b.x > goalLeft + 15 && b.x < goalRight - 15 && b.z <= 110) {
+        // Goal Check
+        if (b.x > goalLeft + 15 && b.x < goalRight - 15 && b.z <= 105) {
           b.scored = true;
           k.state = "concede";
           handleGoal(b.x, b.y - b.z);
@@ -616,7 +646,8 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
         triggerBanner("OUT OF BOUNDS!");
       }
 
-      if (b.y < 30 || b.y > 450 || (b.saved && b.y > 320)) {
+      // Ball out of bounds or stopped
+      if (b.y < 35 || b.y > 440 || (b.saved && b.y > 320)) {
         setTimeout(() => {
           resetBall();
         }, 900);
@@ -682,9 +713,10 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     const clientX = (e.clientX - rect.left) * scaleX;
     const clientY = (e.clientY - rect.top) * scaleY;
 
-    if (Math.hypot(clientX - ball.current.x, clientY - ball.current.y) < 60) {
+    // Start drag anywhere near bottom half or around ball
+    if (clientY > 250) {
       isDragging.current = true;
-      dragStart.current = { x: ball.current.x, y: ball.current.y };
+      dragStart.current = { x: 300, y: 350 };
       dragCurrent.current = { x: clientX, y: clientY };
       arcadeAudio.playHover();
     }
@@ -711,19 +743,20 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
 
     const dx = dragStart.current.x - dragCurrent.current.x;
     const dy = dragStart.current.y - dragCurrent.current.y;
-    const power = Math.min(Math.hypot(dx, dy), 120);
+    const rawDist = Math.hypot(dx, dy);
+    const power = Math.min(rawDist, 85);
 
-    if (power < 15) return;
+    if (power < 12) return;
 
     const angle = Math.atan2(dy, dx);
-    const speed = power * 0.13;
+    const speed = power * 0.125;
     const isPower = streak >= 2;
 
     arcadeAudio.playKick(isPower);
 
     ball.current.vx = Math.cos(angle) * speed;
     ball.current.vy = Math.sin(angle) * speed;
-    ball.current.vz = Math.max(3, speed * 0.75);
+    ball.current.vz = Math.max(2.5, speed * 0.7);
     ball.current.inFlight = true;
   };
 

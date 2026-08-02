@@ -37,18 +37,60 @@ body {
   }
 }
 
-/* 24K Gold Cyber Theme from Developer Vault */
+/* 24K GOLD CYBER THEME (Activated from Developer Vault) */
 html.gold-theme {
   --background: #080600;
-  --foreground: #fffbeb;
+  --foreground: #fffdf0;
 }
 
 html.gold-theme body {
-  background: radial-gradient(circle at 50% 0%, #1c1500 0%, #080600 100%);
+  background: radial-gradient(circle at 50% 0%, #201700 0%, #080600 100%) !important;
+  color: #fffdf0 !important;
+}
+
+html.gold-theme main {
+  background-color: #080600 !important;
+}
+
+html.gold-theme footer {
+  background: #0d0a00 !important;
+  border-top-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+html.gold-theme h1,
+html.gold-theme h2 {
+  color: #fef08a !important;
+  text-shadow: 0 0 35px rgba(245, 158, 11, 0.45);
+}
+
+html.gold-theme h3,
+html.gold-theme h4 {
+  color: #fde047 !important;
+}
+
+html.gold-theme .text-zinc-400,
+html.gold-theme .text-zinc-500 {
+  color: #fbbf24 !important;
+}
+
+html.gold-theme .text-zinc-600 {
+  color: #d97706 !important;
+}
+
+html.gold-theme .border-zinc-800,
+html.gold-theme .border-zinc-700,
+html.gold-theme .border-zinc-900 {
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.08);
+}
+
+html.gold-theme [class*="bg-zinc-900"],
+html.gold-theme [class*="bg-zinc-950"],
+html.gold-theme [class*="bg-black/"] {
+  background-color: rgba(18, 14, 2, 0.85) !important;
 }
 
 html.gold-theme ::selection {
-  background: #f59e0b;
-  color: #000000;
+  background: #f59e0b !important;
+  color: #000000 !important;
 }
-

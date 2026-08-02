@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         downloadUrl: "/Resume.pdf",
         secretCode: "VIP-AI-LAKSHYA-2026",
         developerNotes: "You bypassed the standard portfolio surface and mastered the arcade. Lakshya builds high-performance AI engines, interactive WebGL/canvas systems, and full-stack software. Let's build something exceptional together.",
-        directContact: "mailto:contact.lakshya.tech@gmail.com?subject=Found%20Your%20Hidden%20Arcade%20Vault%20-%20Let's%20Talk"
+        directContact: "mailto:contact@lakshya.uk?subject=Found%20Your%20Hidden%20Arcade%20Vault%20-%20Let's%20Talk"
       }
     });
   } catch (err) {

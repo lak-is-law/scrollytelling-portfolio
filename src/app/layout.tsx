@@ -17,6 +17,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem("portfolio_theme") === "gold") {
+                  document.documentElement.classList.add("gold-theme");
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.className} antialiased bg-[#121212] text-white`}>
         <CustomCursor />
         {children}
