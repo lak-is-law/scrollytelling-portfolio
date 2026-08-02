@@ -475,6 +475,178 @@ class ArcadeAudioEngine {
       this.playVictoryFanfare();
     }, 450);
   }
+
+  // 15. Developer Blaster (Cyan Plasma Laser Shot)
+  public playBlaster() {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(880, now);
+    osc.frequency.exponentialRampToValueAtTime(110, now + 0.12);
+
+    gain.gain.setValueAtTime(0.18, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.13);
+  }
+
+  // 16. AI Pulse Rifle (Triple Electric Burst)
+  public playPulseRifle() {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    [0, 0.04, 0.08].forEach((offset) => {
+      const t = now + offset;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "square";
+      osc.frequency.setValueAtTime(1200 - offset * 2000, t);
+      osc.frequency.exponentialRampToValueAtTime(300, t + 0.05);
+
+      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(t);
+      osc.stop(t + 0.06);
+    });
+  }
+
+  // 17. Cloud Cannon (Heavy Explosive Boom)
+  public playCannon() {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(140, now);
+    osc.frequency.exponentialRampToValueAtTime(25, now + 0.35);
+
+    gain.gain.setValueAtTime(0.38, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.38);
+  }
+
+  // 18. Cyber Sniper (Supersonic Railgun Beam)
+  public playSniper() {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(2400, now);
+    osc.frequency.exponentialRampToValueAtTime(60, now + 0.28);
+
+    gain.gain.setValueAtTime(0.28, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.3);
+  }
+
+  // 19. Target Hit & Holographic Shatter
+  public playTargetHit(isCrit: boolean = false) {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+
+    // Resonant metallic ding
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(isCrit ? 1480 : 960, now);
+    osc.frequency.exponentialRampToValueAtTime(isCrit ? 2200 : 440, now + 0.15);
+
+    gain.gain.setValueAtTime(isCrit ? 0.22 : 0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.16);
+  }
+
+  // 20. Weapon Swap Mechanical Clonk
+  public playWeaponSwitch() {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(640, now);
+    osc.frequency.exponentialRampToValueAtTime(280, now + 0.08);
+
+    gain.gain.setValueAtTime(0.14, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.09);
+  }
+
+  // 21. Combo Streak Chime
+  public playComboChime(combo: number) {
+    if (this.isMuted) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const baseFreq = 440 * Math.pow(1.059463, Math.min(combo * 2, 24));
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(baseFreq, now);
+
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.28);
+  }
 }
 
 export const arcadeAudio = new ArcadeAudioEngine();
