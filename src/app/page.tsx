@@ -3,11 +3,10 @@ import Overlay from "@/components/Overlay";
 import RedGambit from "@/components/work/RedGambit";
 import Todar from "@/components/work/Todar";
 import ElevateHub from "@/components/work/ElevateHub";
-import Leadership from "@/components/Leadership";
-import Internships from "@/components/Internships";
-import Achievements from "@/components/Achievements";
-import Certifications from "@/components/Certifications";
+import CareerTimeline from "@/components/CareerTimeline";
 import Languages from "@/components/Languages";
+import GlobalMatrix from "@/components/GlobalMatrix";
+import DigitalIdentity from "@/components/DigitalIdentity";
 import Contact from "@/components/Contact";
 import BackgroundAudio from "@/components/BackgroundAudio";
 
@@ -22,11 +21,10 @@ export default function Home() {
       <RedGambit />
       <Todar />
       <ElevateHub />
-      <Internships />
-      <Leadership />
-      <Achievements />
-      <Certifications />
+      <CareerTimeline />
       <Languages />
+      <GlobalMatrix />
+      <DigitalIdentity />
       <Contact />
     </main>
   );
