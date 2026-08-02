@@ -79,7 +79,7 @@ export default function ElevateHub() {
         </div>
 
         {/* 3D Project Image */}
-        <div className="relative aspect-[16/10] lg:aspect-[4/3] z-10 perspective-[2000px]">
+        <div className="relative aspect-square z-10 perspective-[2000px]">
           <motion.div 
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
@@ -95,17 +95,14 @@ export default function ElevateHub() {
             {/* Inner Floating Image container in Z-space */}
             <div 
               style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
-              className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
+              className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
             >
-              {/* Permanent Glossy Edge Gradient */}
-              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/70 via-transparent to-white/10 pointer-events-none" />
-              
               <Image 
-                src="/projects/elevate-hub.jpg"
+                src="/projects/elevate-hub-v2.jpg"
                 alt="Elevate Hub"
                 fill
                 quality={100}
-                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
+                className="object-contain"
               />
             </div>
           </motion.div>
