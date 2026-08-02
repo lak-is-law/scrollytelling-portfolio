@@ -1,10 +1,26 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
+import { geoOrthographic, geoPath, geoGraticule10, geoInterpolate } from "d3-geo";
+import * as topojson from "topojson-client";
+import worldData from "world-atlas/land-110m.json";
 
-// Language Data
-const LANGUAGES = [
+// Language Data with smart non-overlapping label offsets
+interface Language {
+  id: string;
+  name: string;
+  level: string;
+  usage: string;
+  region: string;
+  colorHex: string;
+  lng: number;
+  lat: number;
+  isLearning: boolean;
+  labelOffset: { dx: number; dy: number };
+}
+
+const LANGUAGES: Language[] = [
   {
     id: "eng",
     name: "English",
@@ -12,9 +28,10 @@ const LANGUAGES = [
     usage: "Professional Communication & Technical Documentation",
     region: "Global",
     colorHex: "#38bdf8", // sky-400
-    lat: 38,
-    lng: -77,
+    lng: -77.0,
+    lat: 38.9,
     isLearning: false,
+    labelOffset: { dx: -65, dy: -35 },
   },
   {
     id: "hin",
@@ -23,9 +40,10 @@ const LANGUAGES = [
     usage: "Pan-India & South Asian Network",
     region: "South Asia",
     colorHex: "#fbbf24", // amber-400
-    lat: 28,
-    lng: 77,
+    lng: 77.2,
+    lat: 28.6,
     isLearning: false,
+    labelOffset: { dx: -60, dy: -35 },
   },
   {
     id: "asm",
@@ -34,9 +52,10 @@ const LANGUAGES = [
     usage: "Northeast India Regional Communication",
     region: "Northeast India",
     colorHex: "#34d399", // emerald-400
-    lat: 26,
-    lng: 92,
+    lng: 91.7,
+    lat: 26.1,
     isLearning: false,
+    labelOffset: { dx: 35, dy: -45 },
   },
   {
     id: "nag",
@@ -45,9 +64,10 @@ const LANGUAGES = [
     usage: "Nagaland Inter-tribal Lingua Franca",
     region: "Nagaland",
     colorHex: "#fb7185", // rose-400
-    lat: 26,
-    lng: 94,
+    lng: 94.1,
+    lat: 25.7,
     isLearning: false,
+    labelOffset: { dx: 55, dy: 30 },
   },
   {
     id: "kor",
@@ -56,9 +76,10 @@ const LANGUAGES = [
     usage: "Active Study — Sungkyunkwan University, Coursera",
     region: "South Korea",
     colorHex: "#a78bfa", // violet-400
-    lat: 37,
-    lng: 127,
+    lng: 127.0,
+    lat: 37.5,
     isLearning: true,
+    labelOffset: { dx: -55, dy: -40 },
   },
   {
     id: "jap",
@@ -67,67 +88,197 @@ const LANGUAGES = [
     usage: "Cultural Immersion — Scripts, Phonetics & Technical Lexicon",
     region: "Japan",
     colorHex: "#22d3ee", // cyan-400
-    lat: 36,
-    lng: 138,
+    lng: 139.7,
+    lat: 35.7,
     isLearning: true,
+    labelOffset: { dx: 55, dy: 25 },
   },
 ];
 
-// Simplified continent land points for rotating globe geometry
-const LAND_POINTS = [
-  // North America
-  { lat: 45, lng: -100 }, { lat: 55, lng: -110 }, { lat: 35, lng: -90 }, { lat: 30, lng: -100 }, { lat: 40, lng: -75 },
-  // South America
-  { lat: -10, lng: -55 }, { lat: -20, lng: -60 }, { lat: -30, lng: -65 }, { lat: 0, lng: -70 },
-  // Europe
-  { lat: 50, lng: 10 }, { lat: 48, lng: 2 }, { lat: 55, lng: 37 }, { lat: 40, lng: -3 }, { lat: 60, lng: 15 },
-  // Africa
-  { lat: 0, lng: 25 }, { lat: 20, lng: 15 }, { lat: -25, lng: 28 }, { lat: 10, lng: 40 }, { lat: 5, lng: 0 },
-  // Middle East / Central Asia
-  { lat: 30, lng: 45 }, { lat: 35, lng: 55 }, { lat: 45, lng: 65 },
-  // India / South Asia
-  { lat: 22, lng: 78 }, { lat: 13, lng: 80 }, { lat: 28, lng: 77 }, { lat: 24, lng: 88 },
-  // East Asia
-  { lat: 35, lng: 105 }, { lat: 40, lng: 116 }, { lat: 31, lng: 121 }, { lat: 37, lng: 127 }, { lat: 36, lng: 138 },
-  // Southeast Asia & Australia
-  { lat: 15, lng: 100 }, { lat: 1, lng: 104 }, { lat: -25, lng: 135 }, { lat: -33, lng: 151 },
-];
+// Origin Hub: India (New Delhi base: 77.2°E, 28.6°N)
+const ORIGIN_LNG = 77.2;
+const ORIGIN_LAT = 28.6;
 
 export default function GlobalMatrix() {
   const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set(["eng", "hin"]));
   const [hoveredLang, setHoveredLang] = useState<string | null>(null);
-  const [rotation, setRotation] = useState(0);
+  const [rotation, setRotation] = useState<[number, number]>([-70, -15]); // [lambda, phi]
   const isDragging = useRef(false);
-  const startX = useRef(0);
+  const lastMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const targetRotation = useRef<[number, number]>([-70, -15]);
+  const animationFrameRef = useRef<number | null>(null);
 
-  // Auto rotate globe
-  useEffect(() => {
-    let animationFrame: number;
-    const rotate = () => {
-      if (!isDragging.current) {
-        setRotation((prev) => (prev + 0.15) % 360);
-      }
-      animationFrame = requestAnimationFrame(rotate);
-    };
-    rotate();
-    return () => cancelAnimationFrame(animationFrame);
+  // Convert TopoJSON land to GeoJSON Feature
+  const landFeature = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return topojson.feature(worldData as any, worldData.objects.land as any);
   }, []);
 
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+  const graticule = useMemo(() => geoGraticule10(), []);
+
+  // Globe dimensions
+  const size = 420;
+  const radius = 175;
+
+  // Projection
+  const projection = useMemo(() => {
+    return geoOrthographic()
+      .scale(radius)
+      .translate([size / 2, size / 2])
+      .clipAngle(90)
+      .rotate(rotation);
+  }, [rotation, radius, size]);
+
+  // Render Canvas World Map
+  const renderMap = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Support High DPI
+    const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
+    if (canvas.width !== size * dpr) {
+      canvas.width = size * dpr;
+      canvas.height = size * dpr;
+    }
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, size, size);
+
+    const path = geoPath(projection, ctx);
+
+    // 1. Outer Deep Ocean Sphere Background
+    const cx = size / 2;
+    const cy = size / 2;
+    const oceanGrad = ctx.createRadialGradient(cx - 40, cy - 40, 20, cx, cy, radius);
+    oceanGrad.addColorStop(0, "#1e293b");
+    oceanGrad.addColorStop(0.5, "#0f172a");
+    oceanGrad.addColorStop(1, "#020617");
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fillStyle = oceanGrad;
+    ctx.fill();
+
+    // 2. Graticule Lat/Long Grid Lines
+    ctx.beginPath();
+    path(graticule);
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.12)";
+    ctx.lineWidth = 0.75;
+    ctx.stroke();
+
+    // 3. Real Continents Landmass Fill & High-Contrast Cyberpunk Borders
+    ctx.beginPath();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    path(landFeature as any);
+    ctx.fillStyle = "rgba(30, 41, 59, 0.85)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.55)";
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // 4. Geodesic Flight Arcs between Origin (India) and active languages
+    LANGUAGES.forEach((lang) => {
+      const isSelected = selectedLangs.has(lang.id) || hoveredLang === lang.id;
+      if (!isSelected) return;
+
+      const interpolator = geoInterpolate([ORIGIN_LNG, ORIGIN_LAT], [lang.lng, lang.lat]);
+      const points: [number, number][] = [];
+      const steps = 40;
+      for (let i = 0; i <= steps; i++) {
+        points.push(interpolator(i / steps));
+      }
+
+      ctx.beginPath();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      path({ type: "LineString", coordinates: points } as any);
+      ctx.strokeStyle = lang.colorHex;
+      ctx.lineWidth = isSelected ? 2.5 : 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // 5. Crisp Glowing Sphere Outlines
+    // Main boundary
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Inner subtle glow rim
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Outer coordinate ticks
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 12, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 7]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.restore();
+  }, [graticule, hoveredLang, landFeature, projection, radius, selectedLangs, size]);
+
+  // Smooth rotation animation loop
+  useEffect(() => {
+    const tick = () => {
+      if (!isDragging.current) {
+        // Continuous slow rotation
+        targetRotation.current[0] += 0.15;
+      }
+
+      // Smooth lerp
+      setRotation((prev) => {
+        const dLambda = (targetRotation.current[0] - prev[0]) * 0.1;
+        const dPhi = (targetRotation.current[1] - prev[1]) * 0.1;
+        return [prev[0] + dLambda, prev[1] + dPhi];
+      });
+
+      renderMap();
+      animationFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    };
+  }, [renderMap]);
+
+  // Mouse & Touch Drag Handlers
+  const handlePointerDown = (e: React.PointerEvent) => {
     isDragging.current = true;
-    startX.current = "touches" in e ? e.touches[0].clientX : e.clientX;
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
   };
 
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
-    const currentX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const delta = currentX - startX.current;
-    setRotation((prev) => (prev + delta * 0.6) % 360);
-    startX.current = currentX;
+    const dx = e.clientX - lastMousePos.current.x;
+    const dy = e.clientY - lastMousePos.current.y;
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+
+    targetRotation.current = [
+      targetRotation.current[0] + dx * 0.4,
+      Math.max(-60, Math.min(60, targetRotation.current[1] - dy * 0.4)),
+    ];
   };
 
-  const handleDragEnd = () => {
+  const handlePointerUp = (e: React.PointerEvent) => {
     isDragging.current = false;
+    try {
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
   };
 
   const toggleLanguage = (id: string) => {
@@ -142,22 +293,34 @@ export default function GlobalMatrix() {
     });
   };
 
-  // Convert lat/lng to x,y on globe
-  const getCoordinates = (lat: number, lng: number, globeRotation: number) => {
-    const r = 150; // sphere radius
-    const latRad = (lat * Math.PI) / 180;
-    const lngRad = ((lng + globeRotation) * Math.PI) / 180;
-
-    // Orthographic projection
-    const x = r * Math.cos(latRad) * Math.sin(lngRad);
-    const y = -r * Math.sin(latRad);
-    const z = r * Math.cos(latRad) * Math.cos(lngRad);
-
-    return { x: x + 200, y: y + 200, z, isVisible: z > 0 };
+  // Focus globe towards language when clicked
+  const focusLanguage = (lang: Language) => {
+    targetRotation.current = [-lang.lng, -lang.lat * 0.5];
+    toggleLanguage(lang.id);
   };
 
-  // Home position (India roughly: 20° N, 78° E)
-  const homeCoords = getCoordinates(20, 78, rotation);
+  // Node position helper: projects [lng, lat] to [x, y], returns null if on backside
+  const getNodePos = (lng: number, lat: number) => {
+    const coords = projection([lng, lat]);
+    if (!coords) return null;
+
+    // Check if point is on visible hemisphere
+    const r = projection.rotate();
+    const centerLng = -r[0];
+    const centerLat = -r[1];
+
+    // Spherical distance from center of visible hemisphere
+    const dLng = ((lng - centerLng) * Math.PI) / 180;
+    const lat1 = (lat * Math.PI) / 180;
+    const lat2 = (centerLat * Math.PI) / 180;
+    const cosDistance = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dLng);
+
+    if (cosDistance <= 0.05) return null; // hidden on the backside
+
+    return { x: coords[0], y: coords[1], opacity: Math.min(1, cosDistance * 2) };
+  };
+
+  const originPos = getNodePos(ORIGIN_LNG, ORIGIN_LAT);
 
   return (
     <section className="relative bg-[#09090b] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
@@ -179,217 +342,143 @@ export default function GlobalMatrix() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Globe Display */}
+          {/* Globe Canvas & Interactive Overlay */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center">
             <div
-              className="relative w-[340px] h-[340px] sm:w-[400px] sm:h-[400px] select-none cursor-grab active:cursor-grabbing flex items-center justify-center"
-              onMouseDown={handleDragStart}
-              onMouseMove={handleDragMove}
-              onMouseUp={handleDragEnd}
-              onMouseLeave={handleDragEnd}
-              onTouchStart={handleDragStart}
-              onTouchMove={handleDragMove}
-              onTouchEnd={handleDragEnd}
+              className="relative w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] select-none cursor-grab active:cursor-grabbing flex items-center justify-center touch-none"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
             >
               {/* Outer Atmosphere Ambient Halo */}
-              <div className="absolute inset-4 rounded-full bg-cyan-500/10 blur-2xl pointer-events-none" />
+              <div className="absolute inset-4 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
 
-              <svg width="400" height="400" viewBox="0 0 400 400" className="relative z-10 w-full h-full">
-                <defs>
-                  {/* Sphere Deep Space Gradient */}
-                  <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
-                    <stop offset="0%" stopColor="#1e293b" stopOpacity="0.8" />
-                    <stop offset="60%" stopColor="#0f172a" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#020617" stopOpacity="0.95" />
-                  </radialGradient>
+              {/* D3 Orthographic World Map Canvas */}
+              <canvas
+                ref={canvasRef}
+                style={{ width: size, height: size }}
+                className="relative z-10 w-full h-full rounded-full pointer-events-none"
+              />
 
-                  {/* Outer Rim Glow Filter */}
-                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="3" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-
-                {/* Coordinate Rim (Ticks) */}
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="164"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.12)"
-                  strokeWidth="1"
-                  strokeDasharray="4 8"
-                />
-
-                {/* PROMINENT GLOBE OUTLINE 1: Primary Outer Ring */}
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="150"
-                  fill="url(#sphereGrad)"
-                  stroke="rgba(56, 189, 248, 0.7)"
-                  strokeWidth="2.5"
-                  filter="url(#glow)"
-                />
-
-                {/* Secondary Sharp Inner Rim */}
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="149"
-                  fill="none"
-                  stroke="rgba(255, 255, 255, 0.3)"
-                  strokeWidth="1"
-                />
-
-                {/* Longitude Grid Lines */}
-                {[0, 30, 60, 90, 120, 150].map((deg) => {
-                  const rotatedLng = (deg + rotation) % 180;
-                  const rx = 150 * Math.sin((rotatedLng * Math.PI) / 180);
-                  return (
-                    <ellipse
-                      key={`lng-${deg}`}
-                      cx="200"
-                      cy="200"
-                      rx={Math.max(1, Math.abs(rx))}
-                      ry="150"
-                      fill="none"
-                      stroke="rgba(56, 189, 248, 0.15)"
-                      strokeWidth="1"
-                    />
-                  );
-                })}
-
-                {/* Latitude Grid Lines */}
-                {[-60, -30, 0, 30, 60].map((lat) => {
-                  const rLat = 150 * Math.cos((lat * Math.PI) / 180);
-                  const yLat = 200 - 150 * Math.sin((lat * Math.PI) / 180);
-                  const isEquator = lat === 0;
-                  return (
-                    <ellipse
-                      key={`lat-${lat}`}
-                      cx="200"
-                      cy={yLat}
-                      rx={rLat}
-                      ry={rLat * 0.25}
-                      fill="none"
-                      stroke={isEquator ? "rgba(56, 189, 248, 0.4)" : "rgba(255, 255, 255, 0.08)"}
-                      strokeWidth={isEquator ? 1.5 : 1}
-                      strokeDasharray={isEquator ? "none" : "3 3"}
-                    />
-                  );
-                })}
-
-                {/* Rotating Land Points */}
-                {LAND_POINTS.map((pt, idx) => {
-                  const coords = getCoordinates(pt.lat, pt.lng, rotation);
-                  if (!coords.isVisible) return null;
-                  return (
-                    <circle
-                      key={`land-${idx}`}
-                      cx={coords.x}
-                      cy={coords.y}
-                      r="2"
-                      fill="rgba(56, 189, 248, 0.35)"
-                    />
-                  );
-                })}
-
-                {/* Connection Bridge Flight Paths */}
-                {LANGUAGES.map((lang) => {
-                  const isSelected = selectedLangs.has(lang.id) || hoveredLang === lang.id;
-                  if (!isSelected) return null;
-
-                  const target = getCoordinates(lang.lat, lang.lng, rotation);
-                  if (!target.isVisible || !homeCoords.isVisible) return null;
-
-                  const midX = (homeCoords.x + target.x) / 2;
-                  const midY = (homeCoords.y + target.y) / 2 - 40;
-
-                  return (
-                    <motion.path
-                      key={`bridge-${lang.id}`}
-                      d={`M ${homeCoords.x} ${homeCoords.y} Q ${midX} ${midY} ${target.x} ${target.y}`}
-                      fill="none"
-                      stroke={lang.colorHex}
-                      strokeWidth="2"
-                      strokeDasharray="4 4"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 0.9 }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
-                  );
-                })}
-
-                {/* Home Position Dot (Origin) */}
-                {homeCoords.isVisible && (
-                  <g>
-                    <circle cx={homeCoords.x} cy={homeCoords.y} r="5" fill="#ffffff" />
-                    <circle cx={homeCoords.x} cy={homeCoords.y} r="14" fill="none" stroke="#38bdf8" strokeWidth="1.5" className="animate-ping" opacity="0.6" />
+              {/* SVG Overlay: Non-overlapping Pins, Leader Lines, and Pill Badges */}
+              <svg
+                width={size}
+                height={size}
+                viewBox={`0 0 ${size} ${size}`}
+                className="absolute inset-0 z-20 w-full h-full pointer-events-none"
+              >
+                {/* Origin Marker (India) */}
+                {originPos && (
+                  <g style={{ opacity: originPos.opacity }}>
+                    <circle cx={originPos.x} cy={originPos.y} r="14" fill="none" stroke="#38bdf8" strokeWidth="1.5" className="animate-ping" opacity="0.6" />
+                    <circle cx={originPos.x} cy={originPos.y} r="5" fill="#ffffff" stroke="#38bdf8" strokeWidth="2" />
                   </g>
                 )}
 
-                {/* Language Nodes */}
+                {/* Language Nodes with Leader Lines and Non-Overlapping Labels */}
                 {LANGUAGES.map((lang) => {
-                  const pos = getCoordinates(lang.lat, lang.lng, rotation);
-                  if (!pos.isVisible) return null;
+                  const pos = getNodePos(lang.lng, lang.lat);
+                  if (!pos) return null;
 
                   const isSelected = selectedLangs.has(lang.id);
                   const isHovered = hoveredLang === lang.id;
+                  const isActive = isSelected || isHovered;
+
+                  const targetX = pos.x + lang.labelOffset.dx;
+                  const targetY = pos.y + lang.labelOffset.dy;
+                  const midX = pos.x + lang.labelOffset.dx * 0.4;
 
                   return (
                     <g
                       key={lang.id}
-                      className="cursor-pointer"
-                      onClick={() => toggleLanguage(lang.id)}
+                      style={{ opacity: pos.opacity, pointerEvents: "auto", cursor: "pointer" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        focusLanguage(lang);
+                      }}
                       onMouseEnter={() => setHoveredLang(lang.id)}
                       onMouseLeave={() => setHoveredLang(null)}
+                      className="group"
                     >
-                      {/* Node Outer Pulse */}
-                      {(isSelected || isHovered) && (
+                      {/* Angled Leader Line from Dot to Label */}
+                      <path
+                        d={`M ${pos.x} ${pos.y} L ${midX} ${targetY} L ${targetX} ${targetY}`}
+                        fill="none"
+                        stroke={isActive ? lang.colorHex : "rgba(255,255,255,0.3)"}
+                        strokeWidth={isActive ? "1.75" : "1"}
+                        strokeDasharray={isActive ? "none" : "2 3"}
+                        className="transition-all duration-300"
+                      />
+
+                      {/* Geographic Pin Dot */}
+                      {isActive && (
                         <circle
                           cx={pos.x}
                           cy={pos.y}
-                          r="16"
+                          r="12"
                           fill="none"
                           stroke={lang.colorHex}
                           strokeWidth="1.5"
-                          opacity="0.6"
+                          opacity="0.7"
                           className="animate-ping"
                         />
                       )}
-
-                      {/* Node Core */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={isSelected || isHovered ? "6" : "4"}
+                        r={isActive ? "5" : "3.5"}
                         fill={lang.colorHex}
                         stroke="#ffffff"
-                        strokeWidth="1"
+                        strokeWidth={isActive ? "2" : "1"}
+                        className="transition-all duration-300"
                       />
 
-                      {/* Floating Text Label */}
-                      <text
-                        x={pos.x + 10}
-                        y={pos.y + 4}
-                        fill="#ffffff"
-                        fontSize="11"
-                        fontWeight="600"
-                        fontFamily="monospace"
-                        className="pointer-events-none tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
-                      >
-                        {lang.id.toUpperCase()}
-                      </text>
+                      {/* Floating Non-Overlapping Badge at leader tip */}
+                      <g transform={`translate(${targetX}, ${targetY})`}>
+                        {/* Background Pill */}
+                        <rect
+                          x={lang.labelOffset.dx > 0 ? 0 : -56}
+                          y="-10"
+                          width="56"
+                          height="20"
+                          rx="10"
+                          fill={isActive ? "#0f172a" : "rgba(15, 23, 42, 0.85)"}
+                          stroke={isActive ? lang.colorHex : "rgba(255,255,255,0.2)"}
+                          strokeWidth="1"
+                          className="shadow-lg backdrop-blur-md transition-all duration-300"
+                        />
+
+                        {/* Status Light */}
+                        <circle
+                          cx={lang.labelOffset.dx > 0 ? 9 : -47}
+                          cy="0"
+                          r="3"
+                          fill={lang.colorHex}
+                        />
+
+                        {/* Language Code */}
+                        <text
+                          x={lang.labelOffset.dx > 0 ? 17 : -39}
+                          y="3.5"
+                          fill="#ffffff"
+                          fontSize="9.5"
+                          fontWeight="700"
+                          fontFamily="monospace"
+                          className="tracking-wider uppercase pointer-events-none"
+                        >
+                          {lang.id}
+                        </text>
+                      </g>
                     </g>
                   );
                 })}
               </svg>
             </div>
 
-            {/* Instruction Tip */}
-            <p className="text-xs text-zinc-500 font-mono tracking-wider mt-4">
-              [ DRAG TO ROTATE GLOBE • CLICK NODES TO CONNECT ]
+            {/* Drag Tip */}
+            <p className="text-xs text-zinc-500 font-mono tracking-wider mt-4 text-center">
+              [ DRAG TO ROTATE GLOBE • CLICK NODES TO INSPECT ]
             </p>
           </div>
 
@@ -402,13 +491,13 @@ export default function GlobalMatrix() {
               return (
                 <motion.div
                   key={lang.id}
-                  onClick={() => toggleLanguage(lang.id)}
+                  onClick={() => focusLanguage(lang)}
                   onHoverStart={() => setHoveredLang(lang.id)}
                   onHoverEnd={() => setHoveredLang(null)}
                   whileHover={{ y: -3 }}
                   className={`p-6 rounded-3xl backdrop-blur-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                     isSelected || isHovered
-                      ? "bg-zinc-900/50 border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+                      ? "bg-zinc-900/60 border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.6)]"
                       : "bg-zinc-900/20 border-white/5 hover:border-zinc-700/50 hover:bg-zinc-900/30"
                   }`}
                   style={{
