@@ -44,41 +44,41 @@ export default function Todar() {
       <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         
         {/* 3D Project Image */}
-        <div className="relative aspect-[4/3] lg:aspect-square z-10 perspective-[2000px] order-last lg:order-first">
+        <div className="relative aspect-[16/10] lg:aspect-[4/3] z-10 perspective-[2000px] order-last lg:order-first">
           <motion.div 
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full h-full relative rounded-[2.5rem] bg-zinc-900/20 backdrop-blur-3xl border border-white/10 flex items-center justify-center group shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-white/10 flex items-center justify-center group overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
           >
             {/* Dynamic Glare Overlay */}
             <motion.div 
               style={{ opacity: glareOpacity, x: glareX }}
-              className="absolute inset-0 z-50 pointer-events-none rounded-[2.5rem] bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
+              className="absolute inset-0 z-50 pointer-events-none rounded-[2rem] md:rounded-[2.5rem] bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
             />
 
             {/* Inner Floating Image container in Z-space */}
             <div 
-              style={{ transform: "translateZ(75px)", transformStyle: "preserve-3d" }}
-              className="relative w-full h-full border border-white/10 rounded-[2.5rem] overflow-hidden bg-black/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
+              style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
+              className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
             >
               {/* Permanent Glossy Edge Gradient */}
-              <div className="absolute inset-0 z-20 bg-gradient-to-br from-white/20 via-transparent to-black/60 mix-blend-overlay pointer-events-none" />
+              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/70 via-transparent to-white/10 pointer-events-none" />
               
               <Image 
                 src="/projects/todar.png"
                 alt="Todar 2.0"
                 fill
                 quality={100}
-                className="object-contain scale-[0.6] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-transform duration-500"
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
             
             <div 
-              style={{ transform: "translateZ(100px)" }}
-              className="absolute bottom-8 left-8 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50 bg-zinc-900/90 px-5 py-3 rounded-full backdrop-blur-xl border border-zinc-800 shadow-2xl"
+              style={{ transform: "translateZ(80px)" }}
+              className="absolute bottom-6 left-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50 bg-zinc-950/90 px-5 py-3 rounded-full backdrop-blur-xl border border-white/10 shadow-2xl"
             >
-               <a href="https://todar.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-zinc-400 transition-colors">
+               <a href="https://todar.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-amber-400 transition-colors">
                  View Data Platform ↗
                </a>
             </div>

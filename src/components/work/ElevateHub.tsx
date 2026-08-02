@@ -79,33 +79,33 @@ export default function ElevateHub() {
         </div>
 
         {/* 3D Project Image */}
-        <div className="relative aspect-[4/3] lg:aspect-square z-10 perspective-[2000px]">
+        <div className="relative aspect-[16/10] lg:aspect-[4/3] z-10 perspective-[2000px]">
           <motion.div 
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full h-full relative rounded-[2.5rem] bg-zinc-900/20 backdrop-blur-3xl border border-white/10 flex items-center justify-center group shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-white/10 flex items-center justify-center group overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
           >
             {/* Dynamic Glare Overlay */}
             <motion.div 
               style={{ opacity: glareOpacity, x: glareX }}
-              className="absolute inset-0 z-50 pointer-events-none rounded-[2.5rem] bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
+              className="absolute inset-0 z-50 pointer-events-none rounded-[2rem] md:rounded-[2.5rem] bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
             />
 
             {/* Inner Floating Image container in Z-space */}
             <div 
-              style={{ transform: "translateZ(75px)", transformStyle: "preserve-3d" }}
-              className="relative w-full h-full border border-white/10 rounded-[2.5rem] overflow-hidden bg-black/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
+              style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
+              className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
             >
               {/* Permanent Glossy Edge Gradient */}
-              <div className="absolute inset-0 z-20 bg-gradient-to-br from-white/20 via-transparent to-black/60 mix-blend-overlay pointer-events-none" />
+              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/70 via-transparent to-white/10 pointer-events-none" />
               
               <Image 
                 src="/projects/elevate-hub.jpg"
                 alt="Elevate Hub"
                 fill
                 quality={100}
-                className="object-contain scale-[0.6] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-transform duration-500"
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
           </motion.div>

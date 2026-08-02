@@ -99,7 +99,7 @@ export default function Achievements() {
                   alt="UCSI Award Achievement"
                   fill
                   quality={100}
-                  className="object-contain p-2"
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </div>
             </motion.div>
