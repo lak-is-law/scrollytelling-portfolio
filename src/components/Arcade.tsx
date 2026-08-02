@@ -115,7 +115,26 @@ export default function Arcade() {
 
   return (
     <>
-      {/* Massive Glowing Trigger Button */}
+      {/* 1. Persistent Floating Quick-Launch Pill (Fixed Bottom Right on whole site) */}
+      <motion.button
+        onClick={handleOpenArcade}
+        onMouseEnter={() => arcadeAudio.playHover()}
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-6 right-6 z-[8000] px-4 py-2.5 rounded-full bg-zinc-950/80 hover:bg-white text-white hover:text-black border border-amber-500/40 hover:border-white shadow-[0_0_25px_rgba(245,158,11,0.3)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] backdrop-blur-xl flex items-center gap-2.5 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 group cursor-pointer"
+        title="Open Arcade Zone"
+      >
+        <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+        <span className="text-amber-400 group-hover:text-black transition-colors">🎮 ARCADE</span>
+        {unlockedCount > 0 && (
+          <span className="px-1.5 py-0.5 rounded-full bg-amber-400 text-black text-[9px] font-black">
+            {unlockedCount}/3
+          </span>
+        )}
+      </motion.button>
+
+      {/* 2. Massive Glowing Trigger Button (In Contact Section) */}
       <button
         onClick={handleOpenArcade}
         onMouseEnter={() => arcadeAudio.playHover()}
@@ -179,7 +198,7 @@ export default function Arcade() {
                     setActiveGame("vault");
                   }}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500 hover:to-yellow-400 border border-amber-500/40 text-amber-300 hover:text-black font-mono text-[11px] uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5"
+                  className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500 hover:to-yellow-400 border border-amber-500/40 text-amber-300 hover:text-black font-mono text-[11px] uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>Vault</span>
                   <span>🏆</span>
@@ -189,7 +208,7 @@ export default function Arcade() {
                 <button
                   onClick={handleToggleMute}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
+                  className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
                   title={isMuted ? "Unmute Sound" : "Mute Sound"}
                 >
                   {isMuted ? "🔇" : "🔊"}
@@ -199,7 +218,7 @@ export default function Arcade() {
                 <button
                   onClick={handleCloseArcade}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-red-500/50 transition-colors"
+                  className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-red-500/50 transition-colors cursor-pointer"
                   title="Exit Arcade"
                 >
                   ✕
@@ -302,7 +321,7 @@ export default function Arcade() {
                         setActiveGame(null);
                       }}
                       onMouseEnter={() => arcadeAudio.playHover()}
-                      className="text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white flex items-center gap-2 transition-colors"
+                      className="text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
                     >
                       <span>←</span>
                       <span>Eject Cartridge & Return to Shelf</span>
