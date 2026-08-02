@@ -394,31 +394,11 @@ export default function Languages() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<HitParticle[]>([]);
 
-  // Load saved XP or badges
+  // Check milestone when all 12 targets are mastered
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedXp = localStorage.getItem("arsenal_xp");
-      if (savedXp) setTotalXp(parseInt(savedXp, 10));
-    }
-  }, []);
-
-  // Sync unlocked badges on mastering relevant stack subsets
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    
-    // Frontend Architect
-    if (masteredTargets.includes("react") && masteredTargets.includes("typescript")) {
-      localStorage.setItem("badge_frontend_architect", "true");
-    }
-    // AI Engineer
-    if (masteredTargets.includes("python") && masteredTargets.includes("tensorflow")) {
-      localStorage.setItem("badge_ai_engineer", "true");
-    }
-    // All 12 targets
     if (masteredTargets.length === TARGETS.length && !isAllUnlocked) {
       setIsAllUnlocked(true);
       arcadeAudio.playVictoryFanfare();
-      localStorage.setItem("badge_stack_master", "true");
     }
   }, [masteredTargets, isAllUnlocked]);
 
@@ -564,13 +544,7 @@ export default function Languages() {
 
     // Calculate XP
     const earnedXp = Math.round((damageDealt + 50) * multiplier);
-    setTotalXp((prev) => {
-      const updated = prev + earnedXp;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("arsenal_xp", String(updated));
-      }
-      return updated;
-    });
+    setTotalXp((prev) => prev + earnedXp);
 
     // Popups
     spawnPopup(

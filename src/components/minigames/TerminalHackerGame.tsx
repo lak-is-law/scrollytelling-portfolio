@@ -5,6 +5,7 @@ import { arcadeAudio } from "@/utils/arcadeAudio";
 
 interface TerminalHackerGameProps {
   onUnlockVault?: () => void;
+  onWin?: () => void;
 }
 
 interface CommandHistory {
@@ -25,7 +26,7 @@ const QUICK_COMMANDS = [
   { label: "clear", cmd: "clear" }
 ];
 
-export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGameProps) {
+export default function TerminalHackerGame({ onUnlockVault, onWin }: TerminalHackerGameProps) {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<CommandHistory[]>([
     {
@@ -210,7 +211,7 @@ export default function TerminalHackerGame({ onUnlockVault }: TerminalHackerGame
       case "hire":
       case "hire lakshya":
         arcadeAudio.playTerminalBreach();
-        localStorage.setItem("badge_system_hacker", "true");
+        onWin?.();
         response = (
           <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-950/40 border border-amber-500/50 text-amber-300 space-y-1.5 text-[11px] sm:text-xs">
             <p className="font-bold text-xs sm:text-sm tracking-wide text-amber-300 flex items-center gap-1.5">

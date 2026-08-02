@@ -84,12 +84,6 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
   const screenShake = useRef(0);
   const wind = useRef(0);
 
-  // Initialize and load high score
-  useEffect(() => {
-    const saved = localStorage.getItem("football_highscore");
-    if (saved) setHighScore(parseInt(saved, 10));
-  }, []);
-
   const triggerBanner = (msg: string) => {
     setBannerMessage(msg);
     setTimeout(() => {
@@ -177,7 +171,6 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
       const updated = prev + goalPoints;
       if (updated > highScore) {
         setHighScore(updated);
-        localStorage.setItem("football_highscore", String(updated));
       }
       return updated;
     });
@@ -206,7 +199,6 @@ export default function PixelFootballGame({ onUnlockVault }: PixelFootballGamePr
     if (nextGoals >= 15 && !hasWonVault) {
       setHasWonVault(true);
       arcadeAudio.playVictoryFanfare();
-      localStorage.setItem("badge_football", "true");
       if (onUnlockVault) {
         setTimeout(onUnlockVault, 2200);
       }

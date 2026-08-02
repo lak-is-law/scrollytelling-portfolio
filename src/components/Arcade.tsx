@@ -92,24 +92,25 @@ export default function Arcade() {
     system_hacker: false
   });
 
-  // Sync badges and sound from localStorage
-  const refreshBadges = () => {
-    if (typeof window === "undefined") return;
-    setBadges({
-      football: localStorage.getItem("badge_football") === "true",
-      ai_engineer: localStorage.getItem("badge_ai_engineer") === "true",
-      system_hacker: localStorage.getItem("badge_system_hacker") === "true"
-    });
-    setIsMuted(arcadeAudio.getMuted());
-  };
-
+  // Ensure fresh progress (0) on every reload and sync audio state
   useEffect(() => {
-    refreshBadges();
-  }, [isOpen, activeGame]);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("football_highscore");
+        localStorage.removeItem("badge_football");
+        localStorage.removeItem("badge_ai_engineer");
+        localStorage.removeItem("badge_system_hacker");
+        localStorage.removeItem("badge_frontend_architect");
+        localStorage.removeItem("badge_stack_master");
+        localStorage.removeItem("arsenal_xp");
+      } catch {}
+    }
+    setIsMuted(arcadeAudio.getMuted());
+  }, []);
 
   const handleOpenArcade = () => {
     arcadeAudio.playBoot();
-    refreshBadges();
+    setIsMuted(arcadeAudio.getMuted());
     setIsOpen(true);
   };
 
@@ -392,13 +393,30 @@ export default function Arcade() {
                   {/* Active Screen Frame */}
                   <div className="flex-1 w-full bg-zinc-950/80 border border-zinc-800 rounded-2xl md:rounded-3xl overflow-hidden relative shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col">
                     {activeGame === "football" && (
-                      <PixelFootballGame onUnlockVault={() => setActiveGame("vault")} />
+                      <PixelFootballGame
+                        onUnlockVault={() => {
+                          setBadges((b) => ({ ...b, football: true }));
+                          setActiveGame("vault");
+                        }}
+                      />
                     )}
                     {activeGame === "factory" && (
-                      <TechFactoryGame onUnlockVault={() => setActiveGame("vault")} />
+                      <TechFactoryGame
+                        onWin={() => setBadges((b) => ({ ...b, ai_engineer: true }))}
+                        onUnlockVault={() => {
+                          setBadges((b) => ({ ...b, ai_engineer: true }));
+                          setActiveGame("vault");
+                        }}
+                      />
                     )}
                     {activeGame === "terminal" && (
-                      <TerminalHackerGame onUnlockVault={() => setActiveGame("vault")} />
+                      <TerminalHackerGame
+                        onWin={() => setBadges((b) => ({ ...b, system_hacker: true }))}
+                        onUnlockVault={() => {
+                          setBadges((b) => ({ ...b, system_hacker: true }));
+                          setActiveGame("vault");
+                        }}
+                      />
                     )}
                     {activeGame === "vault" && (
                       <DeveloperVault

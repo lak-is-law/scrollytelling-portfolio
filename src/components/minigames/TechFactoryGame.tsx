@@ -6,6 +6,7 @@ import { arcadeAudio } from "@/utils/arcadeAudio";
 
 interface TechFactoryGameProps {
   onUnlockVault?: () => void;
+  onWin?: () => void;
 }
 
 interface RobotPart {
@@ -187,7 +188,7 @@ function PartSvgIcon({ type, color = "currentColor", size = 18 }: { type: string
   }
 }
 
-export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps) {
+export default function TechFactoryGame({ onUnlockVault, onWin }: TechFactoryGameProps) {
   const [placedParts, setPlacedParts] = useState<string[]>([]);
   const [selectedPart, setSelectedPart] = useState<RobotPart | null>(null);
   const [isAssembled, setIsAssembled] = useState(false);
@@ -201,9 +202,9 @@ export default function TechFactoryGame({ onUnlockVault }: TechFactoryGameProps)
     if (placedParts.length === ROBOT_PARTS.length && !isAssembled) {
       setIsAssembled(true);
       arcadeAudio.playRobotPowerOn();
-      localStorage.setItem("badge_ai_engineer", "true");
+      onWin?.();
     }
-  }, [placedParts, isAssembled]);
+  }, [placedParts, isAssembled, onWin]);
 
   const handlePlacePart = (part: RobotPart) => {
     if (placedParts.includes(part.id)) return;
