@@ -5,10 +5,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const certifications = [
   {
-    title: "Full Stack Internship",
-    issuer: "BufferTech",
-    date: "Mar 2025",
-    type: "Technical"
+    title: "Combinatorics and Probability",
+    issuer: "UC San Diego Extended Studies",
+    date: "Apr 2026",
+    type: "Mathematics & CS"
   },
   {
     title: "Korean Language — Intermediate 1",
@@ -27,6 +27,12 @@ const certifications = [
     issuer: "UCSI Consulting Group, Malaysia",
     date: "Jan 2025",
     type: "Business / Entrepreneurship"
+  },
+  {
+    title: "Certified Game Developer",
+    issuer: "WhiteHat Jr",
+    date: "Jan 2021",
+    type: "Game Engineering"
   },
   {
     title: "Certified Mobile App-Developer",

@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "fram
 import Image from "next/image";
 
 const otherAchievements = [
+  { title: "1st Runner Up", context: "Language Exchange, SRM PBL 2024 (Represented Korea)" },
   { title: "Semi-Finalist", context: "TechXcelerate, BITS Hyderabad" },
   { title: "Special Mention", context: "ICA Model United Nations (MUN)" },
   { title: "Nominee", context: "International Award for Young People (IAYP)" },
@@ -115,7 +116,7 @@ export default function Achievements() {
             <span>Other Accolades</span>
             <div className="h-px flex-1 max-w-[120px] bg-yellow-500/20" />
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {otherAchievements.map((achieve, i) => (
               <motion.div 
                 key={i}
