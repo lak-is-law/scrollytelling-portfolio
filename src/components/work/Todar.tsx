@@ -80,7 +80,7 @@ export default function Todar() {
               className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50"
             >
               <FuturisticLaunchLink 
-                href="https://todar.vercel.app" 
+                href="https://todar.finance.lakshya.uk" 
                 label="Access Platform" 
                 accent="cyan" 
               />
@@ -124,7 +124,7 @@ export default function Todar() {
             </div>
             <div className="pt-2 w-full">
               <FuturisticLaunchLink 
-                href="https://todar.vercel.app" 
+                href="https://todar.finance.lakshya.uk" 
                 label="Access Platform" 
                 accent="cyan" 
               />
