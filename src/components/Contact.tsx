@@ -63,12 +63,6 @@ export default function Contact() {
               label="GitHub"
               accent="cyan"
             />
-            <FuturisticSocialLink
-              href="mailto:contact.lakshya.tech@gmail.com"
-              type="mail"
-              label="Direct Line"
-              accent="emerald"
-            />
           </div>
         </div>
       </div>
