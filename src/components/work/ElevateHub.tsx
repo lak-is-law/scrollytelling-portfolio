@@ -101,7 +101,7 @@ export default function ElevateHub() {
               className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
             >
               <Image 
-                src="/projects/elevatehub-v2.jpg"
+                src="/projects/elevate-hub-v2.jpg"
                 alt="ElevateHub"
                 fill
                 quality={100}
