@@ -83,7 +83,7 @@ export default function RedGambit() {
             </div>
             <div className="pt-2 w-full relative z-30">
               <FuturisticLaunchLink 
-                href="https://red-gambit.vercel.app" 
+                href="https://redgambit.lakshya.uk" 
                 label="Launch Experience" 
                 accent="cyan" 
               />
@@ -97,7 +97,7 @@ export default function RedGambit() {
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            onClick={() => window.open("https://red-gambit.vercel.app", "_blank", "noopener,noreferrer")}
+            onClick={() => window.open("https://redgambit.lakshya.uk", "_blank", "noopener,noreferrer")}
             className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-cyan-500/20 shadow-[0_0_50px_-15px_rgba(6,182,212,0.2),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-cyan-400/50 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.35)] transition-all duration-500 flex items-center justify-center group overflow-hidden cursor-pointer"
           >
             {/* Dynamic Glare Overlay */}
@@ -126,7 +126,7 @@ export default function RedGambit() {
               className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50"
             >
               <FuturisticLaunchLink 
-                href="https://red-gambit.vercel.app" 
+                href="https://redgambit.lakshya.uk" 
                 label="Launch" 
                 accent="cyan" 
               />

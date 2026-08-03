@@ -178,13 +178,13 @@ export default function BackgroundAudio() {
         loop
       />
       
-      {/* Audio Visualizer & Mute Toggle — Positioned in Top-Right on Mobile to Avoid Content Occlusion */}
+      {/* Audio Visualizer & Mute Toggle — Positioned at bottom right */}
       <motion.button
         type="button"
         onClick={toggleMute}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed top-5 right-5 md:top-auto md:bottom-10 md:right-10 z-50 flex items-center justify-center gap-1 w-10 h-10 md:w-11 md:h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-emerald-400/50 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex items-center justify-center gap-1 w-11 h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-emerald-400/50 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
         title={isAudioActive ? "Mute Background Music" : "Play Background Music"}
         aria-label={isAudioActive ? "Mute Background Music" : "Play Background Music"}
       >
