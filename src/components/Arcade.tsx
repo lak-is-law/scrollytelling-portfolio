@@ -7,6 +7,7 @@ import PixelFootballGame from "./minigames/PixelFootballGame";
 import TechFactoryGame from "./minigames/TechFactoryGame";
 import TerminalHackerGame from "./minigames/TerminalHackerGame";
 import DeveloperVault from "./minigames/DeveloperVault";
+import { FuturisticCloseButton, DirectionalPointer } from "@/components/ui/FuturisticNavigation";
 
 // Miniature Game Cartridge Canvas Preview Components
 function MiniFootballPreview() {
@@ -605,8 +606,9 @@ export default function Arcade() {
 
                 <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between font-mono text-[10px]">
                   <span className="text-zinc-500">TARGET: 15 GOALS</span>
-                  <span className="text-amber-400 font-semibold flex items-center gap-1">
-                    PLAY &rarr;
+                  <span className="text-amber-400 font-semibold flex items-center gap-1.5 group-hover:translate-x-0.5 transition-transform">
+                    <span>PLAY</span>
+                    <DirectionalPointer direction="right" size={12} accent="amber" />
                   </span>
                 </div>
               </motion.div>
@@ -639,8 +641,9 @@ export default function Arcade() {
 
                 <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between font-mono text-[10px]">
                   <span className="text-zinc-500">TARGET: 100% PURITY</span>
-                  <span className="text-cyan-400 font-semibold flex items-center gap-1">
-                    PLAY &rarr;
+                  <span className="text-cyan-400 font-semibold flex items-center gap-1.5 group-hover:translate-x-0.5 transition-transform">
+                    <span>PLAY</span>
+                    <DirectionalPointer direction="right" size={12} accent="cyan" />
                   </span>
                 </div>
               </motion.div>
@@ -673,8 +676,9 @@ export default function Arcade() {
 
                 <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between font-mono text-[10px]">
                   <span className="text-zinc-500">TARGET: ROOT_ACCESS</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                    PLAY &rarr;
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1.5 group-hover:translate-x-0.5 transition-transform">
+                    <span>PLAY</span>
+                    <DirectionalPointer direction="right" size={12} accent="emerald" />
                   </span>
                 </div>
               </motion.div>
@@ -722,13 +726,11 @@ export default function Arcade() {
                   )}
                 </button>
 
-                <button
-                  onClick={handleCloseArcade}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-xs font-mono uppercase tracking-wider transition-colors"
-                >
-                  <span>ESC</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
+                <FuturisticCloseButton 
+                  onClick={handleCloseArcade} 
+                  accent="amber" 
+                  label="ESC" 
+                />
               </div>
             </div>
 
@@ -736,13 +738,15 @@ export default function Arcade() {
             <div className="relative z-10 w-full max-w-5xl flex-1 flex flex-col items-center justify-center my-2 sm:my-4">
               {activeGame && (
                 <div className="w-full flex items-center justify-between px-4 py-2 mb-2 rounded-xl bg-zinc-900/60 border border-zinc-800 text-xs font-mono">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05, x: -2 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveGame(null)}
-                    className="text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition-colors font-bold uppercase"
+                    className="text-amber-400 hover:text-amber-300 flex items-center gap-2 transition-colors font-bold uppercase cursor-pointer"
                   >
-                    <span>&larr;</span>
+                    <DirectionalPointer direction="left" size={14} accent="amber" />
                     <span>CARTRIDGE RACK</span>
-                  </button>
+                  </motion.button>
 
                   <div className="flex items-center gap-2">
                     <button

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { arcadeAudio } from "@/utils/arcadeAudio";
+import { FuturisticLaunchGlyph, DirectionalPointer } from "@/components/ui/FuturisticNavigation";
 
 interface DeveloperVaultProps {
   onClose: () => void;
@@ -44,9 +45,9 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
     }
   };
 
-  const copySecretEmail = () => {
+  const copyEmailToClipboard = () => {
     arcadeAudio.playClick();
-    navigator.clipboard.writeText("contact@lakshya.uk");
+    navigator.clipboard.writeText("contact.lakshya.tech@gmail.com");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
@@ -164,7 +165,7 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
             className="mt-6 w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black text-xs font-semibold uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Download PDF</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <FuturisticLaunchGlyph size={14} color="currentColor" />
           </a>
         </div>
 
@@ -193,49 +194,48 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
           </button>
         </div>
 
-        {/* Reward 3: Fast-Track Priority Interview */}
+        {/* Reward 3: Direct Protocol */}
         <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group">
           <div className="space-y-2">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
             <h3 className="text-lg font-semibold text-white group-hover:text-amber-300 transition-colors">
-              Secret Priority Mail
+              Direct Protocol
             </h3>
             <p className="text-xs text-zinc-400 font-light">
-              Direct recruiter inbox: <span className="text-amber-300 font-mono font-bold">contact@lakshya.uk</span>
+              Priority communication endpoint for recruiter technical assessments & engineering roles.
             </p>
           </div>
+
           <div className="mt-6 flex flex-col gap-2">
             <button
-              onClick={copySecretEmail}
-              className="w-full py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-[11px] font-mono font-bold uppercase tracking-wider transition-colors border border-zinc-700 flex items-center justify-center gap-1.5 cursor-pointer"
+              onClick={copyEmailToClipboard}
+              className="w-full py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-[11px] font-mono transition-all flex items-center justify-between cursor-pointer"
             >
+              <span>{copiedEmail ? "COPIED TO CLIPBOARD!" : "contact.lakshya.tech@gmail.com"}</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-              <span>{copiedEmail ? "Copied" : "Copy Email"}</span>
             </button>
             <a
-              href="mailto:contact@lakshya.uk?subject=Found%20Your%20Hidden%20Arcade%20Vault%20-%20Let's%20Talk"
-              onClick={() => arcadeAudio.playClick()}
-              className="w-full py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-[11px] font-bold uppercase tracking-wider transition-colors text-center shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+              href="mailto:contact.lakshya.tech@gmail.com?subject=Exclusive%20Recruiter%20Outreach%20(Developer%20Vault)"
+              className="w-full py-2 px-3 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 text-[11px] font-semibold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer text-center"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <span>Send Priority Email</span>
+              <span>Send Priority Transmission</span>
+              <FuturisticLaunchGlyph size={12} color="#fbbf24" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Email Dispatch Box */}
-      <div className="relative z-10 max-w-xl w-full p-6 rounded-3xl bg-zinc-900/80 border border-amber-500/20 shadow-xl">
-        <div className="text-center mb-4 space-y-1">
-          <h4 className="text-sm uppercase tracking-wider font-semibold text-zinc-200">
-            Dispatch Confidential Package to Your Inbox
-          </h4>
-          <p className="text-xs text-zinc-400">
-            Enter your email to receive private developer notes, resume attachments, and project breakdowns.
-          </p>
-        </div>
+      {/* Recruiter Dossier Email Dispatch Form */}
+      <div className="relative z-10 p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 max-w-4xl w-full">
+        <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+          <span>Dispatch Complete Dossier to Your Inbox</span>
+        </h4>
+        <p className="text-xs text-zinc-400 mb-4 font-light">
+          Enter your company email to receive the complete offline technical report, GitHub access tokens, and portfolio build telemetry.
+        </p>
 
         <form onSubmit={handleSendReward} className="flex flex-col sm:flex-row gap-2">
           <input
@@ -252,7 +252,7 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
             className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-semibold text-xs uppercase tracking-wider shadow-lg hover:shadow-amber-500/20 transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
           >
             <span>{isSubmitting ? "Dispatching..." : "Send Dossier"}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <FuturisticLaunchGlyph size={14} color="#000000" />
           </button>
         </form>
 
@@ -283,16 +283,18 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
       </div>
 
       {/* Return to Arcade Button */}
-      <button
+      <motion.button
+        whileHover={{ scale: 1.05, x: -3 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => {
           arcadeAudio.playClick();
           onClose();
         }}
-        className="mt-8 text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
+        className="mt-8 px-5 py-2.5 rounded-full bg-zinc-900/60 border border-white/10 hover:border-amber-400/40 text-xs uppercase font-mono tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-2.5 shadow-lg backdrop-blur-xl"
       >
-        <span>←</span>
+        <DirectionalPointer direction="left" size={14} accent="amber" />
         <span>Return to Arcade Machine</span>
-      </button>
+      </motion.button>
     </motion.div>
   );
 }

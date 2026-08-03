@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { FuturisticLaunchLink } from "@/components/ui/FuturisticNavigation";
 
 export default function Todar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -76,11 +77,13 @@ export default function Todar() {
             
             <div 
               style={{ transform: "translateZ(80px)" }}
-              className="absolute bottom-6 left-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50 bg-zinc-950/90 px-5 py-3 rounded-full backdrop-blur-xl border border-cyan-500/30 shadow-[0_0_25px_rgba(6,182,212,0.25)]"
+              className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50"
             >
-               <a href="https://todar.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-cyan-300 transition-colors">
-                 View Data Platform ↗
-               </a>
+              <FuturisticLaunchLink 
+                href="https://todar.vercel.app" 
+                label="Access Platform" 
+                accent="cyan" 
+              />
             </div>
           </motion.div>
         </div>
@@ -111,12 +114,21 @@ export default function Todar() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3 pt-4">
-            {["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "FinTech", "Analytics"].map((tech) => (
-              <span key={tech} className="px-4 py-1.5 rounded-full border border-cyan-500/20 text-sm font-medium text-zinc-300 bg-cyan-950/20 backdrop-blur-sm shadow-[0_0_15px_-3px_rgba(6,182,212,0.15)]">
-                {tech}
-              </span>
-            ))}
+          <div className="flex flex-wrap items-center gap-4 pt-4">
+            <div className="flex flex-wrap gap-3">
+              {["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "FinTech", "Analytics"].map((tech) => (
+                <span key={tech} className="px-4 py-1.5 rounded-full border border-cyan-500/20 text-sm font-medium text-zinc-300 bg-cyan-950/20 backdrop-blur-sm shadow-[0_0_15px_-3px_rgba(6,182,212,0.15)]">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className="pt-2 w-full">
+              <FuturisticLaunchLink 
+                href="https://todar.vercel.app" 
+                label="Access Platform" 
+                accent="cyan" 
+              />
+            </div>
           </div>
         </div>
         
