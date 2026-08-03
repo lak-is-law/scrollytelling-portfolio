@@ -52,30 +52,30 @@ export default function Certifications() {
   const y = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
 
   return (
-    <section ref={containerRef} className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section ref={containerRef} className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature Purple Ambient Glow */}
       <div className="absolute top-1/2 right-1/4 w-[700px] h-[500px] bg-purple-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row gap-16 relative z-10">
+      <div className="mx-auto max-w-7xl w-full flex flex-col lg:flex-row gap-12 lg:gap-16 relative z-10">
         
         {/* Header Side */}
         <div className="lg:w-1/3">
-          <div className="sticky top-32">
-            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-purple-400 uppercase mb-6">
+          <div className="lg:sticky lg:top-32">
+            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-purple-400 uppercase mb-4 md:mb-6">
               <span>09 // Credentials</span>
               <div className="h-px w-12 bg-purple-500/30" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tight text-white mb-6">
-              Verified<br/>Certifications.
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-white mb-4 md:mb-6">
+              Verified<br className="hidden sm:inline"/> Certifications.
             </h2>
-            <p className="text-lg text-zinc-400 font-light">
+            <p className="text-base sm:text-lg text-zinc-400 font-light">
               Continuous upskilling across full-stack development, entrepreneurship, and global languages.
             </p>
           </div>
         </div>
 
         {/* List Side */}
-        <motion.div style={{ y }} className="lg:w-2/3 flex flex-col gap-6">
+        <motion.div style={{ y }} className="lg:w-2/3 flex flex-col gap-4 sm:gap-6">
           {certifications.map((cert, i) => (
             <motion.div 
               key={i}
@@ -83,7 +83,7 @@ export default function Certifications() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-8 rounded-3xl bg-zinc-900/30 backdrop-blur-2xl border border-purple-500/20 shadow-[0_0_40px_-12px_rgba(139,92,246,0.18),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:bg-zinc-900/50 hover:border-purple-400/50 hover:shadow-[0_0_50px_-8px_rgba(139,92,246,0.3)] hover:-translate-y-1 transition-all duration-500"
+              className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl bg-zinc-900/30 backdrop-blur-2xl border border-purple-500/20 shadow-[0_0_40px_-12px_rgba(139,92,246,0.18),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:bg-zinc-900/50 hover:border-purple-400/50 hover:shadow-[0_0_50px_-8px_rgba(139,92,246,0.3)] hover:-translate-y-1 transition-all duration-500"
             >
               <div>
                 <p className="text-xs font-mono font-medium text-purple-400 uppercase tracking-wider mb-2">{cert.type}</p>

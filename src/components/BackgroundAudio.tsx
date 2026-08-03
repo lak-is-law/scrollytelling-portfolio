@@ -12,7 +12,7 @@ export default function BackgroundAudio() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const fadeAnimationRef = useRef<number | null>(null);
-  const playAttempted = useRef(false);
+  const hasUserInteracted = useRef(false);
   const isMutedRef = useRef(false);
 
   const clearFade = () => {
@@ -56,51 +56,53 @@ export default function BackgroundAudio() {
 
   const startPlayback = useCallback(async () => {
     const audio = audioRef.current;
-    if (!audio || isPlaying || playAttempted.current) return;
-
-    playAttempted.current = true;
+    if (!audio) return;
 
     try {
+      audio.muted = false;
       audio.volume = 0;
       await audio.play();
       setIsPlaying(true);
+      hasUserInteracted.current = true;
       if (!isMutedRef.current) {
         fadeTo(TARGET_VOLUME, FADE_IN_DURATION);
       }
     } catch {
-      playAttempted.current = false;
+      // Autoplay blocked by browser policy until next interaction
     }
-  }, [isPlaying, fadeTo]);
+  }, [fadeTo]);
 
-  // Listen for user interaction to begin smooth audio playback
+  // Robust gesture listeners for mobile Safari & desktop browsers
   useEffect(() => {
     const handleInteraction = () => {
-      if (!isPlaying) {
+      if (!hasUserInteracted.current) {
         startPlayback();
       }
     };
 
-    window.addEventListener("click", handleInteraction, { capture: true });
-    window.addEventListener("touchstart", handleInteraction, { capture: true });
-    window.addEventListener("keydown", handleInteraction, { capture: true });
-    window.addEventListener("scroll", handleInteraction, { capture: true });
+    window.addEventListener("click", handleInteraction, { capture: true, passive: true });
+    window.addEventListener("touchstart", handleInteraction, { capture: true, passive: true });
+    window.addEventListener("touchend", handleInteraction, { capture: true, passive: true });
+    window.addEventListener("pointerdown", handleInteraction, { capture: true, passive: true });
+    window.addEventListener("keydown", handleInteraction, { capture: true, passive: true });
 
-    // Initial attempt in case policy allows
+    // Initial attempt in case autoplay is permitted
     startPlayback();
 
     return () => {
       window.removeEventListener("click", handleInteraction, { capture: true });
       window.removeEventListener("touchstart", handleInteraction, { capture: true });
+      window.removeEventListener("touchend", handleInteraction, { capture: true });
+      window.removeEventListener("pointerdown", handleInteraction, { capture: true });
       window.removeEventListener("keydown", handleInteraction, { capture: true });
-      window.removeEventListener("scroll", handleInteraction, { capture: true });
     };
-  }, [isPlaying, startPlayback]);
+  }, [startPlayback]);
 
   // Graceful fade out on tab switch / window blur / page leave, and fade in on return
   useEffect(() => {
     const handleVisibilityChange = () => {
       const audio = audioRef.current;
-      if (!audio || !isPlaying || isMutedRef.current) return;
+      if (!audio || !hasUserInteracted.current || isMutedRef.current) return;
 
       if (document.hidden) {
         fadeTo(0, FADE_OUT_DURATION, () => {
@@ -131,23 +133,29 @@ export default function BackgroundAudio() {
       window.removeEventListener("beforeunload", handlePageHide);
       clearFade();
     };
-  }, [isPlaying, fadeTo]);
+  }, [fadeTo]);
 
   const toggleMute = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    if (!hasUserInteracted.current || audio.paused) {
+      hasUserInteracted.current = true;
+      setIsMuted(false);
+      isMutedRef.current = false;
+      audio.muted = false;
+      audio.play().then(() => {
+        setIsPlaying(true);
+        fadeTo(TARGET_VOLUME, 1000);
+      }).catch(() => {});
+      return;
+    }
+
     if (isMuted) {
       setIsMuted(false);
       isMutedRef.current = false;
       audio.muted = false;
-      if (audio.paused) {
-        audio.play().then(() => {
-          fadeTo(TARGET_VOLUME, 1000);
-        }).catch(() => {});
-      } else {
-        fadeTo(TARGET_VOLUME, 1000);
-      }
+      fadeTo(TARGET_VOLUME, 1000);
     } else {
       setIsMuted(true);
       isMutedRef.current = true;
@@ -159,8 +167,7 @@ export default function BackgroundAudio() {
     }
   };
 
-  // Equalizer waveform bars
-  const barHeights = ["16px", "24px", "12px", "20px"];
+  const isAudioActive = isPlaying && !isMuted;
 
   return (
     <>
@@ -171,28 +178,53 @@ export default function BackgroundAudio() {
         loop
       />
       
-      {/* Audio Visualizer & Mute Toggle */}
-      <div 
+      {/* Audio Visualizer & Mute Toggle — Positioned in Top-Right on Mobile to Avoid Content Occlusion */}
+      <motion.button
+        type="button"
         onClick={toggleMute}
-        className="fixed bottom-6 right-6 md:bottom-12 md:right-12 z-50 flex items-center justify-center gap-1 w-12 h-12 rounded-full bg-white/5 border border-white/10 backdrop-blur-md cursor-pointer hover:bg-white/10 transition-colors group hover-magnetic"
-        title={isMuted ? "Unmute Audio" : "Mute Audio"}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed top-5 right-5 md:top-auto md:bottom-10 md:right-10 z-50 flex items-center justify-center gap-1 w-10 h-10 md:w-11 md:h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-emerald-400/50 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
+        title={isAudioActive ? "Mute Background Music" : "Play Background Music"}
+        aria-label={isAudioActive ? "Mute Background Music" : "Play Background Music"}
       >
-        {[0, 1, 2, 3].map((i) => (
-          <motion.div
-            key={i}
-            className="w-1 bg-white rounded-full"
-            animate={{
-              height: !isMuted && isPlaying ? ["4px", barHeights[i], "4px"] : "4px",
-            }}
-            transition={{
-              duration: 0.8,
-              repeat: Infinity,
-              delay: i * 0.15,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+        {isAudioActive ? (
+          <div className="flex items-center justify-center gap-0.5 h-4">
+            {[0.6, 1, 0.4, 0.8].map((scale, i) => (
+              <motion.span
+                key={i}
+                className="w-0.5 bg-emerald-400 rounded-full"
+                animate={{
+                  height: ["4px", `${Math.round(16 * scale)}px`, "4px"],
+                }}
+                transition={{
+                  duration: 0.7,
+                  repeat: Infinity,
+                  delay: i * 0.15,
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-zinc-400"
+          >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <line x1="23" y1="9" x2="17" y2="15" />
+            <line x1="17" y1="9" x2="23" y2="15" />
+          </svg>
+        )}
+      </motion.button>
     </>
   );
 }

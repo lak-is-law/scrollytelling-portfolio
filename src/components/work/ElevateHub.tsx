@@ -41,25 +41,25 @@ export default function ElevateHub() {
   }
 
   return (
-    <section ref={ref} className="relative z-20 min-h-screen bg-transparent flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section ref={ref} className="relative z-20 min-h-screen bg-transparent flex items-center py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature Cyan Ambient Glow */}
       <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-cyan-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-20">
+      <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-20">
         
         {/* Story */}
-        <div className="space-y-12 relative z-20">
-          <div className="space-y-6">
+        <div className="space-y-8 md:space-y-12 relative z-20">
+          <div className="space-y-4 md:space-y-6">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-cyan-400 uppercase">
               <span>05 // Community</span>
               <div className="h-px w-12 bg-cyan-500/30" />
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.1]">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.1]">
               ElevateHub.
             </h2>
             
-            <p className="text-2xl text-zinc-400 font-light leading-relaxed">
+            <p className="text-xl sm:text-2xl text-zinc-400 font-light leading-relaxed">
               Bridging the gap between talent and opportunity.
             </p>
           </div>

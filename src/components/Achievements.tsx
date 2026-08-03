@@ -46,7 +46,7 @@ export default function Achievements() {
   }
 
   return (
-    <section ref={containerRef} className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section ref={containerRef} className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature 24K Gold Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-yellow-500/[0.07] rounded-full blur-[180px] pointer-events-none" />
 
@@ -54,46 +54,46 @@ export default function Achievements() {
         
         {/* Spotlight UCSI Achievement */}
         <div 
-          className="relative rounded-[2.5rem] bg-gradient-to-br from-zinc-900/50 via-zinc-900/30 to-black/80 backdrop-blur-3xl border border-yellow-500/30 p-10 md:p-16 flex flex-col xl:flex-row items-center justify-between gap-16 shadow-[0_0_60px_-10px_rgba(234,179,8,0.22),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-yellow-400/50 hover:shadow-[0_0_70px_-5px_rgba(234,179,8,0.32)] transition-all duration-500"
+          className="relative rounded-[2rem] md:rounded-[2.5rem] bg-gradient-to-br from-zinc-900/50 via-zinc-900/30 to-black/80 backdrop-blur-3xl border border-yellow-500/30 p-6 sm:p-10 md:p-16 flex flex-col xl:flex-row items-center justify-between gap-8 lg:gap-16 shadow-[0_0_60px_-10px_rgba(234,179,8,0.22),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-yellow-400/50 hover:shadow-[0_0_70px_-5px_rgba(234,179,8,0.32)] transition-all duration-500"
         >
           {/* Subtle Ambient Radial Highlight */}
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/15 via-transparent to-transparent pointer-events-none rounded-[2.5rem]" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/15 via-transparent to-transparent pointer-events-none rounded-[2rem] md:rounded-[2.5rem]" />
           
-          <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-6">
-            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-400 uppercase mb-4">
+          <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-4 md:space-y-6">
+            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-400 uppercase mb-2 md:mb-4">
               <span>08 // Pinnacle Achievement</span>
               <div className="h-px w-12 bg-yellow-500/30" />
             </div>
             
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
               Most Innovative Solution
             </h2>
-            <p className="text-2xl text-yellow-300/90 font-light">
+            <p className="text-xl sm:text-2xl text-yellow-300/90 font-light">
               UCSI Consulting Group Pitch Competition
             </p>
-            <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
+            <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl">
               Awarded during an intensive Entrepreneurship Immersion Programme at UCSI University in Kuala Lumpur, Malaysia (Jan 2025). Recognized for delivering a groundbreaking strategic solution under high-pressure consulting constraints.
             </p>
           </motion.div>
           
           {/* 3D Image Container */}
-          <div className="relative z-10 w-full xl:w-1/2 perspective-[2000px] h-[300px] sm:h-[400px] lg:h-[500px]">
+          <div className="relative z-10 w-full xl:w-1/2 perspective-[2000px] h-[260px] sm:h-[380px] lg:h-[480px]">
             <motion.div 
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }} 
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              className="w-full h-full relative rounded-3xl bg-zinc-900/30 backdrop-blur-3xl border border-yellow-500/25 flex items-center justify-center group shadow-[0_0_30px_rgba(234,179,8,0.2)]"
+              className="w-full h-full relative rounded-2xl sm:rounded-3xl bg-zinc-900/30 backdrop-blur-3xl border border-yellow-500/25 flex items-center justify-center group shadow-[0_0_30px_rgba(234,179,8,0.2)]"
             >
               {/* Dynamic Glare Overlay */}
               <motion.div 
                 style={{ opacity: glareOpacity, x: glareX }}
-                className="absolute inset-0 z-50 pointer-events-none rounded-3xl bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
+                className="absolute inset-0 z-50 pointer-events-none rounded-2xl sm:rounded-3xl bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 mix-blend-overlay"
               />
 
               {/* Inner Floating Image container in Z-space */}
               <div 
                 style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
-                className="relative w-full h-full rounded-3xl overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
+                className="relative w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
               >
                 {/* Permanent Glossy Edge Gradient */}
                 <div className="absolute inset-0 z-20 bg-gradient-to-br from-white/10 via-transparent to-black/60 mix-blend-overlay pointer-events-none" />
@@ -111,7 +111,7 @@ export default function Achievements() {
         </div>
 
         {/* Other Accolades Grid */}
-        <div className="mt-24">
+        <div className="mt-16 md:mt-24">
           <h3 className="text-2xl font-semibold text-white mb-10 text-center md:text-left flex items-center gap-3">
             <span>Other Accolades</span>
             <div className="h-px flex-1 max-w-[120px] bg-yellow-500/20" />

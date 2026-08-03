@@ -511,15 +511,15 @@ export default function GlobalMatrix() {
   };
 
   return (
-    <section className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature Indigo Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-indigo-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
 
       <div className="mx-auto max-w-7xl w-full relative z-10">
         
         {/* Header */}
-        <div className="mb-20">
-          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-indigo-400 uppercase mb-6">
+        <div className="mb-14 md:mb-20">
+          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-indigo-400 uppercase mb-4 md:mb-6">
             <span>11 // Global Network</span>
             <div className="h-px w-12 bg-indigo-500/30" />
           </div>

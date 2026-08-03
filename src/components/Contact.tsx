@@ -5,21 +5,21 @@ import { FuturisticSocialLink, FuturisticLaunchGlyph } from "@/components/ui/Fut
 
 export default function Contact() {
   return (
-    <footer className="relative bg-transparent py-32 px-6 md:px-24 border-t border-white/[0.08] overflow-hidden">
+    <footer className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 border-t border-white/[0.08] overflow-hidden">
       {/* Signature Ambient Bloom */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/[0.04] rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl flex flex-col items-center text-center space-y-12 relative z-10">
+      <div className="mx-auto max-w-7xl flex flex-col items-center text-center space-y-8 md:space-y-12 relative z-10">
         
-        <div className="space-y-6">
-          <div className="flex items-center justify-center gap-4 text-sm font-medium tracking-widest text-emerald-400 uppercase mb-4">
+        <div className="space-y-4 md:space-y-6">
+          <div className="flex items-center justify-center gap-4 text-sm font-medium tracking-widest text-emerald-400 uppercase mb-3 md:mb-4">
             <span>13 // Open Network</span>
             <div className="h-px w-12 bg-emerald-500/30" />
           </div>
-          <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white">
             Let&apos;s build something <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300">exceptional.</span>
           </h2>
-          <p className="text-xl text-zinc-400 font-light max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl mx-auto">
             I build sophisticated software and care deeply about quality. If you share that philosophy, my inbox is open.
           </p>
         </div>

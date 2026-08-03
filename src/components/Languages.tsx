@@ -642,7 +642,7 @@ export default function Languages() {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsAimingInside(true)}
       onMouseLeave={() => setIsAimingInside(false)}
-      className="relative bg-transparent py-32 px-4 sm:px-6 md:px-16 overflow-hidden border-t border-white/[0.08] select-none cursor-crosshair"
+      className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-16 overflow-hidden border-t border-white/[0.08] select-none cursor-crosshair"
     >
       {/* Background Depth Glow (Seamlessly on Global Grid) */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-600/10 rounded-full blur-[160px] pointer-events-none" />

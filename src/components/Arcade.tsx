@@ -325,14 +325,16 @@ export default function Arcade() {
 
   return (
     <>
-      {/* 1. Fixed Floating Mini Launcher in bottom-right */}
+      {/* 1. Fixed Floating Mini Launcher in top-right (mobile) / bottom-right (desktop) */}
       <motion.div
         onClick={() => handleOpenArcade()}
         onMouseEnter={() => arcadeAudio.playHover()}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="fixed bottom-20 right-6 md:bottom-28 md:right-12 z-50 flex items-center justify-center w-12 h-12 rounded-full bg-zinc-900/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-white/15 hover:border-amber-400/50 transition-all duration-300 group shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+        className="fixed top-5 right-17 md:top-auto md:bottom-24 md:right-10 z-50 flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-amber-400/50 transition-all duration-300 group shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
         title="Open Developer Arcade"
       >
         <svg
@@ -362,7 +364,7 @@ export default function Arcade() {
       </motion.div>
 
       {/* 2. GRAND SHOWCASE SECTION: THE ARCADE PORTAL */}
-      <section className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+      <section className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
         
         {/* Immersive Environment: 3D Perspective Grid Floor */}
         <div className="absolute bottom-0 inset-x-0 h-80 overflow-hidden pointer-events-none [perspective:900px]">
