@@ -31,7 +31,7 @@ const LANGUAGES: Language[] = [
     lng: -77.0,
     lat: 38.9,
     isLearning: false,
-    labelOffset: { dx: -65, dy: -35 },
+    labelOffset: { dx: -68, dy: -35 },
   },
   {
     id: "hin",
@@ -43,7 +43,7 @@ const LANGUAGES: Language[] = [
     lng: 77.2,
     lat: 28.6,
     isLearning: false,
-    labelOffset: { dx: -60, dy: -35 },
+    labelOffset: { dx: -65, dy: -35 },
   },
   {
     id: "guj",
@@ -55,7 +55,7 @@ const LANGUAGES: Language[] = [
     lng: 72.6,
     lat: 23.0,
     isLearning: false,
-    labelOffset: { dx: -60, dy: 35 },
+    labelOffset: { dx: -65, dy: 35 },
   },
   {
     id: "asm",
@@ -103,7 +103,7 @@ const LANGUAGES: Language[] = [
     lng: 116.4,
     lat: 39.9,
     isLearning: true,
-    labelOffset: { dx: -55, dy: -40 },
+    labelOffset: { dx: -60, dy: -40 },
   },
 ];
 
@@ -111,15 +111,38 @@ const LANGUAGES: Language[] = [
 const ORIGIN_LNG = 77.2;
 const ORIGIN_LAT = 28.6;
 
+// Helper to draw rounded rectangle in Canvas
+function drawRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
 export default function GlobalMatrix() {
   const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set(["eng", "hin", "guj"]));
   const [hoveredLang, setHoveredLang] = useState<string | null>(null);
-  const [rotation, setRotation] = useState<[number, number]>([-70, -15]); // [lambda, phi]
-  const isDragging = useRef(false);
-  const lastMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const targetRotation = useRef<[number, number]>([-70, -15]);
-  const animationFrameRef = useRef<number | null>(null);
+  const currentRotation = useRef<[number, number]>([-75, -18]);
+  const targetRotation = useRef<[number, number]>([-75, -18]);
+  const isDragging = useRef(false);
+  const lastPointerPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const pulseTimer = useRef<number>(0);
 
   // Convert TopoJSON land to GeoJSON Feature
   const landFeature = useMemo(() => {
@@ -130,26 +153,25 @@ export default function GlobalMatrix() {
   const graticule = useMemo(() => geoGraticule10(), []);
 
   // Globe dimensions
-  const size = 420;
+  const size = 440;
   const radius = 175;
 
-  // Projection
-  const projection = useMemo(() => {
+  // Projection generator for a specific rotation
+  const getProjection = useCallback((rot: [number, number]) => {
     return geoOrthographic()
       .scale(radius)
       .translate([size / 2, size / 2])
       .clipAngle(90)
-      .rotate(rotation);
-  }, [rotation, radius, size]);
+      .rotate(rot);
+  }, [radius, size]);
 
-  // Render Canvas World Map
-  const renderMap = useCallback(() => {
+  // Main Canvas Render Pass: draws continents, graticules, arcs, pins, leader lines and badges in unified sync
+  const renderGlobe = useCallback((rot: [number, number], pulse: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Support High DPI
     const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
     if (canvas.width !== size * dpr) {
       canvas.width = size * dpr;
@@ -159,12 +181,13 @@ export default function GlobalMatrix() {
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, size, size);
 
-    const path = geoPath(projection, ctx);
-
-    // 1. Outer Deep Ocean Sphere Background
+    const proj = getProjection(rot);
+    const path = geoPath(proj, ctx);
     const cx = size / 2;
     const cy = size / 2;
-    const oceanGrad = ctx.createRadialGradient(cx - 40, cy - 40, 20, cx, cy, radius);
+
+    // 1. Deep Ocean Sphere Background
+    const oceanGrad = ctx.createRadialGradient(cx - 35, cy - 35, 20, cx, cy, radius);
     oceanGrad.addColorStop(0, "#1e293b");
     oceanGrad.addColorStop(0.5, "#0f172a");
     oceanGrad.addColorStop(1, "#020617");
@@ -213,15 +236,112 @@ export default function GlobalMatrix() {
       ctx.setLineDash([]);
     });
 
-    // 5. Crisp Glowing Sphere Outlines
-    // Main boundary
+    // 5. Origin Beacon Marker (India)
+    const originPos = proj([ORIGIN_LNG, ORIGIN_LAT]);
+    if (originPos) {
+      const pingRadius = 6 + (pulse % 1) * 12;
+      const pingAlpha = Math.max(0, 1 - (pulse % 1));
+      
+      // Ping ring
+      ctx.beginPath();
+      ctx.arc(originPos[0], originPos[1], pingRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(56, 189, 248, ${pingAlpha * 0.7})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Core dot
+      ctx.beginPath();
+      ctx.arc(originPos[0], originPos[1], 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffffff";
+      ctx.fill();
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    // 6. Geographic Pins, Angled Leader Lines, and Badges (100% In-Sync)
+    LANGUAGES.forEach((lang) => {
+      const pos = proj([lang.lng, lang.lat]);
+      if (!pos) return; // Point is on backside of sphere
+
+      const isSelected = selectedLangs.has(lang.id);
+      const isHovered = hoveredLang === lang.id;
+      const isActive = isSelected || isHovered;
+
+      const targetX = pos[0] + lang.labelOffset.dx;
+      const targetY = pos[1] + lang.labelOffset.dy;
+      const midX = pos[0] + lang.labelOffset.dx * 0.4;
+
+      // Draw Angled Leader Line
+      ctx.beginPath();
+      ctx.moveTo(pos[0], pos[1]);
+      ctx.lineTo(midX, targetY);
+      ctx.lineTo(targetX, targetY);
+      ctx.strokeStyle = isActive ? lang.colorHex : "rgba(255, 255, 255, 0.35)";
+      ctx.lineWidth = isActive ? 1.75 : 1;
+      if (!isActive) ctx.setLineDash([2, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Geographic Pin Dot
+      if (isActive) {
+        const pingR = 5 + (pulse % 1) * 10;
+        const pingA = Math.max(0, 1 - (pulse % 1));
+        ctx.beginPath();
+        ctx.arc(pos[0], pos[1], pingR, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${parseInt(lang.colorHex.slice(1,3),16)}, ${parseInt(lang.colorHex.slice(3,5),16)}, ${parseInt(lang.colorHex.slice(5,7),16)}, ${pingA * 0.7})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.arc(pos[0], pos[1], isActive ? 5 : 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = lang.colorHex;
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = isActive ? 2 : 1;
+      ctx.stroke();
+
+      // Draw Floating Non-Overlapping Badge at leader tip
+      const badgeW = 58;
+      const badgeH = 22;
+      const badgeR = 11;
+      const badgeX = lang.labelOffset.dx > 0 ? targetX : targetX - badgeW;
+      const badgeY = targetY - badgeH / 2;
+
+      // Badge Background Pill
+      drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, badgeR);
+      ctx.fillStyle = isActive ? "#0f172a" : "rgba(15, 23, 42, 0.9)";
+      ctx.fill();
+      ctx.strokeStyle = isActive ? lang.colorHex : "rgba(255, 255, 255, 0.25)";
+      ctx.lineWidth = isActive ? 1.5 : 1;
+      ctx.stroke();
+
+      // Status indicator dot inside badge
+      const dotX = badgeX + 10;
+      const dotY = badgeY + badgeH / 2;
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
+      ctx.fillStyle = lang.colorHex;
+      ctx.fill();
+
+      // Language Code Text inside badge
+      ctx.font = "bold 10px monospace";
+      ctx.fillStyle = "#ffffff";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText(lang.id.toUpperCase(), badgeX + 18, dotY + 0.5);
+    });
+
+    // 7. Crisp Glowing Sphere Outlines
+    // Primary outer rim
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
-    // Inner subtle glow rim
+    // Secondary inner rim
     ctx.beginPath();
     ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
     ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
@@ -238,66 +358,39 @@ export default function GlobalMatrix() {
     ctx.setLineDash([]);
 
     ctx.restore();
-  }, [graticule, hoveredLang, landFeature, projection, radius, selectedLangs, size]);
+  }, [getProjection, graticule, hoveredLang, landFeature, radius, selectedLangs, size]);
 
-  // Smooth rotation animation loop
+  // Unified Animation Loop
   useEffect(() => {
-    const tick = () => {
+    let animationId: number;
+
+    const loop = () => {
       if (!isDragging.current) {
-        // Continuous slow rotation
         targetRotation.current[0] += 0.15;
       }
 
-      // Smooth lerp
-      setRotation((prev) => {
-        const dLambda = (targetRotation.current[0] - prev[0]) * 0.1;
-        const dPhi = (targetRotation.current[1] - prev[1]) * 0.1;
-        return [prev[0] + dLambda, prev[1] + dPhi];
-      });
+      // Smooth interpolation for rotation
+      const cur = currentRotation.current;
+      const tgt = targetRotation.current;
+      cur[0] += (tgt[0] - cur[0]) * 0.1;
+      cur[1] += (tgt[1] - cur[1]) * 0.1;
 
-      renderMap();
-      animationFrameRef.current = requestAnimationFrame(tick);
+      pulseTimer.current = (pulseTimer.current + 0.02) % 1;
+
+      renderGlobe(cur, pulseTimer.current);
+      animationId = requestAnimationFrame(loop);
     };
 
-    animationFrameRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-    };
-  }, [renderMap]);
+    animationId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animationId);
+  }, [renderGlobe]);
 
-  // Mouse & Touch Drag Handlers
-  const handlePointerDown = (e: React.PointerEvent) => {
-    isDragging.current = true;
-    lastMousePos.current = { x: e.clientX, y: e.clientY };
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging.current) return;
-    const dx = e.clientX - lastMousePos.current.x;
-    const dy = e.clientY - lastMousePos.current.y;
-    lastMousePos.current = { x: e.clientX, y: e.clientY };
-
-    targetRotation.current = [
-      targetRotation.current[0] + dx * 0.4,
-      Math.max(-60, Math.min(60, targetRotation.current[1] - dy * 0.4)),
-    ];
-  };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    isDragging.current = false;
-    try {
-      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch {
-      // ignore
-    }
-  };
-
+  // Toggle or focus language
   const toggleLanguage = (id: string) => {
     setSelectedLangs((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
-        if (next.size > 1) next.delete(id); // keep at least one selected
+        if (next.size > 1) next.delete(id);
       } else {
         next.add(id);
       }
@@ -305,34 +398,117 @@ export default function GlobalMatrix() {
     });
   };
 
-  // Focus globe towards language when clicked
   const focusLanguage = (lang: Language) => {
     targetRotation.current = [-lang.lng, -lang.lat * 0.5];
     toggleLanguage(lang.id);
   };
 
-  // Node position helper: projects [lng, lat] to [x, y], returns null if on backside
-  const getNodePos = (lng: number, lat: number) => {
-    const coords = projection([lng, lat]);
-    if (!coords) return null;
-
-    // Check if point is on visible hemisphere
-    const r = projection.rotate();
-    const centerLng = -r[0];
-    const centerLat = -r[1];
-
-    // Spherical distance from center of visible hemisphere
-    const dLng = ((lng - centerLng) * Math.PI) / 180;
-    const lat1 = (lat * Math.PI) / 180;
-    const lat2 = (centerLat * Math.PI) / 180;
-    const cosDistance = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dLng);
-
-    if (cosDistance <= 0.05) return null; // hidden on the backside
-
-    return { x: coords[0], y: coords[1], opacity: Math.min(1, cosDistance * 2) };
+  // Pointer / Drag Interaction
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDragging.current = true;
+    lastPointerPos.current = { x: e.clientX, y: e.clientY };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
   };
 
-  const originPos = getNodePos(ORIGIN_LNG, ORIGIN_LAT);
+  const handlePointerMove = (e: React.PointerEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (isDragging.current) {
+      const dx = e.clientX - lastPointerPos.current.x;
+      const dy = e.clientY - lastPointerPos.current.y;
+      lastPointerPos.current = { x: e.clientX, y: e.clientY };
+
+      targetRotation.current = [
+        targetRotation.current[0] + dx * 0.45,
+        Math.max(-60, Math.min(60, targetRotation.current[1] - dy * 0.45)),
+      ];
+    } else {
+      // Hover detection on canvas
+      const rect = canvas.getBoundingClientRect();
+      const scale = size / rect.width;
+      const mouseX = (e.clientX - rect.left) * scale;
+      const mouseY = (e.clientY - rect.top) * scale;
+
+      const proj = getProjection(currentRotation.current);
+      let found: string | null = null;
+
+      LANGUAGES.forEach((lang) => {
+        const pos = proj([lang.lng, lang.lat]);
+        if (!pos) return;
+
+        const targetX = pos[0] + lang.labelOffset.dx;
+        const targetY = pos[1] + lang.labelOffset.dy;
+        const badgeW = 58;
+        const badgeH = 22;
+        const badgeX = lang.labelOffset.dx > 0 ? targetX : targetX - badgeW;
+        const badgeY = targetY - badgeH / 2;
+
+        const inBadge =
+          mouseX >= badgeX &&
+          mouseX <= badgeX + badgeW &&
+          mouseY >= badgeY &&
+          mouseY <= badgeY + badgeH;
+        const inPin = Math.hypot(mouseX - pos[0], mouseY - pos[1]) <= 14;
+
+        if (inBadge || inPin) {
+          found = lang.id;
+        }
+      });
+
+      setHoveredLang(found);
+      canvas.style.cursor = found ? "pointer" : isDragging.current ? "grabbing" : "grab";
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (isDragging.current) {
+      const dx = Math.abs(e.clientX - lastPointerPos.current.x);
+      const dy = Math.abs(e.clientY - lastPointerPos.current.y);
+
+      // If it was a quick click without much drag
+      if (dx < 5 && dy < 5) {
+        const rect = canvas.getBoundingClientRect();
+        const scale = size / rect.width;
+        const mouseX = (e.clientX - rect.left) * scale;
+        const mouseY = (e.clientY - rect.top) * scale;
+        const proj = getProjection(currentRotation.current);
+
+        LANGUAGES.forEach((lang) => {
+          const pos = proj([lang.lng, lang.lat]);
+          if (!pos) return;
+
+          const targetX = pos[0] + lang.labelOffset.dx;
+          const targetY = pos[1] + lang.labelOffset.dy;
+          const badgeW = 58;
+          const badgeH = 22;
+          const badgeX = lang.labelOffset.dx > 0 ? targetX : targetX - badgeW;
+          const badgeY = targetY - badgeH / 2;
+
+          const inBadge =
+            mouseX >= badgeX &&
+            mouseX <= badgeX + badgeW &&
+            mouseY >= badgeY &&
+            mouseY <= badgeY + badgeH;
+          const inPin = Math.hypot(mouseX - pos[0], mouseY - pos[1]) <= 14;
+
+          if (inBadge || inPin) {
+            focusLanguage(lang);
+          }
+        });
+      }
+    }
+
+    isDragging.current = false;
+    try {
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+  };
 
   return (
     <section className="relative bg-[#09090b] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
@@ -354,10 +530,10 @@ export default function GlobalMatrix() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Globe Canvas & Interactive Overlay */}
+          {/* Globe Canvas Container */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center">
             <div
-              className="relative w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] select-none cursor-grab active:cursor-grabbing flex items-center justify-center touch-none"
+              className="relative w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] select-none flex items-center justify-center touch-none"
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
@@ -366,126 +542,12 @@ export default function GlobalMatrix() {
               {/* Outer Atmosphere Ambient Halo */}
               <div className="absolute inset-4 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
 
-              {/* D3 Orthographic World Map Canvas */}
+              {/* D3 Orthographic Unified World Map Canvas */}
               <canvas
                 ref={canvasRef}
-                style={{ width: size, height: size }}
-                className="relative z-10 w-full h-full rounded-full pointer-events-none"
+                style={{ width: "100%", height: "100%" }}
+                className="relative z-10 w-full h-full rounded-full cursor-grab active:cursor-grabbing"
               />
-
-              {/* SVG Overlay: Non-overlapping Pins, Leader Lines, and Pill Badges */}
-              <svg
-                width={size}
-                height={size}
-                viewBox={`0 0 ${size} ${size}`}
-                className="absolute inset-0 z-20 w-full h-full pointer-events-none"
-              >
-                {/* Origin Marker (India) */}
-                {originPos && (
-                  <g style={{ opacity: originPos.opacity }}>
-                    <circle cx={originPos.x} cy={originPos.y} r="14" fill="none" stroke="#38bdf8" strokeWidth="1.5" className="animate-ping" opacity="0.6" />
-                    <circle cx={originPos.x} cy={originPos.y} r="5" fill="#ffffff" stroke="#38bdf8" strokeWidth="2" />
-                  </g>
-                )}
-
-                {/* Language Nodes with Leader Lines and Non-Overlapping Labels */}
-                {LANGUAGES.map((lang) => {
-                  const pos = getNodePos(lang.lng, lang.lat);
-                  if (!pos) return null;
-
-                  const isSelected = selectedLangs.has(lang.id);
-                  const isHovered = hoveredLang === lang.id;
-                  const isActive = isSelected || isHovered;
-
-                  const targetX = pos.x + lang.labelOffset.dx;
-                  const targetY = pos.y + lang.labelOffset.dy;
-                  const midX = pos.x + lang.labelOffset.dx * 0.4;
-
-                  return (
-                    <g
-                      key={lang.id}
-                      style={{ opacity: pos.opacity, pointerEvents: "auto", cursor: "pointer" }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        focusLanguage(lang);
-                      }}
-                      onMouseEnter={() => setHoveredLang(lang.id)}
-                      onMouseLeave={() => setHoveredLang(null)}
-                      className="group"
-                    >
-                      {/* Angled Leader Line from Dot to Label */}
-                      <path
-                        d={`M ${pos.x} ${pos.y} L ${midX} ${targetY} L ${targetX} ${targetY}`}
-                        fill="none"
-                        stroke={isActive ? lang.colorHex : "rgba(255,255,255,0.3)"}
-                        strokeWidth={isActive ? "1.75" : "1"}
-                        strokeDasharray={isActive ? "none" : "2 3"}
-                        className="transition-all duration-300"
-                      />
-
-                      {/* Geographic Pin Dot */}
-                      {isActive && (
-                        <circle
-                          cx={pos.x}
-                          cy={pos.y}
-                          r="12"
-                          fill="none"
-                          stroke={lang.colorHex}
-                          strokeWidth="1.5"
-                          opacity="0.7"
-                          className="animate-ping"
-                        />
-                      )}
-                      <circle
-                        cx={pos.x}
-                        cy={pos.y}
-                        r={isActive ? "5" : "3.5"}
-                        fill={lang.colorHex}
-                        stroke="#ffffff"
-                        strokeWidth={isActive ? "2" : "1"}
-                        className="transition-all duration-300"
-                      />
-
-                      {/* Floating Non-Overlapping Badge at leader tip */}
-                      <g transform={`translate(${targetX}, ${targetY})`}>
-                        {/* Background Pill */}
-                        <rect
-                          x={lang.labelOffset.dx > 0 ? 0 : -56}
-                          y="-10"
-                          width="56"
-                          height="20"
-                          rx="10"
-                          fill={isActive ? "#0f172a" : "rgba(15, 23, 42, 0.85)"}
-                          stroke={isActive ? lang.colorHex : "rgba(255,255,255,0.2)"}
-                          strokeWidth="1"
-                          className="shadow-lg backdrop-blur-md transition-all duration-300"
-                        />
-
-                        {/* Status Light */}
-                        <circle
-                          cx={lang.labelOffset.dx > 0 ? 9 : -47}
-                          cy="0"
-                          r="3"
-                          fill={lang.colorHex}
-                        />
-
-                        {/* Language Code */}
-                        <text
-                          x={lang.labelOffset.dx > 0 ? 17 : -39}
-                          y="3.5"
-                          fill="#ffffff"
-                          fontSize="9.5"
-                          fontWeight="700"
-                          fontFamily="monospace"
-                          className="tracking-wider uppercase pointer-events-none"
-                        >
-                          {lang.id}
-                        </text>
-                      </g>
-                    </g>
-                  );
-                })}
-              </svg>
             </div>
 
             {/* Drag Tip */}
