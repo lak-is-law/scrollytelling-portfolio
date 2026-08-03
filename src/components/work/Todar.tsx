@@ -40,7 +40,10 @@ export default function Todar() {
   }
 
   return (
-    <section ref={ref} className="relative min-h-screen bg-[#09090b] flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
+    <section ref={ref} className="relative min-h-screen bg-transparent flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+      {/* Signature Cyan Ambient Glow */}
+      <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-cyan-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
+
       <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         
         {/* 3D Project Image */}
@@ -49,7 +52,7 @@ export default function Todar() {
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-white/10 flex items-center justify-center group overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-cyan-500/20 shadow-[0_0_50px_-15px_rgba(6,182,212,0.2),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-cyan-400/50 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.35)] transition-all duration-500 flex items-center justify-center group overflow-hidden"
           >
             {/* Dynamic Glare Overlay */}
             <motion.div 
@@ -73,9 +76,9 @@ export default function Todar() {
             
             <div 
               style={{ transform: "translateZ(80px)" }}
-              className="absolute bottom-6 left-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50 bg-zinc-950/90 px-5 py-3 rounded-full backdrop-blur-xl border border-white/10 shadow-2xl"
+              className="absolute bottom-6 left-6 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50 bg-zinc-950/90 px-5 py-3 rounded-full backdrop-blur-xl border border-cyan-500/30 shadow-[0_0_25px_rgba(6,182,212,0.25)]"
             >
-               <a href="https://todar.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-amber-400 transition-colors">
+               <a href="https://todar.vercel.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-cyan-300 transition-colors">
                  View Data Platform ↗
                </a>
             </div>
@@ -85,9 +88,9 @@ export default function Todar() {
         {/* Story */}
         <div className="space-y-12 relative z-10">
           <div className="space-y-6">
-            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase">
+            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-cyan-400 uppercase">
               <span>04 // FinTech</span>
-              <div className="h-px w-12 bg-zinc-800" />
+              <div className="h-px w-12 bg-cyan-500/30" />
             </div>
             
             <h2 className="text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.1]">
@@ -101,16 +104,16 @@ export default function Todar() {
 
           <div className="space-y-6 text-zinc-400 text-lg leading-relaxed">
             <p>
-              Todar 2.0 is a next-generation financial data visualization dashboard built to handle high-frequency transaction logs. I engineered the architecture to parse and render complex financial streams instantly without browser bottleneck.
+              Most personal finance apps suffer from one fatal flaw: friction. Todar 2.0 was architected from first principles to turn tedious financial accounting into an effortless, visual ritual.
             </p>
             <p>
-              By leveraging <span className="text-white font-medium">Recharts</span> for WebGL-accelerated graphing and <span className="text-white font-medium">Redux</span> for state management, Todar 2.0 offers unparalleled insight into fiscal health, asset allocation, and liquidity thresholds.
+              Engineered with <span className="text-white font-medium">Next.js 14</span>, <span className="text-white font-medium">TypeScript</span>, and <span className="text-white font-medium">Supabase</span>, the platform features instant ledger recalculations, dynamic budgeting vectors, and predictive burn-rate telemetry.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3 pt-4">
-            {["React", "Redux", "Recharts", "Data Vis", "FinTech", "Analytics"].map((tech) => (
-              <span key={tech} className="px-4 py-1.5 rounded-full border border-zinc-800 text-sm font-medium text-zinc-400 bg-zinc-900/50 backdrop-blur-sm">
+            {["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "FinTech", "Analytics"].map((tech) => (
+              <span key={tech} className="px-4 py-1.5 rounded-full border border-cyan-500/20 text-sm font-medium text-zinc-300 bg-cyan-950/20 backdrop-blur-sm shadow-[0_0_15px_-3px_rgba(6,182,212,0.15)]">
                 {tech}
               </span>
             ))}

@@ -45,26 +45,29 @@ export default function Achievements() {
   }
 
   return (
-    <section ref={containerRef} className="relative bg-[#09090b] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
-      <div className="mx-auto max-w-7xl w-full">
+    <section ref={containerRef} className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+      {/* Signature 24K Gold Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-yellow-500/[0.07] rounded-full blur-[180px] pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl w-full relative z-10">
         
         {/* Spotlight UCSI Achievement */}
         <div 
-          className="relative rounded-[3rem] bg-gradient-to-br from-zinc-900/40 to-black border border-white/10 p-12 md:p-20 flex flex-col xl:flex-row items-center justify-between gap-16 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_30px_100px_-20px_rgba(0,0,0,1)]"
+          className="relative rounded-[2.5rem] bg-gradient-to-br from-zinc-900/50 via-zinc-900/30 to-black/80 backdrop-blur-3xl border border-yellow-500/30 p-10 md:p-16 flex flex-col xl:flex-row items-center justify-between gap-16 shadow-[0_0_60px_-10px_rgba(234,179,8,0.22),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-yellow-400/50 hover:shadow-[0_0_70px_-5px_rgba(234,179,8,0.32)] transition-all duration-500"
         >
-          {/* Ambient Glow */}
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/10 via-transparent to-transparent pointer-events-none" />
+          {/* Subtle Ambient Radial Highlight */}
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-500/15 via-transparent to-transparent pointer-events-none rounded-[2.5rem]" />
           
           <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-6">
-            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-4">
+            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-400 uppercase mb-4">
               <span>08 // Pinnacle Achievement</span>
-              <div className="h-px w-12 bg-zinc-800" />
+              <div className="h-px w-12 bg-yellow-500/30" />
             </div>
             
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
               Most Innovative Solution
             </h2>
-            <p className="text-2xl text-zinc-300 font-light">
+            <p className="text-2xl text-yellow-300/90 font-light">
               UCSI Consulting Group Pitch Competition
             </p>
             <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
@@ -78,7 +81,7 @@ export default function Achievements() {
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }} 
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              className="w-full h-full relative rounded-3xl bg-zinc-900/20 backdrop-blur-3xl border border-white/10 flex items-center justify-center group shadow-2xl"
+              className="w-full h-full relative rounded-3xl bg-zinc-900/30 backdrop-blur-3xl border border-yellow-500/25 flex items-center justify-center group shadow-[0_0_30px_rgba(234,179,8,0.2)]"
             >
               {/* Dynamic Glare Overlay */}
               <motion.div 
@@ -108,7 +111,10 @@ export default function Achievements() {
 
         {/* Other Accolades Grid */}
         <div className="mt-24">
-          <h3 className="text-2xl font-medium text-white mb-10 text-center md:text-left">Other Accolades</h3>
+          <h3 className="text-2xl font-semibold text-white mb-10 text-center md:text-left flex items-center gap-3">
+            <span>Other Accolades</span>
+            <div className="h-px flex-1 max-w-[120px] bg-yellow-500/20" />
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {otherAchievements.map((achieve, i) => (
               <motion.div 
@@ -117,10 +123,11 @@ export default function Achievements() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="p-6 rounded-3xl bg-zinc-900/20 border border-zinc-800/50 hover:border-zinc-700 transition-colors"
+                className="p-6 md:p-7 rounded-3xl bg-zinc-900/30 backdrop-blur-2xl border border-yellow-500/20 shadow-[0_0_35px_-10px_rgba(234,179,8,0.15),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:border-yellow-400/50 hover:bg-zinc-900/50 hover:shadow-[0_0_45px_-8px_rgba(234,179,8,0.28)] hover:-translate-y-1.5 transition-all duration-500 group"
               >
-                <h4 className="text-lg font-medium text-zinc-200 mb-2">{achieve.title}</h4>
-                <p className="text-sm text-zinc-500">{achieve.context}</p>
+                <div className="w-2 h-2 rounded-full bg-yellow-400 mb-4 shadow-[0_0_8px_#fde047]" />
+                <h4 className="text-lg font-semibold text-white group-hover:text-yellow-300 transition-colors mb-2">{achieve.title}</h4>
+                <p className="text-sm text-zinc-400 font-light">{achieve.context}</p>
               </motion.div>
             ))}
           </div>

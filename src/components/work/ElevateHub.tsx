@@ -40,15 +40,18 @@ export default function ElevateHub() {
   }
 
   return (
-    <section ref={ref} className="relative min-h-screen bg-[#09090b] flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
+    <section ref={ref} className="relative min-h-screen bg-transparent flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+      {/* Signature Cyan Ambient Glow */}
+      <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-cyan-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
+
       <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         
         {/* Story */}
         <div className="space-y-12 relative z-10">
           <div className="space-y-6">
-            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase">
+            <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-cyan-400 uppercase">
               <span>05 // Community</span>
-              <div className="h-px w-12 bg-zinc-800" />
+              <div className="h-px w-12 bg-cyan-500/30" />
             </div>
             
             <h2 className="text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.1]">
@@ -71,7 +74,7 @@ export default function ElevateHub() {
 
           <div className="flex flex-wrap gap-3 pt-4">
             {["React", "Firebase", "Full-Stack", "Auth", "Networking"].map((tech) => (
-              <span key={tech} className="px-4 py-1.5 rounded-full border border-zinc-800 text-sm font-medium text-zinc-400 bg-zinc-900/50 backdrop-blur-sm">
+              <span key={tech} className="px-4 py-1.5 rounded-full border border-cyan-500/20 text-sm font-medium text-zinc-300 bg-cyan-950/20 backdrop-blur-sm shadow-[0_0_15px_-3px_rgba(6,182,212,0.15)]">
                 {tech}
               </span>
             ))}
@@ -84,7 +87,7 @@ export default function ElevateHub() {
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-white/10 flex items-center justify-center group overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-cyan-500/20 shadow-[0_0_50px_-15px_rgba(6,182,212,0.2),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-cyan-400/50 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.35)] transition-all duration-500 flex items-center justify-center group overflow-hidden"
           >
             {/* Dynamic Glare Overlay */}
             <motion.div 
@@ -98,12 +101,21 @@ export default function ElevateHub() {
               className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
             >
               <Image 
-                src="/projects/elevate-hub-v2.jpg"
-                alt="Elevate Hub"
+                src="/projects/elevatehub-v2.jpg"
+                alt="ElevateHub"
                 fill
                 quality={100}
                 className="object-contain"
               />
+            </div>
+            
+            <div 
+              style={{ transform: "translateZ(80px)" }}
+              className="absolute bottom-6 right-6 text-right opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-50 bg-zinc-950/90 px-5 py-3 rounded-full backdrop-blur-xl border border-cyan-500/30 shadow-[0_0_25px_rgba(6,182,212,0.25)]"
+            >
+               <a href="https://elevatehub-1.web.app" target="_blank" rel="noreferrer" className="text-sm font-medium tracking-wider text-white uppercase hover:text-cyan-300 transition-colors">
+                 View Community ↗
+               </a>
             </div>
           </motion.div>
         </div>

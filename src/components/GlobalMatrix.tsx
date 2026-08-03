@@ -511,14 +511,17 @@ export default function GlobalMatrix() {
   };
 
   return (
-    <section className="relative bg-[#09090b] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/50">
-      <div className="mx-auto max-w-7xl w-full">
+    <section className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+      {/* Signature Indigo Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-indigo-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl w-full relative z-10">
         
         {/* Header */}
         <div className="mb-20">
-          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-6">
+          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-indigo-400 uppercase mb-6">
             <span>11 // Global Network</span>
-            <div className="h-px w-12 bg-zinc-800" />
+            <div className="h-px w-12 bg-indigo-500/30" />
           </div>
           <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6">
             Communication Matrix.
@@ -540,7 +543,7 @@ export default function GlobalMatrix() {
               onPointerCancel={handlePointerUp}
             >
               {/* Outer Atmosphere Ambient Halo */}
-              <div className="absolute inset-4 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
+              <div className="absolute inset-4 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
 
               {/* D3 Orthographic Unified World Map Canvas */}
               <canvas
@@ -551,7 +554,7 @@ export default function GlobalMatrix() {
             </div>
 
             {/* Drag Tip */}
-            <p className="text-xs text-zinc-500 font-mono tracking-wider mt-4 text-center">
+            <p className="text-xs text-indigo-400/80 font-mono tracking-wider mt-4 text-center">
               [ DRAG TO ROTATE GLOBE • CLICK NODES TO INSPECT ]
             </p>
           </div>
@@ -569,13 +572,13 @@ export default function GlobalMatrix() {
                   onHoverStart={() => setHoveredLang(lang.id)}
                   onHoverEnd={() => setHoveredLang(null)}
                   whileHover={{ y: -3 }}
-                  className={`p-6 rounded-3xl backdrop-blur-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                  className={`p-6 rounded-3xl backdrop-blur-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                     isSelected || isHovered
-                      ? "bg-zinc-900/60 border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.6)]"
-                      : "bg-zinc-900/20 border-white/5 hover:border-zinc-700/50 hover:bg-zinc-900/30"
+                      ? "bg-zinc-900/60 border-indigo-400/50 shadow-[0_0_35px_-5px_rgba(99,102,241,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)]"
+                      : "bg-zinc-900/30 border-indigo-500/20 shadow-[0_0_30px_-10px_rgba(99,102,241,0.15),inset_0_1px_1px_rgba(255,255,255,0.12)] hover:border-indigo-400/40 hover:bg-zinc-900/50 hover:shadow-[0_0_40px_-8px_rgba(99,102,241,0.25)]"
                   }`}
                   style={{
-                    boxShadow: isSelected ? `0 0 25px -5px ${lang.colorHex}33` : undefined,
+                    boxShadow: isSelected ? `0 0 35px -5px ${lang.colorHex}55` : undefined,
                   }}
                 >
                   <div>

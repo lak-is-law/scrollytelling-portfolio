@@ -15,7 +15,7 @@ import BackgroundAudio from "@/components/BackgroundAudio";
 
 export default function Home() {
   return (
-    <main className="bg-[#09090b] min-h-screen">
+    <main className="bg-global-grid min-h-screen text-white relative">
       <BackgroundAudio />
       <div className="relative">
         <ScrollyCanvas />

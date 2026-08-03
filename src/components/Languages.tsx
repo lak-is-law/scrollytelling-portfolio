@@ -642,10 +642,9 @@ export default function Languages() {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsAimingInside(true)}
       onMouseLeave={() => setIsAimingInside(false)}
-      className="relative bg-[#07090e] py-32 px-4 sm:px-6 md:px-16 overflow-hidden border-t border-cyan-500/20 select-none cursor-crosshair"
+      className="relative bg-transparent py-32 px-4 sm:px-6 md:px-16 overflow-hidden border-t border-white/[0.08] select-none cursor-crosshair"
     >
-      {/* Background Cyberpunk Grid & Depth Glow */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0284c715_1px,transparent_1px),linear-gradient(to_bottom,#0284c715_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      {/* Background Depth Glow (Seamlessly on Global Grid) */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-600/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
 

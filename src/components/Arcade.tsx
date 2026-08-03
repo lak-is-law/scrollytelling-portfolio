@@ -361,7 +361,7 @@ export default function Arcade() {
       </motion.div>
 
       {/* 2. GRAND SHOWCASE SECTION: THE ARCADE PORTAL */}
-      <section className="relative bg-[#060608] py-32 px-6 md:px-24 overflow-hidden border-t border-zinc-900/60">
+      <section className="relative bg-transparent py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
         
         {/* Immersive Environment: 3D Perspective Grid Floor */}
         <div className="absolute bottom-0 inset-x-0 h-80 overflow-hidden pointer-events-none [perspective:900px]">
@@ -388,9 +388,9 @@ export default function Arcade() {
         <div className="relative z-10 mx-auto max-w-7xl w-full flex flex-col items-center text-center">
           
           {/* Section Header */}
-          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-zinc-500 uppercase mb-6">
+          <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-amber-400 uppercase mb-6">
             <span>12 // Interactive Vault</span>
-            <div className="h-px w-12 bg-zinc-800" />
+            <div className="h-px w-12 bg-amber-500/30" />
           </div>
 
           <h2 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6">
