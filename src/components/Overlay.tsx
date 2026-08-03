@@ -46,7 +46,7 @@ export default function Overlay() {
         {/* Name (Persistent) */}
         <motion.div 
           style={{ opacity: nameOpacity, scale: nameScale }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-auto mix-blend-difference z-0"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none mix-blend-difference z-0"
         >
           <motion.h1 
             initial={{ opacity: 0, y: 100, filter: "blur(20px)" }}
@@ -61,7 +61,7 @@ export default function Overlay() {
         {/* Subtext (Fades out) */}
         <motion.div 
           style={{ opacity: subtextOpacity, y: subtextY }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-auto mt-32 md:mt-48 z-10"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none mt-32 md:mt-48 z-10"
         >
           <motion.p 
             initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
@@ -76,9 +76,9 @@ export default function Overlay() {
         {/* Philosophy */}
         <motion.div 
           style={{ opacity: opacity2, y: y2 }}
-          className="absolute inset-0 flex items-center justify-start p-8 md:p-32 pointer-events-auto z-20"
+          className="absolute inset-0 flex items-center justify-start p-8 md:p-32 pointer-events-none z-20"
         >
-          <div className="max-w-4xl space-y-8 bg-black/20 backdrop-blur-sm p-8 md:p-12 rounded-3xl border border-white/5">
+          <div className="max-w-4xl space-y-8 bg-black/20 backdrop-blur-sm p-8 md:p-12 rounded-3xl border border-white/5 pointer-events-none">
             <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium">01 // The Approach</p>
             <h2 className="text-4xl md:text-7xl font-medium tracking-tight text-white leading-[1.1]">
               Bridging engineering rigor with <span className="text-zinc-500">product intuition.</span>
@@ -92,9 +92,9 @@ export default function Overlay() {
         {/* Quality */}
         <motion.div 
           style={{ opacity: opacity3, y: y3 }}
-          className="absolute inset-0 flex items-center justify-end p-8 md:p-32 pointer-events-auto z-20"
+          className="absolute inset-0 flex items-center justify-end p-8 md:p-32 pointer-events-none z-20"
         >
-          <div className="max-w-4xl space-y-8 text-right ml-auto bg-black/20 backdrop-blur-sm p-8 md:p-12 rounded-3xl border border-white/5">
+          <div className="max-w-4xl space-y-8 text-right ml-auto bg-black/20 backdrop-blur-sm p-8 md:p-12 rounded-3xl border border-white/5 pointer-events-none">
             <p className="text-sm tracking-widest text-zinc-500 uppercase font-medium">02 // The Standard</p>
             <h2 className="text-4xl md:text-7xl font-medium tracking-tight text-white leading-[1.1]">
               Obsessed with <br/> <span className="text-zinc-500">technical excellence.</span>

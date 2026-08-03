@@ -41,14 +41,14 @@ export default function ElevateHub() {
   }
 
   return (
-    <section ref={ref} className="relative min-h-screen bg-transparent flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section ref={ref} className="relative z-20 min-h-screen bg-transparent flex items-center py-32 px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature Cyan Ambient Glow */}
       <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-cyan-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-20">
         
         {/* Story */}
-        <div className="space-y-12 relative z-10">
+        <div className="space-y-12 relative z-20">
           <div className="space-y-6">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-cyan-400 uppercase">
               <span>05 // Community</span>
@@ -81,7 +81,7 @@ export default function ElevateHub() {
                 </span>
               ))}
             </div>
-            <div className="pt-2 w-full">
+            <div className="pt-2 w-full relative z-30">
               <FuturisticLaunchLink 
                 href="https://elevatehub-1.web.app" 
                 label="Explore Network" 
@@ -92,12 +92,13 @@ export default function ElevateHub() {
         </div>
 
         {/* 3D Project Image */}
-        <div className="relative aspect-square z-10 perspective-[2000px]">
+        <div className="relative aspect-square z-20 perspective-[2000px]">
           <motion.div 
             style={{ y, scale, opacity, rotateX, rotateY, transformStyle: "preserve-3d" }} 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-cyan-500/20 shadow-[0_0_50px_-15px_rgba(6,182,212,0.2),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-cyan-400/50 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.35)] transition-all duration-500 flex items-center justify-center group overflow-hidden"
+            onClick={() => window.open("https://elevatehub-1.web.app", "_blank", "noopener,noreferrer")}
+            className="w-full h-full relative rounded-[2rem] md:rounded-[2.5rem] bg-zinc-900/30 backdrop-blur-3xl border border-cyan-500/20 shadow-[0_0_50px_-15px_rgba(6,182,212,0.2),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:border-cyan-400/50 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.35)] transition-all duration-500 flex items-center justify-center group overflow-hidden cursor-pointer"
           >
             {/* Dynamic Glare Overlay */}
             <motion.div 

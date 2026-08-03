@@ -204,18 +204,27 @@ export function FuturisticLaunchLink({
     <motion.a
       href={href}
       target={target}
-      rel="noreferrer"
+      rel="noopener noreferrer"
       whileHover={{ scale: 1.04, y: -2 }}
       whileTap={{ scale: 0.96 }}
-      className={`group relative inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-2xl ${theme.bg} ${theme.border} ${theme.glow} ${theme.hoverGlow} transition-all duration-500 overflow-hidden cursor-pointer ${className}`}
+      onClick={() => {
+        if (href) {
+          if (target === "_blank") {
+            window.open(href, "_blank", "noopener,noreferrer");
+          } else {
+            window.location.href = href;
+          }
+        }
+      }}
+      className={`group relative inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-2xl ${theme.bg} ${theme.border} ${theme.glow} ${theme.hoverGlow} transition-all duration-500 overflow-hidden cursor-pointer z-30 pointer-events-auto ${className}`}
     >
       {/* Light Sweep Shimmer */}
       <div 
-        className={`absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r ${theme.beam}`} 
+        className={`absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r ${theme.beam} pointer-events-none`} 
       />
 
       {/* Pulsing Status Dot */}
-      <span className="relative flex h-2 w-2">
+      <span className="relative flex h-2 w-2 pointer-events-none">
         <span 
           className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
           style={{ backgroundColor: theme.hex }}
@@ -227,12 +236,14 @@ export function FuturisticLaunchLink({
       </span>
 
       {/* Label Text */}
-      <span className={`text-xs sm:text-sm font-mono font-semibold tracking-widest uppercase ${theme.text} ${theme.hoverText} transition-colors`}>
+      <span className={`text-xs sm:text-sm font-mono font-semibold tracking-widest uppercase ${theme.text} ${theme.hoverText} transition-colors pointer-events-none`}>
         {label}
       </span>
 
       {/* Precision Launch Glyph */}
-      <FuturisticLaunchGlyph size={16} color={theme.hex} />
+      <div className="pointer-events-none flex items-center">
+        <FuturisticLaunchGlyph size={16} color={theme.hex} />
+      </div>
     </motion.a>
   );
 }
