@@ -1,7 +1,5 @@
 "use client";
 
-import Arcade from "./Arcade";
-
 export default function Contact() {
   return (
     <footer className="relative bg-[#09090b] py-32 px-6 md:px-24 border-t border-zinc-900/50">
@@ -23,7 +21,6 @@ export default function Contact() {
           >
             Start a Conversation
           </a>
-          <Arcade />
         </div>
 
         <div className="pt-24 w-full flex flex-col md:flex-row justify-between items-center text-sm font-medium tracking-widest text-zinc-600 uppercase">

@@ -9,6 +9,7 @@ import Achievements from "@/components/Achievements";
 import Certifications from "@/components/Certifications";
 import Languages from "@/components/Languages";
 import GlobalMatrix from "@/components/GlobalMatrix";
+import Arcade from "@/components/Arcade";
 import Contact from "@/components/Contact";
 import BackgroundAudio from "@/components/BackgroundAudio";
 
@@ -29,6 +30,7 @@ export default function Home() {
       <Certifications />
       <Languages />
       <GlobalMatrix />
+      <Arcade />
       <Contact />
     </main>
   );
