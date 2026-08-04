@@ -391,3 +391,7 @@ export function DirectionalPointer({
     </div>
   );
 }
+
+export { default as DashboardMenu } from "./DashboardMenu";
+export { default as ScrollOnboardingOverlay } from "./ScrollOnboardingOverlay";
+

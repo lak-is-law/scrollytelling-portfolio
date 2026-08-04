@@ -12,11 +12,15 @@ import GlobalMatrix from "@/components/GlobalMatrix";
 import Arcade from "@/components/Arcade";
 import Contact from "@/components/Contact";
 import BackgroundAudio from "@/components/BackgroundAudio";
+import DashboardMenu from "@/components/ui/DashboardMenu";
+import ScrollOnboardingOverlay from "@/components/ui/ScrollOnboardingOverlay";
 
 export default function Home() {
   return (
     <main id="main-content" tabIndex={-1} className="bg-global-grid min-h-screen text-white relative focus:outline-none">
       <BackgroundAudio />
+      <DashboardMenu />
+      <ScrollOnboardingOverlay />
       <div className="relative">
         <ScrollyCanvas />
         <Overlay />

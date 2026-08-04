@@ -389,7 +389,7 @@ export default function Arcade() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="fixed bottom-20 right-6 md:bottom-24 md:right-10 z-50 flex items-center justify-center w-11 h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-amber-400/50 transition-all duration-300 group shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
+        className="fixed bottom-20 right-6 md:bottom-24 md:right-8 z-50 flex items-center justify-center w-11 h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-amber-400/50 transition-all duration-300 group shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
         title="Open Developer Arcade"
       >
         <svg
