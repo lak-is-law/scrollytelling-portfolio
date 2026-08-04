@@ -170,7 +170,7 @@ export default function ScrollOnboardingOverlay() {
                 </span>
                 
                 <span className="text-[11px] sm:text-xs font-mono font-medium tracking-[0.25em] text-zinc-300 group-hover:text-white uppercase transition-colors">
-                  Scroll Down to Experience
+                  Scroll to Experience
                 </span>
               </div>
 
