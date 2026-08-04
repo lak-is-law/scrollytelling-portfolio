@@ -51,10 +51,17 @@ export const metadata: Metadata = {
     siteName: "Lakshya Agarwal",
     images: [
       {
+        url: "https://lakshya.uk/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Lakshya Agarwal - LK Monogram",
+        type: "image/png",
+      },
+      {
         url: "https://lakshya.uk/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Lakshya Agarwal - Creative AI Engineer & Full Stack Architect",
+        alt: "Lakshya Agarwal - LK Monogram",
         type: "image/png",
       },
       {
@@ -72,7 +79,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lakshya Agarwal | Creative AI Engineer",
     description: "Explore the portfolio of Lakshya Agarwal, Creative AI Engineer & Full Stack Architect specializing in interactive 3D, neural AI systems, and high-end web experiences.",
-    images: ["https://lakshya.uk/opengraph-image"],
+    images: ["https://lakshya.uk/og-image.png"],
     creator: "@lakshya_success",
   },
 };
