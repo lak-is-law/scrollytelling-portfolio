@@ -20,6 +20,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide default system arrow/cursor on fine pointer devices */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* Accessible focus ring style across keyboard navigation */
 :focus-visible {
   outline: 2px solid #38bdf8;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
@@ -9,14 +9,9 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isFinePointer, setIsFinePointer] = useState(false);
   
-  // Instant values for the inner dot
+  // Instant values for the point
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  
-  // Spring values for the trailing outer ring with momentum damping
-  const springConfig = { damping: 26, stiffness: 220, mass: 0.12 };
-  const smoothX = useSpring(cursorX, springConfig);
-  const smoothY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     // Only activate custom cursor on devices with fine pointer (mouse / trackpad)
@@ -89,27 +84,9 @@ export default function CustomCursor() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[99999] overflow-hidden" aria-hidden="true">
-      {/* Outer trailing magnetic ring */}
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none border border-cyan-400/40 flex items-center justify-center mix-blend-screen backdrop-blur-[1px]"
-        style={{
-          x: smoothX,
-          y: smoothY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        animate={{
-          scale: isMouseDown ? 0.8 : isHovered ? 1.5 : 1,
-          backgroundColor: isHovered ? "rgba(6, 182, 212, 0.12)" : "rgba(255, 255, 255, 0.02)",
-          borderColor: isHovered ? "rgba(6, 182, 212, 0.85)" : "rgba(255, 255, 255, 0.35)",
-          boxShadow: isHovered ? "0 0 20px rgba(6, 182, 212, 0.35)" : "0 0 0px rgba(0,0,0,0)",
-        }}
-        transition={{ duration: 0.15, ease: "easeOut" }}
-      />
-      
-      {/* Inner precise tactile dot */}
+      {/* Single precise tactile dot point */}
       <motion.div 
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full pointer-events-none bg-white mix-blend-difference"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full pointer-events-none bg-white mix-blend-difference"
         style={{
           x: cursorX,
           y: cursorY,
@@ -117,10 +94,9 @@ export default function CustomCursor() {
           translateY: "-50%",
         }}
         animate={{
-          opacity: isHovered ? 0.4 : 1,
-          scale: isMouseDown ? 1.4 : isHovered ? 0.6 : 1,
+          scale: isMouseDown ? 0.75 : isHovered ? 1.4 : 1,
         }}
-        transition={{ duration: 0.08 }}
+        transition={{ duration: 0.1, ease: "easeOut" }}
       />
     </div>
   );
