@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Lakshya Agarwal | Creative AI Engineer",
-  description: "Creative AI Engineer & High-End Scrollytelling Portfolio",
+  description: "Explore the portfolio of Lakshya Agarwal, Creative AI Engineer & Full Stack Architect specializing in interactive 3D, neural AI systems, and high-end web experiences.",
   metadataBase: new URL("https://lakshya.uk"),
   alternates: {
     canonical: "https://lakshya.uk",
@@ -46,15 +46,23 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Lakshya Agarwal | Creative AI Engineer",
-    description: "Creative AI Engineer & High-End Scrollytelling Portfolio",
+    description: "Explore the portfolio of Lakshya Agarwal, Creative AI Engineer & Full Stack Architect specializing in interactive 3D, neural AI systems, and high-end web experiences.",
     url: "https://lakshya.uk",
     siteName: "Lakshya Agarwal",
     images: [
       {
-        url: "/emblem.png",
+        url: "https://lakshya.uk/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Lakshya Agarwal - Creative AI Engineer & Full Stack Architect",
+        type: "image/png",
+      },
+      {
+        url: "https://lakshya.uk/emblem.png",
         width: 1024,
         height: 1024,
         alt: "Lakshya Agarwal - LK Monogram",
+        type: "image/png",
       },
     ],
     locale: "en_US",
@@ -63,8 +71,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Lakshya Agarwal | Creative AI Engineer",
-    description: "Creative AI Engineer & High-End Scrollytelling Portfolio",
-    images: ["/emblem.png"],
+    description: "Explore the portfolio of Lakshya Agarwal, Creative AI Engineer & Full Stack Architect specializing in interactive 3D, neural AI systems, and high-end web experiences.",
+    images: ["https://lakshya.uk/opengraph-image"],
+    creator: "@lakshya_success",
   },
 };
 
