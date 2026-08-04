@@ -1,0 +1,1057 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [ 7 0 R 9 0 R 11 0 R ] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier-Bold /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /MediaBox [ 0 0 595.28 841.89 ]
+  /Contents 8 0 R
+  /Resources <<
+    /Font <<
+      /F1 3 0 R
+      /F2 4 0 R
+      /F3 5 0 R
+      /F4 6 0 R
+    >>
+  >>
+>>
+endobj
+8 0 obj
+<< /Length 7705 >>
+stream
+0.060 0.090 0.160 rg
+36.00 805.00 523.28 4.00 re
+f
+0.060 0.090 0.160 rg
+36.00 782.00 195.00 16.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 7.5 Tf 42.00 786.00 Td (EXECUTIVE TECHNICAL EVALUATION) Tj ET
+0.990 0.950 0.760 rg
+0.910 0.700 0.030 RG
+0.75 w
+440.00 775.00 119.00 24.00 re
+B
+0.520 0.300 0.050 rg
+BT /F2 10.0 Tf 448.00 783.00 Td (SCORE: 6.1 / 10) Tj ET
+0.350 0.400 0.450 rg
+BT /F4 6.5 Tf 448.00 771.00 Td (VERDICT: BLOCKED) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 18.0 Tf 36.00 755.00 Td (Comprehensive Production Audit) Tj ET
+0.400 0.450 0.530 rg
+BT /F1 9.5 Tf 36.00 740.00 Td (Senior Staff Architectural, Performance, Security & Recruiter Assessment) Tj ET
+0.970 0.980 0.990 rg
+0.880 0.910 0.940 RG
+0.75 w
+36.00 685.00 523.28 45.00 re
+B
+0.400 0.450 0.530 rg
+BT /F2 7.0 Tf 46.00 718.00 Td (TARGET:) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 8.5 Tf 46.00 706.00 Td (Lakshya Agarwal \(lakshya.uk\)) Tj ET
+BT /F1 8.5 Tf 46.00 695.00 Td (Stack: Next.js 14, React 18, D3) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.0 Tf 210.00 718.00 Td (EVALUATION STANDARDS:) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 8.5 Tf 210.00 706.00 Td (OpenAI, Google, Meta Staff Criteria) Tj ET
+BT /F1 8.5 Tf 210.00 695.00 Td (WCAG 2.2 AAA & OWASP Top 10) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.0 Tf 400.00 718.00 Td (READINESS STATUS:) Tj ET
+0.850 0.100 0.100 rg
+BT /F2 8.5 Tf 400.00 706.00 Td (NOT PRODUCTION READY) Tj ET
+0.400 0.450 0.530 rg
+BT /F1 8.5 Tf 400.00 695.00 Td (4 Critical Deployment Blockers) Tj ET
+0.990 0.940 0.940 rg
+0.930 0.270 0.270 RG
+1.00 w
+36.00 622.00 523.28 52.00 re
+B
+0.700 0.100 0.100 rg
+36.00 622.00 4.00 52.00 re
+f
+0.600 0.080 0.080 rg
+BT /F2 9.0 Tf 48.00 658.00 Td ([!] CRITICAL AUDIT VERDICT: DEPLOYMENT CURRENTLY BLOCKED) Tj ET
+0.350 0.100 0.100 rg
+BT /F1 8.2 Tf 48.00 645.00 Td (The portfolio features exceptional visual ambition, but contains critical flaws \(broken 404 resume download,) Tj ET
+BT /F1 8.2 Tf 48.00 634.00 Td (unthrottled 22MB frame bursts, duplicate window spawning, zero security headers, and WCAG audio/cursor violations\).) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 11.0 Tf 36.00 600.00 Td (1. Domain Breakdown & Evaluation Scores) Tj ET
+0.800 0.830 0.880 RG
+36.00 594.00 m 559.28 594.00 l S
+0.950 0.960 0.980 rg
+36.00 574.00 523.28 16.00 re
+f
+0.200 0.250 0.330 rg
+BT /F2 7.5 Tf 42.00 578.50 Td (DOMAIN) Tj ET
+BT /F2 7.5 Tf 140.00 578.50 Td (SCORE) Tj ET
+BT /F2 7.5 Tf 195.00 578.50 Td (BENCHMARK STANDARD) Tj ET
+BT /F2 7.5 Tf 330.00 578.50 Td (PRIMARY FINDINGS) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 560.00 Td (Architecture) Tj ET
+0.700 0.500 0.050 rg
+BT /F2 7.8 Tf 140.00 560.00 Td (6.5 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 560.00 Td (Next.js 14 Server/Client) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 560.00 Td (Monolithic 'use client'; TopoJSON synchronous bu) Tj ET
+0.900 0.920 0.950 RG
+36.00 555.00 m 559.28 555.00 l S
+0.980 0.990 1.000 rg
+36.00 538.00 523.28 16.00 re
+f
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 543.00 Td (Code Quality) Tj ET
+0.700 0.500 0.050 rg
+BT /F2 7.8 Tf 140.00 543.00 Td (7.0 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 543.00 Td (TypeScript rigor, Clean ) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 543.00 Td (Canvas width/height set on scroll; 300 state chu) Tj ET
+0.900 0.920 0.950 RG
+36.00 538.00 m 559.28 538.00 l S
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 526.00 Td (Security) Tj ET
+0.850 0.150 0.150 rg
+BT /F2 7.8 Tf 140.00 526.00 Td (4.0 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 526.00 Td (OWASP Top 10, CSP, API G) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 526.00 Td (Zero HTTP security headers; un-rate-limited mock) Tj ET
+0.900 0.920 0.950 RG
+36.00 521.00 m 559.28 521.00 l S
+0.980 0.990 1.000 rg
+36.00 504.00 523.28 16.00 re
+f
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 509.00 Td (Performance) Tj ET
+0.850 0.150 0.150 rg
+BT /F2 7.8 Tf 140.00 509.00 Td (5.5 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 509.00 Td (Core Web Vitals, LCP < 1) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 509.00 Td (22MB unthrottled WebP burst; continuous 60fps of) Tj ET
+0.900 0.920 0.950 RG
+36.00 504.00 m 559.28 504.00 l S
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 492.00 Td (Accessibility) Tj ET
+0.850 0.150 0.150 rg
+BT /F2 7.8 Tf 140.00 492.00 Td (3.5 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 492.00 Td (WCAG 2.2 AAA, Keyboard N) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 492.00 Td (Global cursor:none !important; unconsented audio) Tj ET
+0.900 0.920 0.950 RG
+36.00 487.00 m 559.28 487.00 l S
+0.980 0.990 1.000 rg
+36.00 470.00 523.28 16.00 re
+f
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 475.00 Td (UI / UX Polish) Tj ET
+0.100 0.600 0.200 rg
+BT /F2 7.8 Tf 140.00 475.00 Td (8.5 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 475.00 Td (Visual hierarchy, Polish) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 475.00 Td (High creative craft; watermark comment in source) Tj ET
+0.900 0.920 0.950 RG
+36.00 470.00 m 559.28 470.00 l S
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 458.00 Td (Animations) Tj ET
+0.100 0.600 0.200 rg
+BT /F2 7.8 Tf 140.00 458.00 Td (8.0 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 458.00 Td (Framer Motion physics, G) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 458.00 Td (Fluid physics; missing prefers-reduced-motion me) Tj ET
+0.900 0.920 0.950 RG
+36.00 453.00 m 559.28 453.00 l S
+0.980 0.990 1.000 rg
+36.00 436.00 523.28 16.00 re
+f
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 441.00 Td (Visual Identity) Tj ET
+0.100 0.600 0.200 rg
+BT /F2 7.8 Tf 140.00 441.00 Td (9.0 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 441.00 Td (Aesthetic elegance, Typo) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 441.00 Td (Outstanding custom cyberpunk theme; cohesive dar) Tj ET
+0.900 0.920 0.950 RG
+36.00 436.00 m 559.28 436.00 l S
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 424.00 Td (Maintainability) Tj ET
+0.700 0.500 0.050 rg
+BT /F2 7.8 Tf 140.00 424.00 Td (6.0 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 424.00 Td (Component modularity, Te) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 424.00 Td (Files exceed 900+ lines; zero automated unit or ) Tj ET
+0.900 0.920 0.950 RG
+36.00 419.00 m 559.28 419.00 l S
+0.980 0.990 1.000 rg
+36.00 402.00 523.28 16.00 re
+f
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 407.00 Td (Recruiter Appeal) Tj ET
+0.700 0.500 0.050 rg
+BT /F2 7.8 Tf 140.00 407.00 Td (6.0 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 407.00 Td (FAANG / OpenAI Hiring Cr) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 407.00 Td (Broken Resume PDF \(404\); WhiteHat Jr kids certs ) Tj ET
+0.900 0.920 0.950 RG
+36.00 402.00 m 559.28 402.00 l S
+0.060 0.090 0.160 rg
+BT /F1 7.8 Tf 42.00 390.00 Td (SEO & Meta) Tj ET
+0.850 0.150 0.150 rg
+BT /F2 7.8 Tf 140.00 390.00 Td (4.5 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 390.00 Td (Schema.org, OpenGraph, S) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 390.00 Td (Missing robots.txt, sitemap.xml, and JSON-LD str) Tj ET
+0.900 0.920 0.950 RG
+36.00 385.00 m 559.28 385.00 l S
+0.980 0.990 1.000 rg
+36.00 368.00 523.28 16.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 7.8 Tf 42.00 373.00 Td (OVERALL COMPOSITE) Tj ET
+0.700 0.500 0.050 rg
+BT /F2 7.8 Tf 140.00 373.00 Td (6.1 / 10) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 7.5 Tf 195.00 373.00 Td (Senior Staff Production ) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 330.00 373.00 Td (High-potential diamond in the rough requiring en) Tj ET
+0.900 0.920 0.950 RG
+36.00 368.00 m 559.28 368.00 l S
+0.800 0.830 0.880 RG 0.50 w 36.00 40.00 m 559.28 40.00 l S
+0.400 0.450 0.530 rg BT /F1 7.5 Tf 36.00 28.00 Td (CONFIDENTIAL - SENIOR STAFF PRODUCTION AUDIT | LAKSHYA AGARWAL PORTFOLIO) Tj ET
+0.400 0.450 0.530 rg BT /F2 7.5 Tf 510.00 28.00 Td (Page 1 of 3) Tj ET
+endstream
+endobj
+9 0 obj
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /MediaBox [ 0 0 595.28 841.89 ]
+  /Contents 10 0 R
+  /Resources <<
+    /Font <<
+      /F1 3 0 R
+      /F2 4 0 R
+      /F3 5 0 R
+      /F4 6 0 R
+    >>
+  >>
+>>
+endobj
+10 0 obj
+<< /Length 9629 >>
+stream
+0.060 0.090 0.160 rg
+BT /F2 13.0 Tf 36.00 805.00 Td (2. Prioritized Issue Register) Tj ET
+0.800 0.830 0.880 RG
+36.00 798.00 m 559.28 798.00 l S
+0.850 0.150 0.150 rg
+BT /F2 10.0 Tf 36.00 782.00 Td ([CRITICAL] Issues \(Must Resolve Before Deployment\)) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 714.00 523.28 56.00 re
+B
+0.850 0.150 0.150 rg
+36.00 714.00 3.00 56.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.5 Tf 46.00 758.00 Td (1. Missing Resume PDF in Public Directory \(HTTP 404\)) Tj ET
+0.850 0.150 0.150 rg
+500.00 756.00 50.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 506.00 759.00 Td (CRITICAL) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 746.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 90.00 746.00 Td (DeveloperVault.tsx links to /Resume.pdf, but the file does not exist in public/.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 734.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.5 Tf 90.00 734.00 Td (Technical recruiters clicking 'Download PDF' receive a dead 404 error, breaking the primar) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 722.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.5 Tf 90.00 722.00 Td (Add an ATS-optimized, high-resolution Resume.pdf to /public/ and validate link integrity.) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 652.00 523.28 56.00 re
+B
+0.850 0.150 0.150 rg
+36.00 652.00 3.00 56.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.5 Tf 46.00 696.00 Td (2. Canvas Context Reset on Every Scroll Frame in ScrollyCanvas.tsx) Tj ET
+0.850 0.150 0.150 rg
+500.00 694.00 50.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 506.00 697.00 Td (CRITICAL) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 684.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 90.00 684.00 Td (canvas.width and canvas.height are re-assigned inside the 60fps scroll callback.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 672.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.5 Tf 90.00 672.00 Td (Purges hardware GPU raster cache and triggers continuous layout recalculations, causing fr) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 660.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.5 Tf 90.00 660.00 Td (Bind canvas sizing exclusively to debounced window resize events and apply window.devicePi) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 590.00 523.28 56.00 re
+B
+0.850 0.150 0.150 rg
+36.00 590.00 3.00 56.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.5 Tf 46.00 634.00 Td (3. Uncontrolled 300-Image Network Burst on Page Mount) Tj ET
+0.850 0.150 0.150 rg
+500.00 632.00 50.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 506.00 635.00 Td (CRITICAL) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 622.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 90.00 622.00 Td (300 WebP frames \(22 Megabytes\) are loaded simultaneously via an unthrottled JavaScript loo) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 610.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.5 Tf 90.00 610.00 Td (Saturates client connection pools, stalls critical CSS/font parsing, and triggers 300 stat) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 598.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.5 Tf 90.00 598.00 Td (Load initial 15 keyframes immediately for instant playback, then stream remaining frames i) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 528.00 523.28 56.00 re
+B
+0.850 0.150 0.150 rg
+36.00 528.00 3.00 56.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.5 Tf 46.00 572.00 Td (4. Double / Triple Browser Tab Spawning on Project Clicks) Tj ET
+0.850 0.150 0.150 rg
+500.00 570.00 50.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 506.00 573.00 Td (CRITICAL) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 560.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.5 Tf 90.00 560.00 Td (Nested onClick handlers in parent motion cards and child anchor links both execute window.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 548.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.5 Tf 90.00 548.00 Td (Single click launches multiple redundant tabs and triggers Safari/Chrome popup blockers.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.5 Tf 46.00 536.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.5 Tf 90.00 536.00 Td (Remove parent onClick triggers; rely strictly on semantic anchor links with stopPropagatio) Tj ET
+0.900 0.500 0.050 rg
+BT /F2 10.0 Tf 36.00 512.00 Td ([HIGH] Priority Deficiencies) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 450.00 523.28 52.00 re
+B
+0.950 0.550 0.100 rg
+36.00 450.00 3.00 52.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.2 Tf 46.00 490.00 Td (5. Zero HTTP Security Headers in Next.js Config) Tj ET
+0.950 0.550 0.100 rg
+510.00 488.00 40.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 518.00 491.00 Td (HIGH) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 478.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.2 Tf 90.00 478.00 Td (next.config.mjs is blank; missing CSP, HSTS, X-Frame-Options, and Permissions-Policy.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 467.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.2 Tf 90.00 467.00 Td (Vulnerable to clickjacking, unauthorized iframe embedding, and automated vulnerability fla) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 456.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.2 Tf 90.00 456.00 Td (Add headers\(\) configuration in next.config.mjs defining strict security headers.) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 394.00 523.28 52.00 re
+B
+0.950 0.550 0.100 rg
+36.00 394.00 3.00 52.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.2 Tf 46.00 434.00 Td (6. Mock Reward API with No Email Delivery \(/api/reward\)) Tj ET
+0.950 0.550 0.100 rg
+510.00 432.00 40.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 518.00 435.00 Td (HIGH) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 422.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.2 Tf 90.00 422.00 Td (/api/reward returns mock success without Resend/Postmark integration or database storage.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 411.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.2 Tf 90.00 411.00 Td (Recruiter dossiers requested in Developer Vault are permanently lost; endpoint vulnerable ) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 400.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.2 Tf 90.00 400.00 Td (Connect transactional email provider with Upstash Redis rate limiting and Zod schema valid) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 338.00 523.28 52.00 re
+B
+0.950 0.550 0.100 rg
+36.00 338.00 3.00 52.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.2 Tf 46.00 378.00 Td (7. Global Cursor Destruction \(WCAG 2.4.7 Violation\)) Tj ET
+0.950 0.550 0.100 rg
+510.00 376.00 40.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 518.00 379.00 Td (HIGH) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 366.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.2 Tf 90.00 366.00 Td (* { cursor: none !important; } wipes native pointers globally.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 355.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.2 Tf 90.00 355.00 Td (Breaks accessibility for screen magnifiers and leaves user without pointer if JS encounter) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 344.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.2 Tf 90.00 344.00 Td (Scope custom cursor to fine-pointer media queries and restore native cursor on inputs and ) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 282.00 523.28 52.00 re
+B
+0.950 0.550 0.100 rg
+36.00 282.00 3.00 52.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.2 Tf 46.00 322.00 Td (8. Unconsented Audio Autoplay on General Click \(WCAG 1.4.2\)) Tj ET
+0.950 0.550 0.100 rg
+510.00 320.00 40.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 518.00 323.00 Td (HIGH) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 310.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.2 Tf 90.00 310.00 Td (BackgroundAudio plays music on first page tap/click/keypress without explicit opt-in.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 299.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.2 Tf 90.00 299.00 Td (Violates WCAG 2.2 Guideline 1.4.2; disruptive in work/office/meeting environments.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 288.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.2 Tf 90.00 288.00 Td (Default audio to muted and require user interaction with the visualizer toggle.) Tj ET
+1.000 1.000 1.000 rg
+0.900 0.920 0.950 RG
+0.75 w
+36.00 226.00 523.28 52.00 re
+B
+0.950 0.550 0.100 rg
+36.00 226.00 3.00 52.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 8.2 Tf 46.00 266.00 Td (9. Continuous Off-Screen Animation Loop in GlobalMatrix.tsx) Tj ET
+0.950 0.550 0.100 rg
+510.00 264.00 40.00 12.00 re
+f
+1.000 1.000 1.000 rg
+BT /F4 6.5 Tf 518.00 267.00 Td (HIGH) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 254.00 Td (Problem:) Tj ET
+0.150 0.200 0.280 rg
+BT /F1 7.2 Tf 90.00 254.00 Td (D3 Geo render loop runs at 60 FPS continuously even when scrolled 4000px away.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 243.00 Td (Impact:) Tj ET
+0.700 0.100 0.100 rg
+BT /F1 7.2 Tf 90.00 243.00 Td (Wastes CPU/GPU compute cycles and drains mobile battery.) Tj ET
+0.400 0.450 0.530 rg
+BT /F2 7.2 Tf 46.00 232.00 Td (Solution:) Tj ET
+0.100 0.550 0.200 rg
+BT /F1 7.2 Tf 90.00 232.00 Td (Pause render loop via IntersectionObserver when component leaves viewport.) Tj ET
+0.800 0.830 0.880 RG 0.50 w 36.00 40.00 m 559.28 40.00 l S
+0.400 0.450 0.530 rg BT /F1 7.5 Tf 36.00 28.00 Td (CONFIDENTIAL - SENIOR STAFF PRODUCTION AUDIT | LAKSHYA AGARWAL PORTFOLIO) Tj ET
+0.400 0.450 0.530 rg BT /F2 7.5 Tf 510.00 28.00 Td (Page 2 of 3) Tj ET
+endstream
+endobj
+11 0 obj
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /MediaBox [ 0 0 595.28 841.89 ]
+  /Contents 12 0 R
+  /Resources <<
+    /Font <<
+      /F1 3 0 R
+      /F2 4 0 R
+      /F3 5 0 R
+      /F4 6 0 R
+    >>
+  >>
+>>
+endobj
+12 0 obj
+<< /Length 17695 >>
+stream
+0.060 0.090 0.160 rg
+BT /F2 12.0 Tf 36.00 805.00 Td (3. Top 50 Production Improvements \(Prioritized Directory\)) Tj ET
+0.800 0.830 0.880 RG
+36.00 798.00 m 559.28 798.00 l S
+0.950 0.960 0.980 rg
+36.00 778.00 523.28 14.00 re
+f
+0.200 0.250 0.330 rg
+BT /F2 7.2 Tf 40.00 781.50 Td (#) Tj ET
+BT /F2 7.2 Tf 60.00 781.50 Td (CAT) Tj ET
+BT /F2 7.2 Tf 110.00 781.50 Td (REMEDIATION & IMPROVEMENT DIRECTIVE) Tj ET
+0.980 0.990 1.000 rg
+36.00 761.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 766.00 Td (01) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 766.00 Td (ASSET) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 766.00 Td (Add verified ATS-ready Resume.pdf to /public to fix 404 download error.) Tj ET
+0.920 0.940 0.960 RG
+36.00 761.50 m 559.28 761.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 751.50 Td (02) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 751.50 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 751.50 Td (Stop resetting canvas width/height on every scroll frame in ScrollyCanvas.tsx.) Tj ET
+0.920 0.940 0.960 RG
+36.00 747.00 m 559.28 747.00 l S
+0.980 0.990 1.000 rg
+36.00 732.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 737.00 Td (03) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 737.00 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 737.00 Td (Implement throttled chunk loading for 300 WebP sequence images.) Tj ET
+0.920 0.940 0.960 RG
+36.00 732.50 m 559.28 732.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 722.50 Td (04) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 722.50 Td (BUG) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 722.50 Td (Eliminate nested onClick handlers spawning multiple browser tabs on project launch.) Tj ET
+0.920 0.940 0.960 RG
+36.00 718.00 m 559.28 718.00 l S
+0.980 0.990 1.000 rg
+36.00 703.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 708.00 Td (05) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 708.00 Td (SECURITY) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 708.00 Td (Configure strict security headers in next.config.mjs \(CSP, HSTS, X-Frame-Options\).) Tj ET
+0.920 0.940 0.960 RG
+36.00 703.50 m 559.28 703.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 693.50 Td (06) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 693.50 Td (SECURITY) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 693.50 Td (Add rate limiting and Zod schema validation to /api/reward.) Tj ET
+0.920 0.940 0.960 RG
+36.00 689.00 m 559.28 689.00 l S
+0.980 0.990 1.000 rg
+36.00 674.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 679.00 Td (07) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 679.00 Td (BACKEND) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 679.00 Td (Implement real transactional email delivery for Developer Vault reward dossier.) Tj ET
+0.920 0.940 0.960 RG
+36.00 674.50 m 559.28 674.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 664.50 Td (08) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 664.50 Td (A11Y) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 664.50 Td (Remove global * { cursor: none !important } and restore native I-beam on inputs.) Tj ET
+0.920 0.940 0.960 RG
+36.00 660.00 m 559.28 660.00 l S
+0.980 0.990 1.000 rg
+36.00 645.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 650.00 Td (09) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 650.00 Td (A11Y) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 650.00 Td (Disable unconsented audio autoplay on general page tap/click.) Tj ET
+0.920 0.940 0.960 RG
+36.00 645.50 m 559.28 645.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 635.50 Td (10) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 635.50 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 635.50 Td (Add IntersectionObserver to pause GlobalMatrix.tsx render loop when off-screen.) Tj ET
+0.920 0.940 0.960 RG
+36.00 631.00 m 559.28 631.00 l S
+0.980 0.990 1.000 rg
+36.00 616.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 621.00 Td (11) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 621.00 Td (RECRUITER) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 621.00 Td (Remove WhiteHat Jr certifications and replace with high-impact industry credentials.) Tj ET
+0.920 0.940 0.960 RG
+36.00 616.50 m 559.28 616.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 606.50 Td (12) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 606.50 Td (RECRUITER) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 606.50 Td (Clarify future dates on certifications \(e.g. 'Candidate / In Progress'\).) Tj ET
+0.920 0.940 0.960 RG
+36.00 602.00 m 559.28 602.00 l S
+0.980 0.990 1.000 rg
+36.00 587.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 592.00 Td (13) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 592.00 Td (SEO) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 592.00 Td (Create src/app/robots.ts with crawler index directives.) Tj ET
+0.920 0.940 0.960 RG
+36.00 587.50 m 559.28 587.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 577.50 Td (14) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 577.50 Td (SEO) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 577.50 Td (Create src/app/sitemap.ts generating dynamic XML sitemaps.) Tj ET
+0.920 0.940 0.960 RG
+36.00 573.00 m 559.28 573.00 l S
+0.980 0.990 1.000 rg
+36.00 558.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 563.00 Td (15) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 563.00 Td (SEO) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 563.00 Td (Add comprehensive Schema.org Person & ProfilePage JSON-LD structured data.) Tj ET
+0.920 0.940 0.960 RG
+36.00 558.50 m 559.28 558.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 548.50 Td (16) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 548.50 Td (BRAND) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 548.50 Td (Unify all contact email references to contact@lakshya.uk.) Tj ET
+0.920 0.940 0.960 RG
+36.00 544.00 m 559.28 544.00 l S
+0.980 0.990 1.000 rg
+36.00 529.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 534.00 Td (17) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 534.00 Td (PWA) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 534.00 Td (Update site.webmanifest background and theme color to obsidian #07090e.) Tj ET
+0.920 0.940 0.960 RG
+36.00 529.50 m 559.28 529.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 519.50 Td (18) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 519.50 Td (A11Y) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 519.50 Td (Implement prefers-reduced-motion support across all Framer Motion components.) Tj ET
+0.920 0.940 0.960 RG
+36.00 515.00 m 559.28 515.00 l S
+0.980 0.990 1.000 rg
+36.00 500.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 505.00 Td (19) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 505.00 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 505.00 Td (Apply window.devicePixelRatio scaling to Canvas backing buffers for Retina sharpness.) Tj ET
+0.920 0.940 0.960 RG
+36.00 500.50 m 559.28 500.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 490.50 Td (20) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 490.50 Td (A11Y) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 490.50 Td (Add aria-label and role='region' attributes to all interactive canvas containers.) Tj ET
+0.920 0.940 0.960 RG
+36.00 486.00 m 559.28 486.00 l S
+0.980 0.990 1.000 rg
+36.00 471.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 476.00 Td (21) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 476.00 Td (UI/UX) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 476.00 Td (Replace rapid oscillating sine wobble in Leadership.tsx with smooth inertial rotation.) Tj ET
+0.920 0.940 0.960 RG
+36.00 471.50 m 559.28 471.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 461.50 Td (22) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 461.50 Td (ARCH) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 461.50 Td (Unify RedGambit, Todar, and ElevateHub into a reusable compound <ProjectCard />.) Tj ET
+0.920 0.940 0.960 RG
+36.00 457.00 m 559.28 457.00 l S
+0.980 0.990 1.000 rg
+36.00 442.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 447.00 Td (23) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 447.00 Td (CLEAN) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 447.00 Td (Rename unbranded files in public/logos/ \(images-2.jpeg, images.png\).) Tj ET
+0.920 0.940 0.960 RG
+36.00 442.50 m 559.28 442.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 432.50 Td (24) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 432.50 Td (CLEAN) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 432.50 Td (Delete committed .DS_Store file from public/audio/.) Tj ET
+0.920 0.940 0.960 RG
+36.00 428.00 m 559.28 428.00 l S
+0.980 0.990 1.000 rg
+36.00 413.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 418.00 Td (25) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 418.00 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 418.00 Td (Optimize BackgroundAudio to use preload='none'.) Tj ET
+0.920 0.940 0.960 RG
+36.00 413.50 m 559.28 413.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 403.50 Td (26) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 403.50 Td (REFACTOR) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 403.50 Td (Split monolithic Languages.tsx \(981 lines\) into modular sub-components and hooks.) Tj ET
+0.920 0.940 0.960 RG
+36.00 399.00 m 559.28 399.00 l S
+0.980 0.990 1.000 rg
+36.00 384.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 389.00 Td (27) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 389.00 Td (REFACTOR) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 389.00 Td (Split monolithic PixelFootballGame.tsx \(923 lines\) into game engine and HUD.) Tj ET
+0.920 0.940 0.960 RG
+36.00 384.50 m 559.28 384.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 374.50 Td (28) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 374.50 Td (REFACTOR) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 374.50 Td (Split Arcade.tsx \(849 lines\) into cartridge shelf, modal container, and state store.) Tj ET
+0.920 0.940 0.960 RG
+36.00 370.00 m 559.28 370.00 l S
+0.980 0.990 1.000 rg
+36.00 355.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 360.00 Td (29) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 360.00 Td (ERROR) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 360.00 Td (Add src/app/error.tsx and src/app/global-error.tsx React Error Boundaries.) Tj ET
+0.920 0.940 0.960 RG
+36.00 355.50 m 559.28 355.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 345.50 Td (30) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 345.50 Td (ERROR) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 345.50 Td (Add custom cyberpunk-styled src/app/not-found.tsx.) Tj ET
+0.920 0.940 0.960 RG
+36.00 341.00 m 559.28 341.00 l S
+0.980 0.990 1.000 rg
+36.00 326.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 331.00 Td (31) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 331.00 Td (DESIGN) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 331.00 Td (Unify background color tokens across globals.css, layout.tsx, and canvas.) Tj ET
+0.920 0.940 0.960 RG
+36.00 326.50 m 559.28 326.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 316.50 Td (32) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 316.50 Td (DESIGN) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 316.50 Td (Define reusable Tailwind utility tokens for glassmorphism panels and neon glows.) Tj ET
+0.920 0.940 0.960 RG
+36.00 312.00 m 559.28 312.00 l S
+0.980 0.990 1.000 rg
+36.00 297.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 302.00 Td (33) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 302.00 Td (MOBILE) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 302.00 Td (Refactor floating action buttons in bottom-right to stack ergonomically on 375px screens) Tj ET
+0.920 0.940 0.960 RG
+36.00 297.50 m 559.28 297.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 287.50 Td (34) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 287.50 Td (MOBILE) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 287.50 Td (Add touch-action: none to minigame canvases to prevent iOS bounce-scroll interference.) Tj ET
+0.920 0.940 0.960 RG
+36.00 283.00 m 559.28 283.00 l S
+0.980 0.990 1.000 rg
+36.00 268.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 273.00 Td (35) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 273.00 Td (A11Y) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 273.00 Td (Add keyboard navigation listeners \(Tab, Space, Enter\) to Languages weapon selection.) Tj ET
+0.920 0.940 0.960 RG
+36.00 268.50 m 559.28 268.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 258.50 Td (36) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 258.50 Td (A11Y) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 258.50 Td (Add aria-live='polite' to Terminal Hacker output buffer.) Tj ET
+0.920 0.940 0.960 RG
+36.00 254.00 m 559.28 254.00 l S
+0.980 0.990 1.000 rg
+36.00 239.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 244.00 Td (37) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 244.00 Td (SEO) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 244.00 Td (Add canonical link tag <link rel='canonical' href='https://lakshya.uk' />.) Tj ET
+0.920 0.940 0.960 RG
+36.00 239.50 m 559.28 239.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 229.50 Td (38) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 229.50 Td (SEO) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 229.50 Td (Add OpenGraph twitter handle and detailed description tags.) Tj ET
+0.920 0.940 0.960 RG
+36.00 225.00 m 559.28 225.00 l S
+0.980 0.990 1.000 rg
+36.00 210.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 215.00 Td (39) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 215.00 Td (TYPESCRIPT) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 215.00 Td (Eliminate all \(as any\) type assertions in GlobalMatrix.tsx.) Tj ET
+0.920 0.940 0.960 RG
+36.00 210.50 m 559.28 210.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 200.50 Td (40) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 200.50 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 200.50 Td (Use dynamic import\(\) for minigames to reduce initial JS payload.) Tj ET
+0.920 0.940 0.960 RG
+36.00 196.00 m 559.28 196.00 l S
+0.980 0.990 1.000 rg
+36.00 181.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 186.00 Td (41) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 186.00 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 186.00 Td (Compress /public/projects/ JPG/PNG assets to WebP/AVIF formats.) Tj ET
+0.920 0.940 0.960 RG
+36.00 181.50 m 559.28 181.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 171.50 Td (42) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 171.50 Td (PERF) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 171.50 Td (Cache D3 Geo landmass calculations so TopoJSON isn't re-interpolated unnecessarily.) Tj ET
+0.920 0.940 0.960 RG
+36.00 167.00 m 559.28 167.00 l S
+0.980 0.990 1.000 rg
+36.00 152.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 157.00 Td (43) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 157.00 Td (UX) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 157.00 Td (Add visual tooltip explaining drag-to-aim controls in Pixel Football.) Tj ET
+0.920 0.940 0.960 RG
+36.00 152.50 m 559.28 152.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 142.50 Td (44) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 142.50 Td (UX) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 142.50 Td (Add quick sound mute/unmute keyboard shortcut \(e.g. M key\).) Tj ET
+0.920 0.940 0.960 RG
+36.00 138.00 m 559.28 138.00 l S
+0.980 0.990 1.000 rg
+36.00 123.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 128.00 Td (45) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 128.00 Td (SECURITY) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 128.00 Td (Replace inline dangerouslySetInnerHTML in layout.tsx with Next.js Script with nonce.) Tj ET
+0.920 0.940 0.960 RG
+36.00 123.50 m 559.28 123.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 113.50 Td (46) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 113.50 Td (BUILD) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 113.50 Td (Enable compress: true, poweredByHeader: false, and reactStrictMode: true.) Tj ET
+0.920 0.940 0.960 RG
+36.00 109.00 m 559.28 109.00 l S
+0.980 0.990 1.000 rg
+36.00 94.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 99.00 Td (47) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 99.00 Td (DX) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 99.00 Td (Add Prettier and ESLint rules enforcing strict import sorting and hook dependency checks) Tj ET
+0.920 0.940 0.960 RG
+36.00 94.50 m 559.28 94.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 84.50 Td (48) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 84.50 Td (TESTING) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 84.50 Td (Add Playwright end-to-end test suite checking all external links and canvas.) Tj ET
+0.920 0.940 0.960 RG
+36.00 80.00 m 559.28 80.00 l S
+0.980 0.990 1.000 rg
+36.00 65.50 523.28 14.00 re
+f
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 70.00 Td (49) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 70.00 Td (TESTING) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 70.00 Td (Add Vitest unit tests for arcadeAudio procedural audio math and game physics.) Tj ET
+0.920 0.940 0.960 RG
+36.00 65.50 m 559.28 65.50 l S
+0.400 0.450 0.530 rg
+BT /F4 7.0 Tf 40.00 55.50 Td (50) Tj ET
+0.150 0.350 0.650 rg
+BT /F4 6.8 Tf 60.00 55.50 Td (DEVOPS) Tj ET
+0.060 0.090 0.160 rg
+BT /F1 7.1 Tf 110.00 55.50 Td (Configure GitHub Actions CI workflow to run linting, type-checking, and link validation.) Tj ET
+0.920 0.940 0.960 RG
+36.00 51.00 m 559.28 51.00 l S
+0.800 0.830 0.880 RG 0.50 w 36.00 40.00 m 559.28 40.00 l S
+0.400 0.450 0.530 rg BT /F1 7.5 Tf 36.00 28.00 Td (CONFIDENTIAL - SENIOR STAFF PRODUCTION AUDIT | LAKSHYA AGARWAL PORTFOLIO) Tj ET
+0.400 0.450 0.530 rg BT /F2 7.5 Tf 510.00 28.00 Td (Page 3 of 3) Tj ET
+endstream
+endobj
+xref
+0 13
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000136 00000 n 
+0000000233 00000 n 
+0000000335 00000 n 
+0000000430 00000 n 
+0000000530 00000 n 
+0000000738 00000 n 
+0000008495 00000 n 
+0000008704 00000 n 
+0000018386 00000 n 
+0000018596 00000 n 
+trailer
+<<
+  /Size 13
+  /Root 1 0 R
+>>
+startxref
+36345
+%%EOF

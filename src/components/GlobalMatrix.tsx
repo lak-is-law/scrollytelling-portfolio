@@ -111,7 +111,10 @@ const LANGUAGES: Language[] = [
 const ORIGIN_LNG = 77.2;
 const ORIGIN_LAT = 28.6;
 
-// Helper to draw rounded rectangle in Canvas
+// Pre-computed Land Feature geometry
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CACHED_LAND_FEATURE = topojson.feature(worldData as any, worldData.objects.land as any);
+
 function drawRoundedRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -136,7 +139,9 @@ function drawRoundedRect(
 export default function GlobalMatrix() {
   const [selectedLangs, setSelectedLangs] = useState<Set<string>>(new Set(["eng", "hin", "guj"]));
   const [hoveredLang, setHoveredLang] = useState<string | null>(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
   
+  const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const currentRotation = useRef<[number, number]>([-75, -18]);
   const targetRotation = useRef<[number, number]>([-75, -18]);
@@ -144,19 +149,28 @@ export default function GlobalMatrix() {
   const lastPointerPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const pulseTimer = useRef<number>(0);
 
-  // Convert TopoJSON land to GeoJSON Feature
-  const landFeature = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return topojson.feature(worldData as any, worldData.objects.land as any);
-  }, []);
-
   const graticule = useMemo(() => geoGraticule10(), []);
 
   // Globe dimensions
   const size = 440;
   const radius = 175;
 
-  // Projection generator for a specific rotation
+  // Intersection Observer to suspend 60fps RAF when section is offscreen
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const getProjection = useCallback((rot: [number, number]) => {
     return geoOrthographic()
       .scale(radius)
@@ -165,7 +179,6 @@ export default function GlobalMatrix() {
       .rotate(rot);
   }, [radius, size]);
 
-  // Main Canvas Render Pass: draws continents, graticules, arcs, pins, leader lines and badges in unified sync
   const renderGlobe = useCallback((rot: [number, number], pulse: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -173,9 +186,9 @@ export default function GlobalMatrix() {
     if (!ctx) return;
 
     const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
-    if (canvas.width !== size * dpr) {
-      canvas.width = size * dpr;
-      canvas.height = size * dpr;
+    if (canvas.width !== Math.floor(size * dpr)) {
+      canvas.width = Math.floor(size * dpr);
+      canvas.height = Math.floor(size * dpr);
     }
     ctx.save();
     ctx.scale(dpr, dpr);
@@ -204,10 +217,10 @@ export default function GlobalMatrix() {
     ctx.lineWidth = 0.75;
     ctx.stroke();
 
-    // 3. Real Continents Landmass Fill & High-Contrast Cyberpunk Borders
+    // 3. Continents Landmass Fill & High-Contrast Cyberpunk Borders
     ctx.beginPath();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    path(landFeature as any);
+    path(CACHED_LAND_FEATURE as any);
     ctx.fillStyle = "rgba(30, 41, 59, 0.85)";
     ctx.fill();
     ctx.strokeStyle = "rgba(56, 189, 248, 0.55)";
@@ -259,10 +272,10 @@ export default function GlobalMatrix() {
       ctx.stroke();
     }
 
-    // 6. Geographic Pins, Angled Leader Lines, and Badges (100% In-Sync)
+    // 6. Geographic Pins, Angled Leader Lines, and Badges
     LANGUAGES.forEach((lang) => {
       const pos = proj([lang.lng, lang.lat]);
-      if (!pos) return; // Point is on backside of sphere
+      if (!pos) return;
 
       const isSelected = selectedLangs.has(lang.id);
       const isHovered = hoveredLang === lang.id;
@@ -302,14 +315,13 @@ export default function GlobalMatrix() {
       ctx.lineWidth = isActive ? 2 : 1;
       ctx.stroke();
 
-      // Draw Floating Non-Overlapping Badge at leader tip
+      // Floating Badge Pill
       const badgeW = 58;
       const badgeH = 22;
       const badgeR = 11;
       const badgeX = lang.labelOffset.dx > 0 ? targetX : targetX - badgeW;
       const badgeY = targetY - badgeH / 2;
 
-      // Badge Background Pill
       drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, badgeR);
       ctx.fillStyle = isActive ? "#0f172a" : "rgba(15, 23, 42, 0.9)";
       ctx.fill();
@@ -333,22 +345,19 @@ export default function GlobalMatrix() {
       ctx.fillText(lang.id.toUpperCase(), badgeX + 18, dotY + 0.5);
     });
 
-    // 7. Crisp Glowing Sphere Outlines
-    // Primary outer rim
+    // 7. Sphere Outlines
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
-    // Secondary inner rim
     ctx.beginPath();
     ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
     ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    // Outer coordinate ticks
     ctx.beginPath();
     ctx.arc(cx, cy, radius + 12, 0, Math.PI * 2);
     ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
@@ -358,10 +367,12 @@ export default function GlobalMatrix() {
     ctx.setLineDash([]);
 
     ctx.restore();
-  }, [getProjection, graticule, hoveredLang, landFeature, radius, selectedLangs, size]);
+  }, [getProjection, graticule, hoveredLang, radius, selectedLangs, size]);
 
-  // Unified Animation Loop
+  // Unified Animation Loop with Intersection Pause
   useEffect(() => {
+    if (!isIntersecting) return;
+
     let animationId: number;
 
     const loop = () => {
@@ -369,7 +380,6 @@ export default function GlobalMatrix() {
         targetRotation.current[0] += 0.15;
       }
 
-      // Smooth interpolation for rotation
       const cur = currentRotation.current;
       const tgt = targetRotation.current;
       cur[0] += (tgt[0] - cur[0]) * 0.1;
@@ -383,9 +393,8 @@ export default function GlobalMatrix() {
 
     animationId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animationId);
-  }, [renderGlobe]);
+  }, [isIntersecting, renderGlobe]);
 
-  // Toggle or focus language
   const toggleLanguage = (id: string) => {
     setSelectedLangs((prev) => {
       const next = new Set(prev);
@@ -403,7 +412,6 @@ export default function GlobalMatrix() {
     toggleLanguage(lang.id);
   };
 
-  // Pointer / Drag Interaction
   const handlePointerDown = (e: React.PointerEvent) => {
     isDragging.current = true;
     lastPointerPos.current = { x: e.clientX, y: e.clientY };
@@ -424,7 +432,6 @@ export default function GlobalMatrix() {
         Math.max(-60, Math.min(60, targetRotation.current[1] - dy * 0.45)),
       ];
     } else {
-      // Hover detection on canvas
       const rect = canvas.getBoundingClientRect();
       const scale = size / rect.width;
       const mouseX = (e.clientX - rect.left) * scale;
@@ -457,7 +464,6 @@ export default function GlobalMatrix() {
       });
 
       setHoveredLang(found);
-      canvas.style.cursor = found ? "pointer" : isDragging.current ? "grabbing" : "grab";
     }
   };
 
@@ -469,7 +475,6 @@ export default function GlobalMatrix() {
       const dx = Math.abs(e.clientX - lastPointerPos.current.x);
       const dy = Math.abs(e.clientY - lastPointerPos.current.y);
 
-      // If it was a quick click without much drag
       if (dx < 5 && dy < 5) {
         const rect = canvas.getBoundingClientRect();
         const scale = size / rect.width;
@@ -511,7 +516,11 @@ export default function GlobalMatrix() {
   };
 
   return (
-    <section className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section 
+      ref={sectionRef}
+      id="matrix"
+      className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]"
+    >
       {/* Signature Indigo Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-indigo-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
 
@@ -548,7 +557,7 @@ export default function GlobalMatrix() {
               {/* D3 Orthographic Unified World Map Canvas */}
               <canvas
                 ref={canvasRef}
-                style={{ width: "100%", height: "100%" }}
+                style={{ width: "100%", height: "100%", touchAction: "none" }}
                 className="relative z-10 w-full h-full rounded-full cursor-grab active:cursor-grabbing"
               />
             </div>
@@ -566,13 +575,14 @@ export default function GlobalMatrix() {
               const isHovered = hoveredLang === lang.id;
 
               return (
-                <motion.div
+                <motion.button
                   key={lang.id}
+                  type="button"
                   onClick={() => focusLanguage(lang)}
                   onHoverStart={() => setHoveredLang(lang.id)}
                   onHoverEnd={() => setHoveredLang(null)}
                   whileHover={{ y: -3 }}
-                  className={`p-6 rounded-3xl backdrop-blur-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                  className={`p-6 rounded-3xl backdrop-blur-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between text-left focus:outline-none focus:ring-2 focus:ring-indigo-400/50 ${
                     isSelected || isHovered
                       ? "bg-zinc-900/60 border-indigo-400/50 shadow-[0_0_35px_-5px_rgba(99,102,241,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)]"
                       : "bg-zinc-900/30 border-indigo-500/20 shadow-[0_0_30px_-10px_rgba(99,102,241,0.15),inset_0_1px_1px_rgba(255,255,255,0.12)] hover:border-indigo-400/40 hover:bg-zinc-900/50 hover:shadow-[0_0_40px_-8px_rgba(99,102,241,0.25)]"
@@ -580,6 +590,8 @@ export default function GlobalMatrix() {
                   style={{
                     boxShadow: isSelected ? `0 0 35px -5px ${lang.colorHex}55` : undefined,
                   }}
+                  aria-pressed={isSelected}
+                  aria-label={`${lang.name}: ${lang.level}, ${lang.region}`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -614,7 +626,7 @@ export default function GlobalMatrix() {
                   <p className="text-xs text-zinc-400 font-light leading-relaxed pt-3 border-t border-zinc-800/60">
                     {lang.usage}
                   </p>
-                </motion.div>
+                </motion.button>
               );
             })}
           </div>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { arcadeAudio } from "@/utils/arcadeAudio";
 
 export type AccentColor = "cyan" | "emerald" | "gold" | "indigo" | "purple" | "amber" | "green" | "white";
 
@@ -207,14 +208,10 @@ export function FuturisticLaunchLink({
       rel="noopener noreferrer"
       whileHover={{ scale: 1.04, y: -2 }}
       whileTap={{ scale: 0.96 }}
-      onClick={() => {
-        if (href) {
-          if (target === "_blank") {
-            window.open(href, "_blank", "noopener,noreferrer");
-          } else {
-            window.location.href = href;
-          }
-        }
+      onMouseEnter={() => arcadeAudio.playHover()}
+      onClick={(e) => {
+        arcadeAudio.playClick();
+        e.stopPropagation();
       }}
       className={`group relative inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-2xl ${theme.bg} ${theme.border} ${theme.glow} ${theme.hoverGlow} transition-all duration-500 overflow-hidden cursor-pointer z-30 pointer-events-auto ${className}`}
     >
@@ -269,7 +266,11 @@ export function FuturisticCloseButton({
   return (
     <motion.button
       type="button"
-      onClick={onClick}
+      onClick={() => {
+        arcadeAudio.playClick();
+        onClick();
+      }}
+      onMouseEnter={() => arcadeAudio.playHover()}
       whileHover={{ scale: 1.06 }}
       whileTap={{ scale: 0.94 }}
       className={`group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-950/80 backdrop-blur-2xl border ${theme.border} ${theme.glow} ${theme.hoverGlow} transition-all duration-300 cursor-pointer ${className}`}
@@ -320,6 +321,8 @@ export function FuturisticSocialLink({
       rel="noreferrer"
       whileHover={{ y: -3, scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      onMouseEnter={() => arcadeAudio.playHover()}
+      onClick={() => arcadeAudio.playClick()}
       className={`group relative flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/30 ${theme.hoverGlow} transition-all duration-300 ${className}`}
     >
       {/* Precision Vector Icon */}

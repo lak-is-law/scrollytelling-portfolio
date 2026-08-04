@@ -1,20 +1,29 @@
 {
   "name": "Lakshya Agarwal | Creative AI Engineer",
   "short_name": "Lakshya",
+  "description": "Creative AI Engineer & High-End Scrollytelling Portfolio showcasing neural systems, interactive web applications, and technical architectures.",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#07090e",
+  "background_color": "#07090e",
   "display": "standalone",
-  "start_url": "/"
+  "orientation": "portrait-primary",
+  "start_url": "/",
+  "scope": "/"
 }

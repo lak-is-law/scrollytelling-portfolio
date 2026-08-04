@@ -847,10 +847,20 @@ export default function Languages() {
             return (
               <motion.div
                 key={target.id}
+                role="button"
+                tabIndex={0}
+                aria-label={`Target ${target.name}: ${target.difficulty}, ${target.years}`}
                 onClick={(e) => handleShootTarget(target, e)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    handleShootTarget(target, e as any);
+                  }
+                }}
                 whileHover={{ scale: 1.04, y: -6 }}
                 whileTap={{ scale: 0.96 }}
-                className={`relative rounded-3xl p-5 border backdrop-blur-xl transition-all duration-300 cursor-crosshair group overflow-hidden ${
+                className={`relative rounded-3xl p-5 border backdrop-blur-xl transition-all duration-300 cursor-crosshair group overflow-hidden focus:outline-none focus:ring-2 focus:ring-cyan-400/60 ${
                   isMastered
                     ? "bg-amber-950/20 border-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.2)]"
                     : "bg-zinc-950/80 border-zinc-800 hover:border-cyan-400/80 shadow-[0_0_20px_rgba(0,0,0,0.6)]"

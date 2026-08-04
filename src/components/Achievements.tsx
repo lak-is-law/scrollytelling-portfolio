@@ -46,7 +46,7 @@ export default function Achievements() {
   }
 
   return (
-    <section ref={containerRef} className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section ref={containerRef} id="achievements" className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature 24K Gold Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-yellow-500/[0.07] rounded-full blur-[180px] pointer-events-none" />
 

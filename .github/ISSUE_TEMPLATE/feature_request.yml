@@ -1,0 +1,41 @@
+name: 🚀 Feature Request
+description: Propose a new feature, interaction, mini-game, or enhancement for Portfolio 2.0
+title: "[FEAT]: "
+labels: ["enhancement", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make Portfolio 2.0 even more memorable or performant? Let us know!
+
+  - type: input
+    id: title-summary
+    attributes:
+      label: Proposal Summary
+      description: A concise summary of the proposed feature.
+      placeholder: e.g. Add procedural generative synth visualizer in Developer Vault
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: Is your feature request related to a problem or limitation?
+      placeholder: e.g. Currently, the developer vault is static once opened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution & Architectural Design
+      description: Describe the technical implementation, UI/UX flow, and component boundaries.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Approaches Considered
+      description: What other solutions or patterns were evaluated?

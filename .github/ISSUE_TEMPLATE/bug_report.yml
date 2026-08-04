@@ -1,0 +1,69 @@
+name: 🐛 Bug Report
+description: Report an issue, glitch, or unexpected behavior in Portfolio 2.0
+title: "[BUG]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please provide as much context as possible to help us reproduce and resolve the problem promptly.
+
+  - type: input
+    id: component
+    attributes:
+      label: Affected Component
+      description: What section or module is experiencing the issue?
+      placeholder: e.g. ScrollyCanvas, Pixel Football, GlobalMatrix, Audio Engine, Contact Form
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior.
+      value: |
+        1. Navigate to '...'
+        2. Scroll down to '...'
+        3. Click on / Trigger '...'
+        4. Observe error / glitch
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Device & Browser Environment
+      options:
+        - macOS / Chrome
+        - macOS / Safari
+        - macOS / Firefox
+        - Windows / Chrome
+        - Windows / Edge
+        - iOS / Safari
+        - Android / Chrome
+        - Other (specify in details)
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context / Console Logs / Screenshots
+      description: Include any browser console errors, stack traces, or screenshots.

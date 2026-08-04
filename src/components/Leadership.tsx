@@ -10,13 +10,13 @@ const milestones = [
     org: "Cherry+ Network",
     desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
     logo: "/logos/cherry.png",
-    scale: 0.5, // Zoomed out by 50%
+    scale: 0.5,
   },
   {
     role: "Editorial Associate",
     org: "Coding Ninjas 10X Club",
     desc: "Led editorial strategy and organized technical events, shifting from execution to strategic planning.",
-    logo: "/logos/images-2.jpeg",
+    logo: "/logos/coding-ninjas.jpeg",
     scale: 1,
   },
   {
@@ -30,7 +30,7 @@ const milestones = [
     role: "Official EMCEE",
     org: "SRMIST Directorate of Student Affairs",
     desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
-    logo: "/logos/images.png",
+    logo: "/logos/srm-dsa.png",
     scale: 1.25,
   },
   {
@@ -49,11 +49,11 @@ export default function Leadership() {
     offset: ["start end", "end start"],
   });
 
-  // Oscillates rapidly between -10 and 10 degrees as we scroll
-  const rotate = useTransform(scrollYProgress, (v) => Math.sin(v * 200) * 10);
+  // Smooth, refined inertial rotation across the scroll journey
+  const rotate = useTransform(scrollYProgress, [0, 1], [-8, 8]);
 
   return (
-    <section ref={containerRef} className="relative bg-transparent py-20 md:py-40 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+    <section ref={containerRef} id="leadership" className="relative bg-transparent py-20 md:py-40 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
       {/* Signature Amber Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-amber-500/[0.07] rounded-full blur-[160px] pointer-events-none" />
 
@@ -81,13 +81,13 @@ export default function Leadership() {
               return (
                 <motion.div 
                   key={index}
-                  initial={{ opacity: 0, y: 50 }}
+                  initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
                   className="relative flex items-center w-full z-10"
                 >
-                  {/* Logo Node - Absolutely Centered on Desktop, Left on Mobile */}
+                  {/* Logo Node - Centered on Desktop, Left on Mobile */}
                   <div className="absolute left-[24px] md:left-1/2 w-12 h-12 md:w-20 md:h-20 -translate-x-1/2 z-10 flex items-center justify-center cursor-default">
                     <motion.div 
                       style={{ rotate }}

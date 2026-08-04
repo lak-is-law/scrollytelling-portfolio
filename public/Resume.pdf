@@ -1,0 +1,177 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [ 7 0 R ] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier-Bold /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /MediaBox [ 0 0 595.28 841.89 ]
+  /Contents 8 0 R
+  /Resources <<
+    /Font <<
+      /F1 3 0 R
+      /F2 4 0 R
+      /F3 5 0 R
+      /F4 6 0 R
+    >>
+  >>
+>>
+endobj
+8 0 obj
+<< /Length 6740 >>
+stream
+0.060 0.090 0.160 rg
+36.00 808.00 523.28 3.00 re
+f
+0.060 0.090 0.160 rg
+BT /F2 18.0 Tf 36.00 786.00 Td (LAKSHYA AGARWAL) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 9.5 Tf 36.00 773.00 Td (Creative AI Engineer & Full-Stack Systems Architect) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 8.0 Tf 36.00 759.00 Td (Email: contact@lakshya.uk  |  Portfolio: lakshya.uk  |  GitHub: github.com/lak-is-law  |  LinkedIn: linkedin.com/in/lakshya-success) Tj ET
+0.850 0.880 0.920 RG
+0.75 w
+36.00 750.00 m 559.28 750.00 l S
+0.060 0.090 0.160 rg
+BT /F2 10.0 Tf 36.00 736.00 Td (EXECUTIVE SUMMARY) Tj ET
+36.00 733.00 m 559.28 733.00 l S
+0.250 0.280 0.350 rg
+BT /F1 8.2 Tf 36.00 722.00 Td (Results-driven Software & AI Engineer specializing in high-performance web systems, creative WebGL/canvas engines, and full-stack architectures.) Tj ET
+BT /F1 8.2 Tf 36.00 711.00 Td (Proven track record building autonomous financial analytics engines \(Todar\), adversarial AI systems \(Red Gambit\), and scalable educational platforms.) Tj ET
+BT /F1 8.2 Tf 36.00 700.00 Td (Strong foundation in combinatorics, algorithmic problem solving, and low-latency interaction design.) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 10.0 Tf 36.00 683.00 Td (FEATURED TECHNICAL PROJECTS) Tj ET
+36.00 680.00 m 559.28 680.00 l S
+0.060 0.090 0.160 rg
+BT /F2 8.8 Tf 36.00 668.00 Td (Red Gambit - Adversarial AI Game Platform) Tj ET
+0.350 0.400 0.480 rg
+BT /F3 7.8 Tf 420.00 668.00 Td (https://redgambit.lakshya.uk) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 36.00 657.00 Td (Tech Stack: Next.js 14, TypeScript, Procedural Engine, TailwindCSS) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 647.00 Td (-  Architected a responsive adversarial strategy game platform featuring custom procedural audio synthesis and state-machine game logic.) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 636.50 Td (-  Engineered zero-latency Canvas/DOM hybrid rendering with sub-16ms frame times across desktop and mobile devices.) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 626.00 Td (-  Implemented modular telemetry tracking, custom UI state management, and real-time combat mechanics.) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.8 Tf 36.00 611.50 Td (Todar 2.0 - Quantitative Financial Analysis & Intelligence) Tj ET
+0.350 0.400 0.480 rg
+BT /F3 7.8 Tf 420.00 611.50 Td (https://todar.finance.lakshya.uk) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 36.00 600.50 Td (Tech Stack: React, Node.js, Financial APIs, D3 Data Visualization) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 590.50 Td (-  Developed an institutional-grade stock and market intelligence terminal providing live ticker aggregation, fundamentals, and valuation metrics.) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 580.00 Td (-  Built responsive financial charting pipelines utilizing D3.js and WebGL for real-time order-book and historical price-trend rendering.) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 569.50 Td (-  Optimized data-fetching caching layers, reducing redundant API queries by 65% while maintaining live data freshness.) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.8 Tf 36.00 555.00 Td (ElevateHub - Modern Collaborative Workflow Engine) Tj ET
+0.350 0.400 0.480 rg
+BT /F3 7.8 Tf 420.00 555.00 Td (Open Source) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 36.00 544.00 Td (Tech Stack: Next.js, TailwindCSS, Server Actions, PostgreSQL) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 534.00 Td (-  Built an enterprise task orchestration and workspace collaboration hub supporting real-time status synchronization.) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 44.00 523.50 Td (-  Designed an accessible, modular design token architecture with WCAG 2.2 AA compliant focus states and fluid micro-interactions.) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 10.0 Tf 36.00 505.00 Td (TECHNICAL ARSENAL) Tj ET
+36.00 502.00 m 559.28 502.00 l S
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 491.00 Td (Languages & Core:) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 140.00 491.00 Td (TypeScript, JavaScript \(ESNext\), Python, C++, HTML5/Canvas, SQL, Web Audio API) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 480.00 Td (Frameworks & UI:) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 140.00 480.00 Td (Next.js 14 \(App Router\), React 18, TailwindCSS, Framer Motion, D3.js, Node.js) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 469.00 Td (Tools & Architecture:) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 140.00 469.00 Td (Git/GitHub, Docker, Linux/Unix, REST APIs, GraphQL, Vite, Webpack, Vercel, Vitest, Playwright) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 458.00 Td (Engineering Practices:) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 140.00 458.00 Td (Design Systems, WCAG 2.2 Accessibility, Core Web Vitals Optimization, State Machine Architecture) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 10.0 Tf 36.00 443.00 Td (EDUCATION & VERIFIED CREDENTIALS) Tj ET
+36.00 440.00 m 559.28 440.00 l S
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 429.00 Td (B.Tech in Computer Science and Engineering) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 8.0 Tf 280.00 429.00 Td (|  SRM Institute of Science and Technology) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 495.00 429.00 Td (2023 - Present) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 418.00 Td (Combinatorics and Probability \(Specialization\)) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 8.0 Tf 280.00 418.00 Td (|  UC San Diego Extended Studies) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 495.00 418.00 Td (Expected Apr 2026) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 407.00 Td (Korean Language & Intercultural Studies - Intermediate 1) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 8.0 Tf 280.00 407.00 Td (|  Sungkyunkwan University \(Coursera\)) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 495.00 407.00 Td (Mar 2025) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 8.0 Tf 36.00 396.00 Td (National Education Policy 2020 Certification) Tj ET
+0.350 0.400 0.480 rg
+BT /F1 8.0 Tf 280.00 396.00 Td (|  SRMIST) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 495.00 396.00 Td (Feb 2025) Tj ET
+0.060 0.090 0.160 rg
+BT /F2 10.0 Tf 36.00 381.00 Td (HONORS & LEADERSHIP) Tj ET
+36.00 378.00 m 559.28 378.00 l S
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 36.00 367.00 Td (-  First Runner Up - Language Exchange SRM PBL 2024 \(Represented Republic of Korea in international cultural summit\)) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 510.00 367.00 Td (2024) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 36.00 356.00 Td (-  Most Innovative Solution Award - UCSI Consulting Group, Malaysia \(Business Model Strategy\)) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 510.00 356.00 Td (Jan 2025) Tj ET
+0.250 0.280 0.350 rg
+BT /F1 8.0 Tf 36.00 345.00 Td (-  Official EMCEE & Trainee Lead - SRMIST Directorate of Student Affairs & Directorate of Alumni Affairs) Tj ET
+0.200 0.500 0.700 rg
+BT /F2 7.8 Tf 510.00 345.00 Td (2024 - 2025) Tj ET
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000123 00000 n 
+0000000220 00000 n 
+0000000322 00000 n 
+0000000427 00000 n 
+0000000527 00000 n 
+0000000735 00000 n 
+trailer
+<<
+  /Size 9
+  /Root 1 0 R
+>>
+startxref
+7527
+%%EOF

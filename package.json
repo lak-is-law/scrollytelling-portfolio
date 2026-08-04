@@ -1,16 +1,44 @@
 {
   "name": "portfolio",
-  "version": "0.1.0",
+  "version": "2.0.0",
+  "description": "Lakshya Agarwal — Creative AI Engineer & High-End Scrollytelling Experience",
+  "author": "Lakshya Agarwal <contact@lakshya.uk> (https://lakshya.uk)",
+  "license": "MIT",
+  "homepage": "https://lakshya.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lak-is-law/sequence.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lak-is-law/sequence/issues",
+    "email": "contact@lakshya.uk"
+  },
+  "keywords": [
+    "nextjs",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "framer-motion",
+    "d3",
+    "scrollytelling",
+    "web-audio-api",
+    "creative-developer",
+    "artificial-intelligence",
+    "accessibility"
+  ],
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@types/d3-geo": "^3.1.1",
     "@types/topojson-client": "^3.1.5",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "d3-geo": "^3.1.1",
     "framer-motion": "^12.43.0",

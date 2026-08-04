@@ -20,13 +20,25 @@ function MiniFootballPreview() {
     if (!ctx) return;
 
     let animId: number;
+    let isVisible = true;
     let ballX = 30;
     let ballY = 45;
     let vx = 1.8;
     let vy = 1.2;
     let sparks: { x: number; y: number; vx: number; vy: number; life: number; color: string }[] = [];
 
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(draw);
+      }
+    }, { threshold: 0.1 });
+
+    observer.observe(canvas);
+
     const draw = () => {
+      if (!isVisible) return;
       ctx.fillStyle = "#0c1510";
       ctx.fillRect(0, 0, 180, 90);
 
@@ -90,7 +102,10 @@ function MiniFootballPreview() {
     };
 
     animId = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animId);
+    };
   }, []);
 
   return <canvas ref={canvasRef} width={180} height={90} className="w-full h-full object-cover rounded-lg" />;
@@ -106,9 +121,21 @@ function MiniFactoryPreview() {
     if (!ctx) return;
 
     let animId: number;
+    let isVisible = true;
     let offset = 0;
 
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(draw);
+      }
+    }, { threshold: 0.1 });
+
+    observer.observe(canvas);
+
     const draw = () => {
+      if (!isVisible) return;
       ctx.fillStyle = "#09131f";
       ctx.fillRect(0, 0, 180, 90);
 
@@ -159,7 +186,10 @@ function MiniFactoryPreview() {
     };
 
     animId = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animId);
+    };
   }, []);
 
   return <canvas ref={canvasRef} width={180} height={90} className="w-full h-full object-cover rounded-lg" />;
@@ -175,11 +205,23 @@ function MiniTerminalPreview() {
     if (!ctx) return;
 
     let animId: number;
+    let isVisible = true;
     const cols = 15;
     const drops = Array(cols).fill(0);
     const chars = "010189ABCDEF!><_#";
 
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(draw);
+      }
+    }, { threshold: 0.1 });
+
+    observer.observe(canvas);
+
     const draw = () => {
+      if (!isVisible) return;
       ctx.fillStyle = "rgba(6, 15, 10, 0.25)";
       ctx.fillRect(0, 0, 180, 90);
 
@@ -208,7 +250,10 @@ function MiniTerminalPreview() {
     };
 
     animId = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animId);
+    };
   }, []);
 
   return <canvas ref={canvasRef} width={180} height={90} className="w-full h-full object-cover rounded-lg" />;
@@ -284,6 +329,16 @@ export default function Arcade() {
     }
     setIsMuted(arcadeAudio.getMuted());
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        handleCloseArcade();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
   const handleOpenArcade = (preselectedGame?: "football" | "factory" | "terminal") => {
     arcadeAudio.playBoot();
@@ -364,7 +419,7 @@ export default function Arcade() {
       </motion.div>
 
       {/* 2. GRAND SHOWCASE SECTION: THE ARCADE PORTAL */}
-      <section className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
+      <section id="arcade" className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]">
         
         {/* Immersive Environment: 3D Perspective Grid Floor */}
         <div className="absolute bottom-0 inset-x-0 h-80 overflow-hidden pointer-events-none [perspective:900px]">
@@ -699,6 +754,9 @@ export default function Arcade() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Developer Arcade Cabinet"
             className="fixed inset-0 z-[9000] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-between p-2 sm:p-4 md:p-8 overflow-hidden select-none"
           >
             {/* Ambient Background Lighting */}

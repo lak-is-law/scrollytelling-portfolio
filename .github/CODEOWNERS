@@ -1,0 +1,7 @@
+# Global Code Ownership
+* @lak-is-law
+
+# Specific component domain owners
+/src/components/minigames/ @lak-is-law
+/src/utils/arcadeAudio.ts @lak-is-law
+/src/app/api/ @lak-is-law

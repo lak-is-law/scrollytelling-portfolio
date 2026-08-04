@@ -3,17 +3,15 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
-const TARGET_VOLUME = 0.18; // Subtle 18% volume for an elegant, non-distracting background ambiance
-const FADE_IN_DURATION = 2000; // 2.0s smooth fade-in
-const FADE_OUT_DURATION = 800; // 800ms graceful fade-out
+const TARGET_VOLUME = 0.18; // Subtle 18% ambient volume
+const FADE_IN_DURATION = 1500; // 1.5s smooth fade-in
+const FADE_OUT_DURATION = 800; // 800ms fade-out
 
 export default function BackgroundAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Default muted to respect WCAG 1.4.2
   const fadeAnimationRef = useRef<number | null>(null);
-  const hasUserInteracted = useRef(false);
-  const isMutedRef = useRef(false);
 
   const clearFade = () => {
     if (fadeAnimationRef.current !== null) {
@@ -34,7 +32,6 @@ export default function BackgroundAudio() {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Smooth cubic easing curve
       const eased = progress < 0.5 
         ? 4 * progress * progress * progress 
         : 1 - Math.pow(-2 * progress + 2, 3) / 2;
@@ -54,55 +51,50 @@ export default function BackgroundAudio() {
     fadeAnimationRef.current = requestAnimationFrame(step);
   }, []);
 
-  const startPlayback = useCallback(async () => {
+  const togglePlayback = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    try {
+    if (isMuted || !isPlaying) {
       audio.muted = false;
       audio.volume = 0;
-      await audio.play();
-      setIsPlaying(true);
-      hasUserInteracted.current = true;
-      if (!isMutedRef.current) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setIsMuted(false);
         fadeTo(TARGET_VOLUME, FADE_IN_DURATION);
-      }
-    } catch {
-      // Autoplay blocked by browser policy until next interaction
+      }).catch((err) => {
+        console.warn("Audio playback gesture required:", err);
+      });
+    } else {
+      fadeTo(0, FADE_OUT_DURATION, () => {
+        audio.pause();
+        setIsPlaying(false);
+        setIsMuted(true);
+      });
     }
-  }, [fadeTo]);
+  }, [isMuted, isPlaying, fadeTo]);
 
-  // Robust gesture listeners for mobile Safari & desktop browsers
+  // Keyboard shortcut 'M' to toggle mute/play
   useEffect(() => {
-    const handleInteraction = () => {
-      if (!hasUserInteracted.current) {
-        startPlayback();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) {
+        return;
+      }
+      if (e.key === "m" || e.key === "M") {
+        togglePlayback();
       }
     };
 
-    window.addEventListener("click", handleInteraction, { capture: true, passive: true });
-    window.addEventListener("touchstart", handleInteraction, { capture: true, passive: true });
-    window.addEventListener("touchend", handleInteraction, { capture: true, passive: true });
-    window.addEventListener("pointerdown", handleInteraction, { capture: true, passive: true });
-    window.addEventListener("keydown", handleInteraction, { capture: true, passive: true });
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [togglePlayback]);
 
-    // Initial attempt in case autoplay is permitted
-    startPlayback();
-
-    return () => {
-      window.removeEventListener("click", handleInteraction, { capture: true });
-      window.removeEventListener("touchstart", handleInteraction, { capture: true });
-      window.removeEventListener("touchend", handleInteraction, { capture: true });
-      window.removeEventListener("pointerdown", handleInteraction, { capture: true });
-      window.removeEventListener("keydown", handleInteraction, { capture: true });
-    };
-  }, [startPlayback]);
-
-  // Graceful fade out on tab switch / window blur / page leave, and fade in on return
+  // Graceful pause on tab switch / window blur
   useEffect(() => {
     const handleVisibilityChange = () => {
       const audio = audioRef.current;
-      if (!audio || !hasUserInteracted.current || isMutedRef.current) return;
+      if (!audio || isMuted || !isPlaying) return;
 
       if (document.hidden) {
         fadeTo(0, FADE_OUT_DURATION, () => {
@@ -110,62 +102,17 @@ export default function BackgroundAudio() {
         });
       } else {
         audio.play().then(() => {
-          fadeTo(TARGET_VOLUME, 1200);
+          fadeTo(TARGET_VOLUME, 1000);
         }).catch(() => {});
       }
     };
 
-    const handlePageHide = () => {
-      const audio = audioRef.current;
-      if (!audio) return;
-      fadeTo(0, 400, () => {
-        audio.pause();
-      });
-    };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("pagehide", handlePageHide);
-    window.addEventListener("beforeunload", handlePageHide);
-
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("pagehide", handlePageHide);
-      window.removeEventListener("beforeunload", handlePageHide);
       clearFade();
     };
-  }, [fadeTo]);
-
-  const toggleMute = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (!hasUserInteracted.current || audio.paused) {
-      hasUserInteracted.current = true;
-      setIsMuted(false);
-      isMutedRef.current = false;
-      audio.muted = false;
-      audio.play().then(() => {
-        setIsPlaying(true);
-        fadeTo(TARGET_VOLUME, 1000);
-      }).catch(() => {});
-      return;
-    }
-
-    if (isMuted) {
-      setIsMuted(false);
-      isMutedRef.current = false;
-      audio.muted = false;
-      fadeTo(TARGET_VOLUME, 1000);
-    } else {
-      setIsMuted(true);
-      isMutedRef.current = true;
-      fadeTo(0, 400, () => {
-        if (audioRef.current) {
-          audioRef.current.muted = true;
-        }
-      });
-    }
-  };
+  }, [isMuted, isPlaying, fadeTo]);
 
   const isAudioActive = isPlaying && !isMuted;
 
@@ -174,19 +121,19 @@ export default function BackgroundAudio() {
       <audio 
         ref={audioRef}
         src="/audio/joyinsound-training-for-success-music-500270.mp3" 
-        preload="auto"
+        preload="none"
         loop
       />
       
-      {/* Audio Visualizer & Mute Toggle — Positioned at bottom right */}
+      {/* Audio Visualizer & Toggle — Positioned with Safe Area insets */}
       <motion.button
         type="button"
-        onClick={toggleMute}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex items-center justify-center gap-1 w-11 h-11 rounded-full bg-zinc-950/80 border border-white/15 backdrop-blur-xl cursor-pointer hover:bg-zinc-900 hover:border-emerald-400/50 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] focus:outline-none"
-        title={isAudioActive ? "Mute Background Music" : "Play Background Music"}
-        aria-label={isAudioActive ? "Mute Background Music" : "Play Background Music"}
+        onClick={togglePlayback}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 flex items-center justify-center gap-1.5 w-11 h-11 rounded-full bg-zinc-950/85 border border-white/20 backdrop-blur-2xl cursor-pointer hover:bg-zinc-900 hover:border-emerald-400/60 transition-all duration-300 shadow-[0_4px_25px_rgba(0,0,0,0.7)] focus:outline-none focus:ring-2 focus:ring-emerald-400/50"
+        title={isAudioActive ? "Mute Background Music (M)" : "Play Ambient Audio (M)"}
+        aria-label={isAudioActive ? "Mute Background Music" : "Play Ambient Audio"}
       >
         {isAudioActive ? (
           <div className="flex items-center justify-center gap-0.5 h-4">
@@ -217,7 +164,7 @@ export default function BackgroundAudio() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-zinc-400"
+            className="text-zinc-400 hover:text-emerald-400 transition-colors"
           >
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
             <line x1="23" y1="9" x2="17" y2="15" />

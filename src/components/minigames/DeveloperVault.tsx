@@ -47,7 +47,7 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
 
   const copyEmailToClipboard = () => {
     arcadeAudio.playClick();
-    navigator.clipboard.writeText("contact.lakshya.tech@gmail.com");
+    navigator.clipboard.writeText("contact@lakshya.uk");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
@@ -213,11 +213,11 @@ export default function DeveloperVault({ onClose, unlockedBadges }: DeveloperVau
               onClick={copyEmailToClipboard}
               className="w-full py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-[11px] font-mono transition-all flex items-center justify-between cursor-pointer"
             >
-              <span>{copiedEmail ? "COPIED TO CLIPBOARD!" : "contact.lakshya.tech@gmail.com"}</span>
+              <span>{copiedEmail ? "COPIED TO CLIPBOARD!" : "contact@lakshya.uk"}</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
             </button>
             <a
-              href="mailto:contact.lakshya.tech@gmail.com?subject=Exclusive%20Recruiter%20Outreach%20(Developer%20Vault)"
+              href="mailto:contact@lakshya.uk?subject=Exclusive%20Recruiter%20Outreach%20(Developer%20Vault)"
               className="w-full py-2 px-3 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 text-[11px] font-semibold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer text-center"
             >
               <span>Send Priority Transmission</span>

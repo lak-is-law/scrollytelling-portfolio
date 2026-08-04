@@ -7,11 +7,23 @@
   --foreground: #fafafa; /* Crisp warm white */
 }
 
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Accessible focus ring style across keyboard navigation */
+:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
 }
 
 @layer utilities {
@@ -43,6 +55,17 @@ body {
       linear-gradient(to right, rgba(56, 189, 248, 0.055) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(56, 189, 248, 0.055) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+
+  /* Mobile Safe Area Inset Helpers */
+  .pb-safe {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+  .pt-safe {
+    padding-top: max(1.25rem, env(safe-area-inset-top));
+  }
+  .bottom-safe {
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
   }
 }
 

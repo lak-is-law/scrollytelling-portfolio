@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Security Vulnerability Reporting
+    url: mailto:contact@lakshya.uk
+    about: Please report security vulnerabilities privately via email.
+  - name: 💬 Direct Engineering & Recruiter Inquiries
+    url: https://lakshya.uk
+    about: Reach out directly for career opportunities, speaking, or collaborations.
