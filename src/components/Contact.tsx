@@ -1,20 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { FuturisticSocialLink, FuturisticLaunchGlyph } from "@/components/ui/FuturisticNavigation";
 import { arcadeAudio } from "@/utils/arcadeAudio";
 
 export default function Contact() {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyEmail = () => {
-    arcadeAudio.playClick();
-    navigator.clipboard.writeText("contact@lakshya.uk");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
-  };
-
   return (
     <footer id="contact" className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 border-t border-white/[0.08] overflow-hidden">
       {/* Signature Ambient Bloom */}
@@ -57,20 +47,6 @@ export default function Contact() {
 
             <FuturisticLaunchGlyph size={16} color="#000000" />
           </motion.a>
-
-          {/* Quick Copy Email Interaction */}
-          <button
-            type="button"
-            onClick={handleCopyEmail}
-            onMouseEnter={() => arcadeAudio.playHover()}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900/40 hover:bg-zinc-800/60 border border-white/10 hover:border-emerald-500/40 text-xs font-mono text-zinc-400 hover:text-zinc-200 transition-all duration-200 cursor-pointer backdrop-blur-xl"
-          >
-            <span className="text-emerald-400 font-semibold">{copied ? "COPIED TO CLIPBOARD" : "contact@lakshya.uk"}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
-              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-            </svg>
-          </button>
         </div>
 
         <div className="pt-24 w-full flex flex-col md:flex-row justify-between items-center text-sm font-medium tracking-widest text-zinc-500 uppercase gap-6">
