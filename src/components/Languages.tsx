@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { arcadeAudio } from "@/utils/arcadeAudio";
 
@@ -348,7 +348,7 @@ function LanguageSvgIcon({ type, size = 28 }: { type: string; size?: number }) {
   }
 }
 
-// Particle interface for Canvas shooting sparks
+// Particle & Text FX on Canvas (Zero DOM Thrashing)
 interface HitParticle {
   x: number;
   y: number;
@@ -361,14 +361,126 @@ interface HitParticle {
   maxLife: number;
 }
 
-interface FloatingPopup {
-  id: number;
+interface CanvasTextFx {
   x: number;
   y: number;
+  vy: number;
   text: string;
   color: string;
-  isCrit?: boolean;
+  isCrit: boolean;
+  alpha: number;
+  life: number;
+  maxLife: number;
 }
+
+// Memoized Target Card for Maximum Frame Rates
+interface TargetCardProps {
+  target: LanguageTarget;
+  hp: number;
+  isMastered: boolean;
+  onShoot: (target: LanguageTarget, e: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+const TargetCard = memo(function TargetCard({
+  target,
+  hp,
+  isMastered,
+  onShoot
+}: TargetCardProps) {
+  const hpPercent = Math.max(0, (hp / target.maxHp) * 100);
+
+  return (
+    <motion.div
+      role="button"
+      tabIndex={0}
+      aria-label={`Target ${target.name}: ${target.difficulty}, ${target.years}`}
+      onClick={(e) => onShoot(target, e)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onShoot(target, e as any);
+        }
+      }}
+      whileHover={{ scale: 1.03, y: -4 }}
+      whileTap={{ scale: 0.97 }}
+      className={`relative rounded-3xl p-5 border backdrop-blur-xl transition-colors duration-200 cursor-crosshair group overflow-hidden focus:outline-none focus:ring-2 focus:ring-cyan-400/60 ${
+        isMastered
+          ? "bg-amber-950/20 border-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.15)]"
+          : "bg-zinc-950/80 border-zinc-800 hover:border-cyan-400/80 shadow-[0_0_20px_rgba(0,0,0,0.6)]"
+      }`}
+    >
+      {/* Holographic Ambient Glow Ring */}
+      <div
+        className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-[40px] opacity-20 pointer-events-none transition-opacity group-hover:opacity-60"
+        style={{ backgroundColor: target.color }}
+      />
+
+      {/* Target Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center shadow-inner group-hover:border-white/30 transition-colors">
+            <LanguageSvgIcon type={target.svgType} size={28} />
+          </div>
+          <div>
+            <h3 className="text-lg font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors">
+              {target.name}
+            </h3>
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
+              {target.difficulty} • {target.years}
+            </span>
+          </div>
+        </div>
+
+        {/* Target Status Badge */}
+        <span
+          className={`text-[9px] font-mono font-bold px-2 py-1 rounded-full border ${
+            isMastered
+              ? "bg-amber-500/20 border-amber-500/50 text-amber-300"
+              : "bg-zinc-900 border-zinc-700 text-zinc-400 group-hover:border-cyan-400 group-hover:text-cyan-300"
+          }`}
+        >
+          {isMastered ? "★ MASTERED" : "ACTIVE TARGET"}
+        </span>
+      </div>
+
+      {/* Target Description */}
+      <p className="text-xs text-zinc-400 font-light mb-4 min-h-[36px] line-clamp-2">
+        {target.description}
+      </p>
+
+      {/* Health & Shield Bar */}
+      <div className="space-y-1.5 mb-4">
+        <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500">
+          <span>STRUCTURE INTEGRITY</span>
+          <span>{Math.round(hpPercent)}%</span>
+        </div>
+        <div className="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
+          <div
+            className="h-full transition-all duration-150 ease-out"
+            style={{
+              width: `${hpPercent}%`,
+              backgroundColor: isMastered ? "#fbbf24" : target.color
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Target Footer Stats */}
+      <div className="flex items-center justify-between pt-3 border-t border-zinc-900 font-mono text-[11px]">
+        <span className="text-zinc-500">
+          PROJECTS: <strong className="text-zinc-200">{target.projects}</strong>
+        </span>
+        <span className="text-cyan-400 font-bold">
+          +{target.xpValue} XP
+        </span>
+      </div>
+
+      {/* Crosshair Lock Reticle Indicator on Hover */}
+      <div className="absolute inset-0 border-2 border-cyan-400/0 group-hover:border-cyan-400/40 rounded-3xl pointer-events-none transition-colors duration-200" />
+    </motion.div>
+  );
+});
 
 export default function Languages() {
   // Range State
@@ -383,16 +495,27 @@ export default function Languages() {
   const [combo, setCombo] = useState(0);
   const [shotsFired, setShotsFired] = useState(0);
   const [shotsHit, setShotsHit] = useState(0);
-  const [lastShotTime, setLastShotTime] = useState(0);
   const [isAllUnlocked, setIsAllUnlocked] = useState(false);
-  const [popups, setPopups] = useState<FloatingPopup[]>([]);
-  const [aimPos, setAimPos] = useState({ x: 0, y: 0 });
-  const [isAimingInside, setIsAimingInside] = useState(false);
-  const [muzzleFlash, setMuzzleFlash] = useState(false);
 
+  // Fast direct refs for 0-latency 60+ FPS performance
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const crosshairRef = useRef<HTMLDivElement>(null);
+  const muzzleFlashRef = useRef<HTMLDivElement>(null);
   const particles = useRef<HitParticle[]>([]);
+  const textPopups = useRef<CanvasTextFx[]>([]);
+  const lastShotTimeRef = useRef(0);
+  const selectedWeaponRef = useRef<Weapon>(selectedWeapon);
+  const comboRef = useRef(0);
+
+  // Keep refs synced
+  useEffect(() => {
+    selectedWeaponRef.current = selectedWeapon;
+  }, [selectedWeapon]);
+
+  useEffect(() => {
+    comboRef.current = combo;
+  }, [combo]);
 
   // Check milestone when all 12 targets are mastered
   useEffect(() => {
@@ -415,18 +538,34 @@ export default function Languages() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Canvas particle animation loop
+  // High-performance canvas particle & text animation loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Handle high DPI
+    const resize = () => {
+      if (!containerRef.current || !canvas) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
     let animId: number;
 
     const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
 
+      // 1. Draw Hit Particles
       for (let i = particles.current.length - 1; i >= 0; i--) {
         const p = particles.current[i];
         p.x += p.vx;
@@ -438,11 +577,35 @@ export default function Languages() {
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (1 - p.life / p.maxLife * 0.4), 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * (1 - (p.life / p.maxLife) * 0.4), 0, Math.PI * 2);
         ctx.fill();
 
         if (p.life >= p.maxLife) {
           particles.current.splice(i, 1);
+        }
+      }
+
+      // 2. Draw Floating Damage / XP Texts
+      for (let i = textPopups.current.length - 1; i >= 0; i--) {
+        const t = textPopups.current[i];
+        t.y += t.vy;
+        t.vy *= 0.96;
+        t.life++;
+        t.alpha = Math.max(0, 1 - t.life / t.maxLife);
+
+        ctx.save();
+        ctx.globalAlpha = t.alpha;
+        ctx.fillStyle = t.color;
+        ctx.font = t.isCrit
+          ? "900 16px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+          : "700 13px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+        ctx.shadowColor = t.isCrit ? "rgba(251, 191, 36, 0.8)" : "rgba(0, 0, 0, 0.8)";
+        ctx.shadowBlur = t.isCrit ? 10 : 4;
+        ctx.fillText(t.text, t.x, t.y);
+        ctx.restore();
+
+        if (t.life >= t.maxLife) {
+          textPopups.current.splice(i, 1);
         }
       }
 
@@ -451,33 +614,49 @@ export default function Languages() {
     };
 
     render();
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
   }, []);
 
-  const spawnParticles = (x: number, y: number, color: string, count: number = 22) => {
+  const spawnParticles = (x: number, y: number, color: string, count = 16) => {
+    // Prevent particle flooding
+    if (particles.current.length > 80) {
+      particles.current.splice(0, 20);
+    }
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 6 + 1.5;
+      const speed = Math.random() * 5 + 1.2;
       particles.current.push({
         x,
         y,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.5,
+        vy: Math.sin(angle) * speed - 1.2,
         color,
-        size: Math.random() * 4 + 2,
+        size: Math.random() * 3.5 + 1.5,
         alpha: 1,
         life: 0,
-        maxLife: Math.random() * 25 + 20
+        maxLife: Math.random() * 20 + 16
       });
     }
   };
 
-  const spawnPopup = (x: number, y: number, text: string, color: string, isCrit = false) => {
-    const id = Date.now() + Math.random();
-    setPopups((prev) => [...prev, { id, x, y, text, color, isCrit }]);
-    setTimeout(() => {
-      setPopups((prev) => prev.filter((p) => p.id !== id));
-    }, 1100);
+  const spawnTextPopup = (x: number, y: number, text: string, color: string, isCrit = false) => {
+    if (textPopups.current.length > 25) {
+      textPopups.current.shift();
+    }
+    textPopups.current.push({
+      x,
+      y,
+      vy: -1.8,
+      text,
+      color,
+      isCrit,
+      alpha: 1,
+      life: 0,
+      maxLife: 45
+    });
   };
 
   // Weapon Sound Dispatcher
@@ -498,113 +677,117 @@ export default function Languages() {
     }
   }, []);
 
-  // Shoot Target Action
-  const handleShootTarget = (target: LanguageTarget, e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    const now = Date.now();
-    if (now - lastShotTime < selectedWeapon.cooldownMs) return;
-    setLastShotTime(now);
-
-    setShotsFired((prev) => prev + 1);
-    setShotsHit((prev) => prev + 1);
-
-    // Weapon SFX
-    playWeaponSound(selectedWeapon.id);
-
-    // Muzzle flash
-    setMuzzleFlash(true);
-    setTimeout(() => setMuzzleFlash(false), 80);
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const hitX = e.clientX - rect.left;
-    const hitY = e.clientY - rect.top;
-
-    // Critical Hit calculation
-    const isCrit = selectedWeapon.id === "sniper" || Math.random() > 0.75;
-    const multiplier = combo >= 6 ? 3 : combo >= 3 ? 2 : 1;
-    const damageDealt = Math.round(selectedWeapon.damage * (isCrit ? 1.8 : 1));
-
-    // Particle FX
-    const containerRect = containerRef.current?.getBoundingClientRect();
-    if (containerRect && canvasRef.current) {
-      const canvasX = e.clientX - containerRect.left;
-      const canvasY = e.clientY - containerRect.top;
-      spawnParticles(canvasX, canvasY, target.color, isCrit ? 35 : 20);
+  const triggerMuzzleFlash = () => {
+    if (muzzleFlashRef.current) {
+      muzzleFlashRef.current.style.opacity = "0.35";
+      setTimeout(() => {
+        if (muzzleFlashRef.current) {
+          muzzleFlashRef.current.style.opacity = "0";
+        }
+      }, 60);
     }
-
-    // Impact Sound
-    arcadeAudio.playTargetHit(isCrit);
-
-    // New Combo
-    const nextCombo = combo + 1;
-    setCombo(nextCombo);
-    if (nextCombo % 3 === 0) {
-      arcadeAudio.playComboChime(nextCombo);
-    }
-
-    // Calculate XP
-    const earnedXp = Math.round((damageDealt + 50) * multiplier);
-    setTotalXp((prev) => prev + earnedXp);
-
-    // Popups
-    spawnPopup(
-      hitX + rect.left - (containerRect?.left || 0),
-      hitY + rect.top - (containerRect?.top || 0),
-      isCrit ? `CRIT +${earnedXp} XP` : `+${earnedXp} XP`,
-      target.color,
-      isCrit
-    );
-
-    // Target Health Reduction & Mastery Check
-    setTargetHp((prev) => {
-      const currentHp = prev[target.id] || target.maxHp;
-      const newHp = Math.max(0, currentHp - damageDealt);
-
-      if (newHp === 0 && !masteredTargets.includes(target.id)) {
-        setMasteredTargets((m) => [...m, target.id]);
-        arcadeAudio.playComboChime(8);
-        spawnPopup(
-          rect.left + rect.width / 2 - (containerRect?.left || 0),
-          rect.top - 20 - (containerRect?.top || 0),
-          `★ ${target.name.toUpperCase()} MASTERED!`,
-          "#fbbf24",
-          true
-        );
-      }
-      return { ...prev, [target.id]: newHp };
-    });
   };
+
+  // Shoot Target Action
+  const handleShootTarget = useCallback(
+    (target: LanguageTarget, e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      const now = performance.now();
+      const weapon = selectedWeaponRef.current;
+      if (now - lastShotTimeRef.current < weapon.cooldownMs) return;
+      lastShotTimeRef.current = now;
+
+      // Audio & Visual SFX (Immediate, non-blocking)
+      playWeaponSound(weapon.id);
+      triggerMuzzleFlash();
+
+      const containerRect = containerRef.current?.getBoundingClientRect();
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+      const canvasX = containerRect ? clientX - containerRect.left : 0;
+      const canvasY = containerRect ? clientY - containerRect.top : 0;
+
+      // Critical Hit calculation
+      const isCrit = weapon.id === "sniper" || Math.random() > 0.75;
+      const currentStreak = comboRef.current;
+      const multiplier = currentStreak >= 6 ? 3 : currentStreak >= 3 ? 2 : 1;
+      const damageDealt = Math.round(weapon.damage * (isCrit ? 1.8 : 1));
+
+      // Particle FX & Popup directly on Canvas
+      spawnParticles(canvasX, canvasY, target.color, isCrit ? 24 : 14);
+      arcadeAudio.playTargetHit(isCrit);
+
+      const earnedXp = Math.round((damageDealt + 50) * multiplier);
+      spawnTextPopup(
+        canvasX - 25,
+        canvasY - 15,
+        isCrit ? `CRIT +${earnedXp} XP` : `+${earnedXp} XP`,
+        isCrit ? "#facc15" : target.color,
+        isCrit
+      );
+
+      const nextCombo = currentStreak + 1;
+      if (nextCombo % 3 === 0) {
+        arcadeAudio.playComboChime(nextCombo);
+      }
+
+      // Single batched state commit
+      setShotsFired((prev) => prev + 1);
+      setShotsHit((prev) => prev + 1);
+      setCombo(nextCombo);
+      setTotalXp((prev) => prev + earnedXp);
+
+      // Target Health Reduction
+      setTargetHp((prev) => {
+        const currentHp = prev[target.id] ?? target.maxHp;
+        const newHp = Math.max(0, currentHp - damageDealt);
+
+        if (newHp === 0 && !masteredTargets.includes(target.id)) {
+          setMasteredTargets((m) => [...m, target.id]);
+          arcadeAudio.playComboChime(8);
+          spawnTextPopup(
+            canvasX - 40,
+            canvasY - 35,
+            `★ ${target.name.toUpperCase()} MASTERED!`,
+            "#fbbf24",
+            true
+          );
+        }
+        return { ...prev, [target.id]: newHp };
+      });
+    },
+    [masteredTargets, playWeaponSound]
+  );
 
   // Blank Shot (Miss)
   const handleRangeClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const now = Date.now();
-    if (now - lastShotTime < selectedWeapon.cooldownMs) return;
-    setLastShotTime(now);
+    const now = performance.now();
+    const weapon = selectedWeaponRef.current;
+    if (now - lastShotTimeRef.current < weapon.cooldownMs) return;
+    lastShotTimeRef.current = now;
 
-    setShotsFired((prev) => prev + 1);
-    setCombo(0); // reset combo streak on miss
-
-    playWeaponSound(selectedWeapon.id);
-    setMuzzleFlash(true);
-    setTimeout(() => setMuzzleFlash(false), 80);
+    playWeaponSound(weapon.id);
+    triggerMuzzleFlash();
 
     const containerRect = containerRef.current?.getBoundingClientRect();
     if (containerRect) {
       const clickX = e.clientX - containerRect.left;
       const clickY = e.clientY - containerRect.top;
-      spawnParticles(clickX, clickY, selectedWeapon.color, 8);
-      spawnPopup(clickX, clickY - 10, "SYNTAX MISS", "#ef4444");
+      spawnParticles(clickX, clickY, weapon.color, 8);
+      spawnTextPopup(clickX - 30, clickY - 15, "SYNTAX MISS", "#ef4444", false);
     }
+
+    setShotsFired((prev) => prev + 1);
+    setCombo(0);
   };
 
-  // Mouse Move Tracking for HUD Crosshair
+  // High-performance direct DOM Crosshair tracking (0 React re-renders)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!crosshairRef.current || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    setAimPos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    crosshairRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   };
 
   // Reset Range
@@ -619,13 +802,12 @@ export default function Languages() {
     setIsAllUnlocked(false);
   };
 
-  // Accuracy Calculation
-  const accuracy = shotsFired > 0 ? Math.round((shotsHit / shotsFired) * 100) : 100;
+  const accuracy =
+    shotsFired > 0 ? Math.round((shotsHit / shotsFired) * 100) : 100;
 
-  // Rank Calculation
   const rank =
     totalXp > 8000
-      ? "STACK MASTER"
+      ? "NEURAL ARCHITECT"
       : totalXp > 4500
       ? "CYBER ARCHITECT"
       : totalXp > 2000
@@ -640,78 +822,60 @@ export default function Languages() {
       id="languages"
       onClick={handleRangeClick}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsAimingInside(true)}
-      onMouseLeave={() => setIsAimingInside(false)}
+      onMouseEnter={() => {
+        if (crosshairRef.current) crosshairRef.current.style.display = "block";
+      }}
+      onMouseLeave={() => {
+        if (crosshairRef.current) crosshairRef.current.style.display = "none";
+      }}
       className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-16 overflow-hidden border-t border-white/[0.08] select-none cursor-crosshair"
     >
-      {/* Background Depth Glow (Seamlessly on Global Grid) */}
+      {/* Background Depth Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-600/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Muzzle Flash Ambient Glare */}
-      {muzzleFlash && (
-        <div
-          className="absolute inset-0 pointer-events-none z-30 transition-opacity duration-75"
-          style={{ backgroundColor: `${selectedWeapon.glowColor}` }}
-        />
-      )}
+      {/* Muzzle Flash Ambient Glare (Ref-driven, 0 re-renders) */}
+      <div
+        ref={muzzleFlashRef}
+        className="absolute inset-0 pointer-events-none z-30 transition-opacity duration-75 opacity-0"
+        style={{ backgroundColor: selectedWeapon.glowColor }}
+      />
 
-      {/* Canvas for dynamic hit particles */}
+      {/* Canvas for dynamic hit particles & damage text (Hardware accelerated) */}
       <canvas
         ref={canvasRef}
-        width={typeof window !== "undefined" ? window.innerWidth : 1200}
-        height={1400}
         className="absolute inset-0 w-full h-full pointer-events-none z-20"
       />
 
-      {/* Floating Damage / XP Popups */}
-      {popups.map((p) => (
-        <motion.div
-          key={p.id}
-          initial={{ opacity: 1, y: 0, scale: 0.8 }}
-          animate={{ opacity: 0, y: -45, scale: p.isCrit ? 1.4 : 1.1 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-          className={`absolute pointer-events-none z-40 font-mono font-black text-xs md:text-sm tracking-wider px-2 py-0.5 rounded backdrop-blur-sm ${
-            p.isCrit
-              ? "text-amber-300 drop-shadow-[0_0_12px_rgba(245,158,11,0.9)] scale-110"
-              : "drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
-          }`}
-          style={{ left: p.x, top: p.y, color: p.color }}
-        >
-          {p.text}
-        </motion.div>
-      ))}
-
-      {/* HUD Crosshair (Desktop Only) */}
-      {isAimingInside && (
+      {/* HUD Crosshair (Desktop Only, Direct GPU Transform) */}
+      <div
+        ref={crosshairRef}
+        className="hidden md:block absolute top-0 left-0 pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 will-change-transform"
+        style={{ display: "none" }}
+      >
         <div
-          className="hidden md:block absolute pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 transition-transform duration-75"
-          style={{ left: aimPos.x, top: aimPos.y }}
+          className="w-10 h-10 -ml-5 -mt-5 rounded-full border border-dashed flex items-center justify-center animate-spin-slow"
+          style={{ borderColor: selectedWeapon.color }}
         >
-          <div
-            className="w-10 h-10 rounded-full border border-dashed flex items-center justify-center animate-spin-slow"
-            style={{ borderColor: selectedWeapon.color }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: selectedWeapon.color }} />
-          </div>
-          <div
-            className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-2 w-2 h-0.5"
-            style={{ backgroundColor: selectedWeapon.color }}
-          />
-          <div
-            className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-2 w-2 h-0.5"
-            style={{ backgroundColor: selectedWeapon.color }}
-          />
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-0.5 h-2"
-            style={{ backgroundColor: selectedWeapon.color }}
-          />
-          <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 w-0.5 h-2"
-            style={{ backgroundColor: selectedWeapon.color }}
-          />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: selectedWeapon.color }} />
         </div>
-      )}
+        <div
+          className="absolute top-0 left-0 -translate-y-1/2 -translate-x-7 w-2 h-0.5"
+          style={{ backgroundColor: selectedWeapon.color }}
+        />
+        <div
+          className="absolute top-0 left-0 -translate-y-1/2 translate-x-5 w-2 h-0.5"
+          style={{ backgroundColor: selectedWeapon.color }}
+        />
+        <div
+          className="absolute top-0 left-0 -translate-x-1/2 -translate-y-7 w-0.5 h-2"
+          style={{ backgroundColor: selectedWeapon.color }}
+        />
+        <div
+          className="absolute top-0 left-0 -translate-x-1/2 translate-y-5 w-0.5 h-2"
+          style={{ backgroundColor: selectedWeapon.color }}
+        />
+      </div>
 
       <div className="mx-auto max-w-7xl w-full relative z-10">
         {/* RANGE HEADER & TITLE */}
@@ -729,11 +893,11 @@ export default function Languages() {
           </p>
         </div>
 
-        {/* GLASS HUD STATUS BAR */}
-        <div className="mb-10 p-4 md:p-6 rounded-3xl bg-zinc-950/80 border border-cyan-500/30 backdrop-blur-xl shadow-[0_0_40px_rgba(6,182,212,0.15)] flex flex-wrap items-center justify-between gap-4 font-mono">
-          {/* XP & Score */}
+        {/* HUD LIVE METRICS DASHBOARD */}
+        <div className="flex flex-wrap items-center justify-between gap-4 p-4 md:p-6 rounded-3xl bg-zinc-950/80 border border-white/10 backdrop-blur-2xl mb-8 font-mono shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+          {/* XP Meter */}
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-inner">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
             <div>
@@ -806,7 +970,7 @@ export default function Languages() {
                     setSelectedWeapon(w);
                   }}
                   onMouseEnter={() => arcadeAudio.playHover()}
-                  className={`p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer relative overflow-hidden font-mono ${
+                  className={`p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer relative overflow-hidden font-mono ${
                     isCurrent
                       ? "bg-zinc-900 border-white/80 shadow-[0_0_25px_rgba(255,255,255,0.15)] scale-[1.02]"
                       : "bg-zinc-950/60 border-zinc-800/80 hover:border-zinc-700 text-zinc-400 hover:bg-zinc-900/40"
@@ -837,107 +1001,17 @@ export default function Languages() {
           </div>
         </div>
 
-        {/* HOLOGRAPHIC TARGETS RANGE GRID */}
+        {/* HOLOGRAPHIC TARGETS RANGE GRID (Memoized Cards) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {TARGETS.map((target) => {
-            const hp = targetHp[target.id] ?? target.maxHp;
-            const isMastered = masteredTargets.includes(target.id);
-            const hpPercent = Math.max(0, (hp / target.maxHp) * 100);
-
-            return (
-              <motion.div
-                key={target.id}
-                role="button"
-                tabIndex={0}
-                aria-label={`Target ${target.name}: ${target.difficulty}, ${target.years}`}
-                onClick={(e) => handleShootTarget(target, e)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    handleShootTarget(target, e as any);
-                  }
-                }}
-                whileHover={{ scale: 1.04, y: -6 }}
-                whileTap={{ scale: 0.96 }}
-                className={`relative rounded-3xl p-5 border backdrop-blur-xl transition-all duration-300 cursor-crosshair group overflow-hidden focus:outline-none focus:ring-2 focus:ring-cyan-400/60 ${
-                  isMastered
-                    ? "bg-amber-950/20 border-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.2)]"
-                    : "bg-zinc-950/80 border-zinc-800 hover:border-cyan-400/80 shadow-[0_0_20px_rgba(0,0,0,0.6)]"
-                }`}
-              >
-                {/* Holographic Ambient Glow Ring */}
-                <div
-                  className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-[40px] opacity-20 pointer-events-none transition-opacity group-hover:opacity-60"
-                  style={{ backgroundColor: target.color }}
-                />
-
-                {/* Target Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center shadow-inner group-hover:border-white/30 transition-colors">
-                      <LanguageSvgIcon type={target.svgType} size={28} />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors">
-                        {target.name}
-                      </h3>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
-                        {target.difficulty} • {target.years}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Target Status Badge */}
-                  <span
-                    className={`text-[9px] font-mono font-bold px-2 py-1 rounded-full border ${
-                      isMastered
-                        ? "bg-amber-500/20 border-amber-500/50 text-amber-300"
-                        : "bg-zinc-900 border-zinc-700 text-zinc-400 group-hover:border-cyan-400 group-hover:text-cyan-300"
-                    }`}
-                  >
-                    {isMastered ? "★ MASTERED" : "ACTIVE TARGET"}
-                  </span>
-                </div>
-
-                {/* Target Description */}
-                <p className="text-xs text-zinc-400 font-light mb-4 min-h-[36px] line-clamp-2">
-                  {target.description}
-                </p>
-
-                {/* Health & Shield Bar */}
-                <div className="space-y-1.5 mb-4">
-                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500">
-                    <span>STRUCTURE INTEGRITY</span>
-                    <span>{Math.round(hpPercent)}%</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
-                    <motion.div
-                      className="h-full"
-                      style={{
-                        width: `${hpPercent}%`,
-                        backgroundColor: isMastered ? "#fbbf24" : target.color
-                      }}
-                      transition={{ duration: 0.2 }}
-                    />
-                  </div>
-                </div>
-
-                {/* Target Footer Stats */}
-                <div className="flex items-center justify-between pt-3 border-t border-zinc-900 font-mono text-[11px]">
-                  <span className="text-zinc-500">
-                    PROJECTS: <strong className="text-zinc-200">{target.projects}</strong>
-                  </span>
-                  <span className="text-cyan-400 font-bold">
-                    +{target.xpValue} XP
-                  </span>
-                </div>
-
-                {/* Crosshair Lock Reticle Indicator on Hover */}
-                <div className="absolute inset-0 border-2 border-cyan-400/0 group-hover:border-cyan-400/40 rounded-3xl pointer-events-none transition-colors duration-300" />
-              </motion.div>
-            );
-          })}
+          {TARGETS.map((target) => (
+            <TargetCard
+              key={target.id}
+              target={target}
+              hp={targetHp[target.id] ?? target.maxHp}
+              isMastered={masteredTargets.includes(target.id)}
+              onShoot={handleShootTarget}
+            />
+          ))}
         </div>
 
         {/* GRAND MASTERY NOTIFICATION MODAL */}
