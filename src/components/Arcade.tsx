@@ -260,14 +260,51 @@ function MiniTerminalPreview() {
 }
 
 // Telemetry Live Visitor Counter
-function LiveTelemetry() {
-  const [visitors, setVisitors] = useState(97184);
+const BASE_VISITORS = 97184;
 
+function LiveTelemetry() {
+  const [visitors, setVisitors] = useState(BASE_VISITORS);
+
+  // Initialize from persistent storage so count NEVER reduces on reload
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVisitors((v) => v + Math.floor(Math.random() * 2));
-    }, 4500);
-    return () => clearInterval(interval);
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem("arcade_telemetry_visitors");
+      if (stored) {
+        const parsed = parseInt(stored, 10);
+        if (!isNaN(parsed) && parsed >= BASE_VISITORS) {
+          setVisitors(parsed);
+          return;
+        }
+      }
+      localStorage.setItem("arcade_telemetry_visitors", String(BASE_VISITORS));
+    } catch {}
+  }, []);
+
+  // Organic random pattern, paced slower (7s – 16s intervals)
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const scheduleNextTick = () => {
+      const nextDelay = Math.floor(Math.random() * 9000) + 7000;
+
+      timeoutId = setTimeout(() => {
+        setVisitors((prev) => {
+          const roll = Math.random();
+          const increment = roll > 0.35 ? (roll > 0.9 ? 2 : 1) : 0;
+          const nextVal = prev + increment;
+          try {
+            localStorage.setItem("arcade_telemetry_visitors", String(nextVal));
+          } catch {}
+          return nextVal;
+        });
+
+        scheduleNextTick();
+      }, nextDelay);
+    };
+
+    scheduleNextTick();
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
