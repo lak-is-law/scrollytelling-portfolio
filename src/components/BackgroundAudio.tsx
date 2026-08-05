@@ -3,76 +3,48 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
-const TARGET_VOLUME = 0.18; // Subtle 18% ambient volume
-const FADE_IN_DURATION = 1500; // 1.5s smooth fade-in
-const FADE_OUT_DURATION = 800; // 800ms fade-out
+const TARGET_VOLUME = 0.65; // Clear, comfortable ambient volume (65%)
 
 export default function BackgroundAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true); // Default muted to respect WCAG 1.4.2
-  const fadeAnimationRef = useRef<number | null>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
-  const clearFade = () => {
-    if (fadeAnimationRef.current !== null) {
-      cancelAnimationFrame(fadeAnimationRef.current);
-      fadeAnimationRef.current = null;
-    }
-  };
-
-  const fadeTo = useCallback((targetVol: number, duration: number, onComplete?: () => void) => {
-    if (!audioRef.current) return;
-    clearFade();
-
-    const audio = audioRef.current;
-    const startVol = audio.volume;
-    const startTime = performance.now();
-
-    const step = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      const eased = progress < 0.5 
-        ? 4 * progress * progress * progress 
-        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-      const currentVol = startVol + (targetVol - startVol) * Math.max(0, Math.min(1, eased));
-      audio.volume = Math.max(0, Math.min(1, currentVol));
-
-      if (progress < 1) {
-        fadeAnimationRef.current = requestAnimationFrame(step);
-      } else {
-        audio.volume = targetVol;
-        fadeAnimationRef.current = null;
-        if (onComplete) onComplete();
-      }
-    };
-
-    fadeAnimationRef.current = requestAnimationFrame(step);
-  }, []);
-
-  const togglePlayback = useCallback(() => {
+  const startAudio = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isMuted || !isPlaying) {
-      audio.muted = false;
-      audio.volume = 0;
-      audio.play().then(() => {
-        setIsPlaying(true);
-        setIsMuted(false);
-        fadeTo(TARGET_VOLUME, FADE_IN_DURATION);
-      }).catch((err) => {
-        console.warn("Audio playback gesture required:", err);
-      });
-    } else {
-      fadeTo(0, FADE_OUT_DURATION, () => {
-        audio.pause();
-        setIsPlaying(false);
-        setIsMuted(true);
-      });
+    audio.muted = false;
+    audio.volume = TARGET_VOLUME;
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+          setIsMuted(false);
+        })
+        .catch((err) => {
+          console.warn("Audio autoplay blocked by browser policy until interaction:", err);
+        });
     }
-  }, [isMuted, isPlaying, fadeTo]);
+  }, []);
+
+  const pauseAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.pause();
+    setIsPlaying(false);
+    setIsMuted(true);
+  }, []);
+
+  const togglePlayback = useCallback(() => {
+    if (isMuted || !isPlaying) {
+      startAudio();
+    } else {
+      pauseAudio();
+    }
+  }, [isMuted, isPlaying, startAudio, pauseAudio]);
 
   // Keyboard shortcut 'M' to toggle mute/play
   useEffect(() => {
@@ -90,6 +62,33 @@ export default function BackgroundAudio() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [togglePlayback]);
 
+  // Listen for custom global events to start audio (e.g. from onboarding or dashboard)
+  useEffect(() => {
+    const handleStartEvent = () => {
+      startAudio();
+    };
+
+    window.addEventListener("start-ambient-audio", handleStartEvent);
+    return () => window.removeEventListener("start-ambient-audio", handleStartEvent);
+  }, [startAudio]);
+
+  // Autoplay on first user interaction (click anywhere on page)
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      startAudio();
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+    };
+
+    window.addEventListener("click", handleFirstInteraction, { once: true });
+    window.addEventListener("touchstart", handleFirstInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+    };
+  }, [startAudio]);
+
   // Graceful pause on tab switch / window blur
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -97,22 +96,17 @@ export default function BackgroundAudio() {
       if (!audio || isMuted || !isPlaying) return;
 
       if (document.hidden) {
-        fadeTo(0, FADE_OUT_DURATION, () => {
-          audio.pause();
-        });
+        audio.pause();
       } else {
-        audio.play().then(() => {
-          fadeTo(TARGET_VOLUME, 1000);
-        }).catch(() => {});
+        audio.play().catch(() => {});
       }
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      clearFade();
     };
-  }, [isMuted, isPlaying, fadeTo]);
+  }, [isMuted, isPlaying]);
 
   const isAudioActive = isPlaying && !isMuted;
 
@@ -121,7 +115,7 @@ export default function BackgroundAudio() {
       <audio 
         ref={audioRef}
         src="/audio/joyinsound-training-for-success-music-500270.mp3" 
-        preload="none"
+        preload="auto"
         loop
       />
       

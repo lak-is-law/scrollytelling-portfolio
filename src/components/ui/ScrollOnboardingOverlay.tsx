@@ -22,6 +22,9 @@ export default function ScrollOnboardingOverlay() {
 
   const handleClickToScroll = () => {
     arcadeAudio.playClick();
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("start-ambient-audio"));
+    }
     window.scrollBy({ top: window.innerHeight * 0.7, behavior: "smooth" });
   };
 
