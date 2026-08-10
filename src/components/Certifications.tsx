@@ -5,25 +5,40 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const certifications = [
   {
-    title: "Full Stack Internship Certificate",
-    issuer: "BufferTech",
-    date: "Mar 2025",
-    type: "Technical",
-    status: "COMPLETED"
+    title: "Combinatorics and Probability",
+    issuer: "UC San Diego Extended Studies",
+    date: "Apr 2026",
+    type: "Mathematics & CS"
   },
   {
     title: "Korean Language — Intermediate 1",
     issuer: "Sungkyunkwan University, Coursera",
     date: "Mar 2025",
-    type: "Linguistic",
-    status: "COMPLETED"
+    type: "Linguistic"
   },
   {
     title: "National Education Policy 2020",
     issuer: "SRMIST",
     date: "Feb 2025",
-    type: "Academic",
-    status: "COMPLETED"
+    type: "Academic"
+  },
+  {
+    title: "Most Innovative Solution",
+    issuer: "UCSI Consulting Group, Malaysia",
+    date: "Jan 2025",
+    type: "Business / Entrepreneurship"
+  },
+  {
+    title: "Certified Game Developer",
+    issuer: "WhiteHat Jr",
+    date: "Jan 2021",
+    type: "Game Engineering"
+  },
+  {
+    title: "Certified Mobile App-Developer",
+    issuer: "WhiteHat Jr, Mumbai",
+    date: "Jan 2021",
+    type: "Technical"
   }
 ];
 
@@ -75,15 +90,10 @@ export default function Certifications() {
                 <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors mb-1">{cert.title}</h3>
                 <p className="text-zinc-400 font-light">{cert.issuer}</p>
               </div>
-              <div className="sm:text-right flex flex-col items-end gap-2">
+              <div className="sm:text-right">
                 <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/40 text-sm font-mono font-medium text-purple-300 shadow-[0_0_15px_-3px_rgba(139,92,246,0.2)]">
                   {cert.date}
                 </span>
-                {cert.status && (
-                  <span className="inline-block px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-[10px] font-mono font-bold text-emerald-400 tracking-wider">
-                    {cert.status}
-                  </span>
-                )}
               </div>
             </motion.div>
           ))}

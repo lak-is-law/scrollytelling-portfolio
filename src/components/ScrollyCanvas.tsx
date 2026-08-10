@@ -5,7 +5,7 @@ import { useScroll, useMotionValueEvent } from "framer-motion";
 
 const FRAME_COUNT = 300;
 const CRITICAL_FRAME_COUNT = 15; // Unlocks instant interaction after 15 keyframes (~1.1MB)
-const CHUNK_SIZE = 4; // Stream remaining frames in background idle chunks
+const CHUNK_SIZE = 20; // Stream remaining frames in background idle chunks
 
 const getFramePath = (index: number) => {
   return `/sequence/frame_${String(index).padStart(3, "0")}_delay-0.033s.webp`;
@@ -175,9 +175,6 @@ export default function ScrollyCanvas() {
 
       scheduleNext(async () => {
         if (isCancelled) return;
-        
-        // Yield network for Next.js dynamic JS chunks
-        await new Promise(r => setTimeout(r, 200));
         
         const endIndex = Math.min(FRAME_COUNT, startIndex + CHUNK_SIZE);
         const chunkPromises: Promise<HTMLImageElement>[] = [];

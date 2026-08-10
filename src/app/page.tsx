@@ -1,21 +1,19 @@
-import dynamic from "next/dynamic";
-import DashboardMenu from "@/components/ui/DashboardMenu";
+import ScrollyCanvas from "@/components/ScrollyCanvas";
+import Overlay from "@/components/Overlay";
+import RedGambit from "@/components/work/RedGambit";
+import Todar from "@/components/work/Todar";
+import ElevateHub from "@/components/work/ElevateHub";
+import Internships from "@/components/Internships";
+import Leadership from "@/components/Leadership";
+import Achievements from "@/components/Achievements";
+import Certifications from "@/components/Certifications";
+import Languages from "@/components/Languages";
+import GlobalMatrix from "@/components/GlobalMatrix";
+import Arcade from "@/components/Arcade";
+import Contact from "@/components/Contact";
 import BackgroundAudio from "@/components/BackgroundAudio";
+import DashboardMenu from "@/components/ui/DashboardMenu";
 import ScrollOnboardingOverlay from "@/components/ui/ScrollOnboardingOverlay";
-
-const ScrollyCanvas = dynamic(() => import("@/components/ScrollyCanvas"), { ssr: false });
-const Overlay = dynamic(() => import("@/components/Overlay"), { ssr: false });
-const RedGambit = dynamic(() => import("@/components/work/RedGambit"));
-const Todar = dynamic(() => import("@/components/work/Todar"));
-const ElevateHub = dynamic(() => import("@/components/work/ElevateHub"));
-const Internships = dynamic(() => import("@/components/Internships"));
-const Leadership = dynamic(() => import("@/components/Leadership"));
-const Achievements = dynamic(() => import("@/components/Achievements"));
-const Certifications = dynamic(() => import("@/components/Certifications"));
-const Languages = dynamic(() => import("@/components/Languages"));
-const GlobalMatrix = dynamic(() => import("@/components/GlobalMatrix"), { ssr: false });
-const Arcade = dynamic(() => import("@/components/Arcade"), { ssr: false });
-const Contact = dynamic(() => import("@/components/Contact"));
 
 export default function Home() {
   return (
