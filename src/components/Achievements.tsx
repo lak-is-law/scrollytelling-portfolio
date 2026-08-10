@@ -5,9 +5,9 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "fram
 import Image from "next/image";
 
 const otherAchievements = [
-  { title: "1st Runner Up", context: "Language Exchange, SRM PBL 2024 (Represented Korea)" },
-  { title: "Semi-Finalist", context: "TechXcelerate, BITS Hyderabad" },
-  { title: "Special Mention", context: "ICA Model United Nations (MUN)" },
+  { title: "1st Runner-Up", context: "SRMIST PBL Dept of Foreign Languages 2024 (Represented Republic of Korea)" },
+  { title: "Semi-Finalist", context: "TechXcelerate Hackathon 2025, BITS Hyderabad" },
+  { title: "Special Mention", context: "ICA Model United Nations (MUN), Interact Club" },
   { title: "Nominee", context: "International Award for Young People (IAYP)" },
   { title: "Flight Experience", context: "Commercial Jet Airliner, Singapore Flyer" },
 ];

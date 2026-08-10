@@ -8,15 +8,22 @@ const internships = [
     company: "BufferTech",
     role: "Full Stack Developer Intern",
     date: "Feb 2024 – Aug 2024",
-    desc: "Developed and maintained full-stack web applications in a professional production environment. Awarded verified Certificate of Internship.",
-    tech: ["React.js", "Firebase", "RESTful APIs", "JavaScript"]
+    desc: "Developed production web features using React.js, Firebase, JavaScript & REST APIs, reducing bounce rate by 80% and latency by 20% through performance and UX optimization.",
+    tech: ["React.js", "Firebase", "REST APIs", "JavaScript"]
   },
   {
     company: "6Pistons",
-    role: "Co-lead, Design, Media & Editing",
-    date: "Dec 2024 – Sep 2025",
-    desc: "Co-led design, media production, and content editing across creative projects in a hybrid environment.",
-    tech: ["Design", "Media Production", "Editing"]
+    role: "Creative Designer",
+    date: "Mar 2025 – Aug 2025",
+    desc: "Created automotive infographics for Mercedes-Benz, VinFast, and Audi at an automotive media platform, translating detailed vehicle specifications into engaging single-poster visual guides.",
+    tech: ["Design", "Media Production", "Content Editing"]
+  },
+  {
+    company: "Cherry+ Network",
+    role: "Public Relations Intern",
+    date: "Sep 2024 – May 2025",
+    desc: "Managed PR campaigns and Instagram reel ideation, and contributed to corporate social responsibility (CSR) initiatives.",
+    tech: ["Public Relations", "Corporate Comms", "CSR"]
   }
 ];
 
