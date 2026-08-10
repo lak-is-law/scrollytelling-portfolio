@@ -131,16 +131,21 @@ export default function ScrollyCanvas() {
       return new Promise((resolve) => {
         const img = new Image();
         img.src = getFramePath(index);
-        img.onload = () => {
+        
+        img.decode().then(() => {
           if (!isCancelled) {
             imagesRef.current[index] = img;
             totalLoaded++;
           }
           resolve(img);
-        };
-        img.onerror = () => {
-          resolve(img); // Graceful recovery
-        };
+        }).catch(() => {
+          // Fallback on error (e.g., if decode fails or is not supported)
+          if (!isCancelled && img.complete) {
+            imagesRef.current[index] = img;
+            totalLoaded++;
+          }
+          resolve(img);
+        });
       });
     };
 
@@ -175,6 +180,9 @@ export default function ScrollyCanvas() {
 
       scheduleNext(async () => {
         if (isCancelled) return;
+        
+        // Yield network for Next.js dynamic JS chunks
+        await new Promise(r => setTimeout(r, 50));
         
         const endIndex = Math.min(FRAME_COUNT, startIndex + CHUNK_SIZE);
         const chunkPromises: Promise<HTMLImageElement>[] = [];
