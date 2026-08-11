@@ -17,13 +17,6 @@ const internships = [
     date: "Mar 2025 – Aug 2025",
     desc: "Co-led design, media production, and content editing across creative campaigns for automotive clients (Mercedes-Benz, VinFast, Audi).",
     tech: ["Design", "Media Production", "Content Editing"]
-  },
-  {
-    company: "Cherry+ Network",
-    role: "Public Relations Intern",
-    date: "Sep 2024 – May 2025",
-    desc: "Managed PR campaigns and Instagram reel ideation, and contributed to corporate social responsibility (CSR) initiatives.",
-    tech: ["Public Relations", "Corporate Comms", "CSR"]
   }
 ];
 

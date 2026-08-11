@@ -6,10 +6,10 @@ import Image from "next/image";
 
 const milestones = [
   {
-    role: "Student Activist",
-    org: "National Service Scheme (NSS)",
-    desc: "Led coastal cleaning drives at Kovallam Beach, Chennai, collecting over 1 tonne of plastic, metal waste, and garbage.",
-    logo: "/logos/srm-dsa.png",
+    role: "Public Relations Intern",
+    org: "Cherry+ Network",
+    desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
+    logo: "/logos/cherry.png",
     scale: 0.5,
   },
   {
