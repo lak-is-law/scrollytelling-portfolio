@@ -143,6 +143,7 @@ export default function GlobalMatrix() {
   
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const staticBgCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const currentRotation = useRef<[number, number]>([-75, -18]);
   const targetRotation = useRef<[number, number]>([-75, -18]);
   const isDragging = useRef(false);
@@ -179,26 +180,23 @@ export default function GlobalMatrix() {
       .rotate(rot);
   }, [radius, size]);
 
-  const renderGlobe = useCallback((rot: [number, number], pulse: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
-    if (canvas.width !== Math.floor(size * dpr)) {
-      canvas.width = Math.floor(size * dpr);
-      canvas.height = Math.floor(size * dpr);
-    }
-    ctx.save();
+  const getStaticBgCanvas = useCallback((dpr: number) => {
+    if (staticBgCanvasRef.current) return staticBgCanvasRef.current;
+    
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.floor(size * dpr);
+    canvas.height = Math.floor(size * dpr);
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return canvas;
+    
+    ctx.fillStyle = "#07090e";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
     ctx.scale(dpr, dpr);
-    ctx.clearRect(0, 0, size, size);
-
-    const proj = getProjection(rot);
-    const path = geoPath(proj, ctx);
+    
     const cx = size / 2;
     const cy = size / 2;
-
+    
     // 1. Deep Ocean Sphere Background
     const oceanGrad = ctx.createRadialGradient(cx - 35, cy - 35, 20, cx, cy, radius);
     oceanGrad.addColorStop(0, "#1e293b");
@@ -209,6 +207,54 @@ export default function GlobalMatrix() {
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.fillStyle = oceanGrad;
     ctx.fill();
+
+    // 7. Sphere Outlines
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 12, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 7]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    staticBgCanvasRef.current = canvas;
+    return canvas;
+  }, [radius, size]);
+
+  const renderGlobe = useCallback((rot: [number, number], pulse: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 1.5) : 1;
+    if (canvas.width !== Math.floor(size * dpr)) {
+      canvas.width = Math.floor(size * dpr);
+      canvas.height = Math.floor(size * dpr);
+      staticBgCanvasRef.current = null;
+    }
+    
+    // Draw cached static background (ocean + outer glows) before applying scale
+    const staticBg = getStaticBgCanvas(dpr);
+    ctx.drawImage(staticBg, 0, 0);
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+
+    const proj = getProjection(rot);
+    const path = geoPath(proj, ctx);
 
     // 2. Graticule Lat/Long Grid Lines
     ctx.beginPath();
@@ -345,29 +391,8 @@ export default function GlobalMatrix() {
       ctx.fillText(lang.id.toUpperCase(), badgeX + 18, dotY + 0.5);
     });
 
-    // 7. Sphere Outlines
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(56, 189, 248, 0.85)";
-    ctx.lineWidth = 2.5;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius + 12, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([3, 7]);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
     ctx.restore();
-  }, [getProjection, graticule, hoveredLang, radius, selectedLangs, size]);
+  }, [getProjection, graticule, hoveredLang, radius, selectedLangs, size, getStaticBgCanvas]);
 
   // Unified Animation Loop with Intersection Pause
   useEffect(() => {

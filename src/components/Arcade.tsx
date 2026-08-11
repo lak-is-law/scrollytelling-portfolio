@@ -37,8 +37,17 @@ function MiniFootballPreview() {
 
     observer.observe(canvas);
 
-    const draw = () => {
+    let lastTime = 0;
+    const FPS_THROTTLE = 1000 / 24; // 24 FPS
+
+    const draw = (time: number) => {
       if (!isVisible) return;
+      if (time - lastTime < FPS_THROTTLE) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+      lastTime = time;
+
       ctx.fillStyle = "#0c1510";
       ctx.fillRect(0, 0, 180, 90);
 
@@ -134,8 +143,17 @@ function MiniFactoryPreview() {
 
     observer.observe(canvas);
 
-    const draw = () => {
+    let lastTime = 0;
+    const FPS_THROTTLE = 1000 / 24;
+
+    const draw = (time: number) => {
       if (!isVisible) return;
+      if (time - lastTime < FPS_THROTTLE) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+      lastTime = time;
+      
       ctx.fillStyle = "#09131f";
       ctx.fillRect(0, 0, 180, 90);
 
@@ -220,8 +238,17 @@ function MiniTerminalPreview() {
 
     observer.observe(canvas);
 
-    const draw = () => {
+    let lastTime = 0;
+    const FPS_THROTTLE = 1000 / 24;
+
+    const draw = (time: number) => {
       if (!isVisible) return;
+      if (time - lastTime < FPS_THROTTLE) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+      lastTime = time;
+      
       ctx.fillStyle = "rgba(6, 15, 10, 0.25)";
       ctx.fillRect(0, 0, 180, 90);
 

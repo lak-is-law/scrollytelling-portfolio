@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const isVisibleRef = useRef(false);
   const [isFinePointer, setIsFinePointer] = useState(false);
   
   // Instant values for the point
@@ -29,7 +30,10 @@ export default function CustomCursor() {
     }
 
     const moveCursor = (e: MouseEvent) => {
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
@@ -57,10 +61,14 @@ export default function CustomCursor() {
     };
 
     const handleMouseLeave = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
       setIsMouseDown(false);
     };
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseEnter = () => {
+      isVisibleRef.current = true;
+      setIsVisible(true);
+    };
 
     window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mousedown", handleMouseDown, { passive: true });

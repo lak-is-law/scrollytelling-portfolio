@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
+import { useScroll } from "framer-motion";
 
 const FRAME_COUNT = 300;
 const CRITICAL_FRAME_COUNT = 15; // Unlocks instant interaction after 15 keyframes (~1.1MB)
-const CHUNK_SIZE = 20; // Stream remaining frames in background idle chunks
+const CACHE_WINDOW_BACK = 15;
+const CACHE_WINDOW_FWD = 30;
+const CACHE_BOUNDS = 45; // Evict outside of +/- 45 frames
 
 const getFramePath = (index: number) => {
   return `/sequence/frame_${String(index).padStart(3, "0")}_delay-0.033s.webp`;
@@ -25,7 +27,6 @@ export default function ScrollyCanvas() {
   const [loadPercent, setLoadPercent] = useState(0);
   
   const lastDrawnFrameRef = useRef<number>(-1);
-  const rafIdRef = useRef<number | null>(null);
   const canvasDimensionsRef = useRef<{ width: number; height: number; dpr: number }>({
     width: 0,
     height: 0,
@@ -62,7 +63,6 @@ export default function ScrollyCanvas() {
     const { width, height } = canvasDimensionsRef.current;
     if (width === 0 || height === 0) return;
 
-    // Object-fit: cover logic based on logical CSS dimensions
     const canvasRatio = width / height;
     const imgRatio = img.naturalWidth / img.naturalHeight;
 
@@ -99,11 +99,8 @@ export default function ScrollyCanvas() {
 
     canvasDimensionsRef.current = { width, height, dpr };
 
-    // Backing store buffer (physical pixels)
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
-
-    // CSS display size (logical pixels)
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
@@ -114,7 +111,6 @@ export default function ScrollyCanvas() {
       ctx.imageSmoothingQuality = "high";
     }
 
-    // Redraw current frame with new dimensions
     const currentFrame = lastDrawnFrameRef.current >= 0 
       ? lastDrawnFrameRef.current 
       : Math.min(FRAME_COUNT - 1, Math.floor(scrollYProgress.get() * FRAME_COUNT));
@@ -122,34 +118,39 @@ export default function ScrollyCanvas() {
     drawFrame(currentFrame);
   }, [scrollYProgress, drawFrame]);
 
-  // Progressive Chunk Loader Engine
+  // Unified Progressive Chunk Loader and RAF Scheduler
   useEffect(() => {
     let isCancelled = false;
-    let totalLoaded = 0;
+    let animationId: number;
+    let loadedCount = 0;
 
     const loadSingleImage = (index: number): Promise<HTMLImageElement> => {
       return new Promise((resolve) => {
+        if (imagesRef.current[index]) {
+          return resolve(imagesRef.current[index] as HTMLImageElement);
+        }
+        
         const img = new Image();
         img.src = getFramePath(index);
+        imagesRef.current[index] = img;
         
         img.decode().then(() => {
           if (!isCancelled) {
-            imagesRef.current[index] = img;
-            totalLoaded++;
+            loadedCount++;
+            if (!isCriticalReady) {
+               setLoadPercent(Math.min(100, Math.round((loadedCount / CRITICAL_FRAME_COUNT) * 100)));
+            }
           }
           resolve(img);
         }).catch(() => {
-          // Fallback on error (e.g., if decode fails or is not supported)
           if (!isCancelled && img.complete) {
-            imagesRef.current[index] = img;
-            totalLoaded++;
+            loadedCount++;
           }
           resolve(img);
         });
       });
     };
 
-    // Phase 1: Critical Keyframes (First 15 frames)
     const loadCriticalKeyframes = async () => {
       const criticalPromises: Promise<HTMLImageElement>[] = [];
       for (let i = 0; i < CRITICAL_FRAME_COUNT; i++) {
@@ -160,55 +161,57 @@ export default function ScrollyCanvas() {
       if (isCancelled) return;
 
       setIsCriticalReady(true);
-      setLoadPercent(Math.round((CRITICAL_FRAME_COUNT / FRAME_COUNT) * 100));
+      setLoadPercent(100);
       updateCanvasSize();
       drawFrame(0);
 
-      // Phase 2: Stream remaining frames in idle background chunks
-      streamRemainingChunks(CRITICAL_FRAME_COUNT);
+      // Start the scroll-aware dynamic RAF loop
+      startDynamicLoop();
     };
 
-    const streamRemainingChunks = (startIndex: number) => {
-      if (isCancelled || startIndex >= FRAME_COUNT) {
-        if (!isCancelled) setLoadPercent(100);
-        return;
-      }
-
-      const scheduleNext = typeof window !== "undefined" && "requestIdleCallback" in window
-        ? window.requestIdleCallback
-        : (cb: () => void) => setTimeout(cb, 20);
-
-      scheduleNext(async () => {
+    const startDynamicLoop = () => {
+      const loop = () => {
         if (isCancelled) return;
         
-        // Yield network for Next.js dynamic JS chunks
-        await new Promise(r => setTimeout(r, 50));
+        // 1. Calculate Target Frame directly from motion value to avoid React state
+        const target = Math.min(FRAME_COUNT - 1, Math.floor(scrollYProgress.get() * FRAME_COUNT));
         
-        const endIndex = Math.min(FRAME_COUNT, startIndex + CHUNK_SIZE);
-        const chunkPromises: Promise<HTMLImageElement>[] = [];
+        // 2. Proactive Fetching (bounded window)
+        const fetchStart = Math.max(0, target - CACHE_WINDOW_BACK);
+        const fetchEnd = Math.min(FRAME_COUNT - 1, target + CACHE_WINDOW_FWD);
         
-        for (let i = startIndex; i < endIndex; i++) {
-          chunkPromises.push(loadSingleImage(i));
+        for (let i = fetchStart; i <= fetchEnd; i++) {
+          if (!imagesRef.current[i]) {
+            loadSingleImage(i);
+          }
+        }
+        
+        // 3. Garbage Collect old frames (memory bounding)
+        for (let i = 0; i < FRAME_COUNT; i++) {
+          if (imagesRef.current[i] && Math.abs(i - target) > CACHE_BOUNDS) {
+            // Explicitly release memory
+            imagesRef.current[i]!.src = "";
+            imagesRef.current[i] = null;
+          }
         }
 
-        await Promise.all(chunkPromises);
-        if (isCancelled) return;
+        // 4. Render
+        if (target !== lastDrawnFrameRef.current) {
+           drawFrame(target);
+        }
 
-        // Throttled percentage update
-        const percent = Math.min(100, Math.round((totalLoaded / FRAME_COUNT) * 100));
-        setLoadPercent(percent);
-
-        // Schedule next chunk
-        streamRemainingChunks(endIndex);
-      });
+        animationId = requestAnimationFrame(loop);
+      };
+      animationId = requestAnimationFrame(loop);
     };
 
     loadCriticalKeyframes();
 
     return () => {
       isCancelled = true;
+      if (animationId) cancelAnimationFrame(animationId);
     };
-  }, [updateCanvasSize, drawFrame]);
+  }, [updateCanvasSize, drawFrame, scrollYProgress, isCriticalReady]);
 
   // Window Resize Listener with Debounce
   useEffect(() => {
@@ -217,7 +220,7 @@ export default function ScrollyCanvas() {
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(updateCanvasSize, 50);
+      resizeTimer = setTimeout(updateCanvasSize, 100); // slightly longer debounce
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
@@ -226,25 +229,6 @@ export default function ScrollyCanvas() {
       window.removeEventListener("resize", handleResize);
     };
   }, [updateCanvasSize]);
-
-  // 60 FPS Framer Motion Scroll Integration with RAF Cancellation
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const frameIndex = Math.min(
-      FRAME_COUNT - 1,
-      Math.floor(latest * FRAME_COUNT)
-    );
-
-    if (frameIndex === lastDrawnFrameRef.current) return;
-
-    if (rafIdRef.current !== null) {
-      cancelAnimationFrame(rafIdRef.current);
-    }
-
-    rafIdRef.current = requestAnimationFrame(() => {
-      drawFrame(frameIndex);
-      rafIdRef.current = null;
-    });
-  });
 
   return (
     <div ref={containerRef} className="relative h-[500vh] w-full" aria-hidden="true">
