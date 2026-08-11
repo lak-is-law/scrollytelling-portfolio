@@ -38,6 +38,20 @@ const certifications = [
     date: "Feb 2025",
     type: "Academic",
     status: "COMPLETED"
+  },
+  {
+    title: "Certified Game Developer",
+    issuer: "WhiteHat Jr",
+    date: "Jan 2021",
+    type: "Game Engineering",
+    status: "COMPLETED"
+  },
+  {
+    title: "Certified Mobile App-Developer",
+    issuer: "WhiteHat Jr, Mumbai",
+    date: "Jan 2021",
+    type: "Technical",
+    status: "COMPLETED"
   }
 ];
 
