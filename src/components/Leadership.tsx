@@ -6,37 +6,37 @@ import Image from "next/image";
 
 const milestones = [
   {
-    role: "Public Relations Intern",
-    org: "Cherry+ Network",
-    desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
-    logo: "/logos/cherry.png",
+    role: "Student Activist",
+    org: "National Service Scheme (NSS)",
+    desc: "Led coastal cleaning drives at Kovallam Beach, Chennai, collecting over 1 tonne of plastic, metal waste, and garbage.",
+    logo: "/logos/srm-dsa.png",
     scale: 0.5,
   },
   {
     role: "Editorial Associate",
     org: "Coding Ninjas 10X Club",
-    desc: "Led editorial strategy and organized technical events, shifting from execution to strategic planning.",
+    desc: "Led editorial strategy and co-organized technical events that drew student participation from 150+ colleges across India, shifting from hands-on execution to strategic planning.",
     logo: "/logos/coding-ninjas.jpeg",
     scale: 1,
   },
   {
     role: "Committee Member",
     org: "Aaruush, SRM University",
-    desc: "Planning and execution for Asia's largest student-run tech fest. Managed corporate communications and community events.",
+    desc: "Contributed in managing on-ground coordination for celebrity guests (incl. Bhuvan Bam, Raghav Chaitanya) at Aaruush tech fest, alongside broader corporate communications and community-facing events.",
     logo: "/logos/aaruush.png",
     scale: 1.1,
   },
   {
     role: "Official EMCEE",
     org: "SRMIST Directorate of Student Affairs",
-    desc: "Anchored large-scale institutional events, mastering intercultural communication and stage presence.",
+    desc: "Anchored large-scale institutional events for audiences of 5,000+ attendees, representing the university on stage through live hosting and intercultural communication.",
     logo: "/logos/srm-dsa.png",
     scale: 1.25,
   },
   {
     role: "Trainee Lead",
-    org: "Alumni Relations (DAA)",
-    desc: "Mentored recruits, spearheaded engagement strategy, and served as the primary POC for high-profile alumni.",
+    org: "Alumni Affairs (DAA), SRMIST",
+    desc: "Mentored incoming recruits and spearheaded alumni-engagement strategy across 100+ alumni-engagement events, serving as a primary point of contact for high-profile alumni relationships.",
     logo: "/logos/daa.png",
     scale: 1.4,
   }

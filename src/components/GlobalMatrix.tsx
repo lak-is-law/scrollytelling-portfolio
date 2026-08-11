@@ -536,7 +536,7 @@ export default function GlobalMatrix() {
             Communication Matrix.
           </h2>
           <p className="text-xl text-zinc-400 font-light max-w-2xl">
-            Multilingual fluency spanning 7 languages across international technical documentation, regional heritage dialects, and active studies.
+            Multilingual communicator across 7 languages.
           </p>
         </div>
 
