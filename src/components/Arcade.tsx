@@ -335,7 +335,7 @@ function LiveTelemetry() {
   }, []);
 
   return (
-    <div className="w-full max-w-sm mx-auto mb-10 p-4 rounded-2xl bg-zinc-900/40 border border-white/10 backdrop-blur-2xl font-mono text-xs shadow-2xl">
+    <div className="w-full max-w-sm mx-auto mb-10 p-4 rounded-2xl bg-zinc-900/40 premium-card backdrop-blur-2xl font-mono text-xs">
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800/80">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
@@ -704,7 +704,7 @@ export default function Arcade() {
                 whileHover={{ y: -6 }}
                 onClick={() => handleOpenArcade("football")}
                 onMouseEnter={() => arcadeAudio.playHover()}
-                className="group p-5 rounded-3xl bg-zinc-900/30 border border-white/10 hover:border-amber-400/50 hover:bg-zinc-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-lg backdrop-blur-2xl"
+                className="group p-5 rounded-3xl bg-zinc-900/30 premium-card hover:bg-zinc-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between backdrop-blur-2xl"
               >
                 <div>
                   <div className="h-28 w-full mb-4 rounded-xl overflow-hidden border border-amber-500/20 bg-black/40">
@@ -739,7 +739,7 @@ export default function Arcade() {
                 whileHover={{ y: -6 }}
                 onClick={() => handleOpenArcade("factory")}
                 onMouseEnter={() => arcadeAudio.playHover()}
-                className="group p-5 rounded-3xl bg-zinc-900/30 border border-white/10 hover:border-cyan-400/50 hover:bg-zinc-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-lg backdrop-blur-2xl"
+                className="group p-5 rounded-3xl bg-zinc-900/30 premium-card hover:bg-zinc-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between backdrop-blur-2xl"
               >
                 <div>
                   <div className="h-28 w-full mb-4 rounded-xl overflow-hidden border border-cyan-500/20 bg-black/40">
@@ -774,7 +774,7 @@ export default function Arcade() {
                 whileHover={{ y: -6 }}
                 onClick={() => handleOpenArcade("terminal")}
                 onMouseEnter={() => arcadeAudio.playHover()}
-                className="group p-5 rounded-3xl bg-zinc-900/30 border border-white/10 hover:border-emerald-400/50 hover:bg-zinc-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-lg backdrop-blur-2xl"
+                className="group p-5 rounded-3xl bg-zinc-900/30 premium-card hover:bg-zinc-900/60 transition-all duration-300 cursor-pointer flex flex-col justify-between backdrop-blur-2xl"
               >
                 <div>
                   <div className="h-28 w-full mb-4 rounded-xl overflow-hidden border border-emerald-500/20 bg-black/40">

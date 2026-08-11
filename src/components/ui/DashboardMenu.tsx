@@ -209,7 +209,7 @@ export default function DashboardMenu() {
                   onMouseEnter={() => arcadeAudio.playHover()}
                   whileHover={{ scale: 1.01, x: 2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full group text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/10 border border-white/10 hover:border-cyan-400/40 transition-all duration-200 cursor-pointer"
+                  className="w-full group text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/10 premium-card hover:border-cyan-400/40 transition-all duration-200 cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -233,7 +233,7 @@ export default function DashboardMenu() {
                 {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                     ITEM 2: ABOUT ME (Rich Summary Card)
                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+                <div className="p-4 rounded-2xl bg-white/[0.03] premium-card space-y-2.5">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
                       Profile // Overview

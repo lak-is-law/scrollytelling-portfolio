@@ -894,7 +894,7 @@ export default function Languages() {
         </div>
 
         {/* HUD LIVE METRICS DASHBOARD */}
-        <div className="flex flex-wrap items-center justify-between gap-4 p-4 md:p-6 rounded-3xl bg-zinc-950/80 border border-white/10 backdrop-blur-2xl mb-8 font-mono shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+        <div className="flex flex-wrap items-center justify-between gap-4 p-4 md:p-6 rounded-3xl bg-zinc-950/80 premium-card backdrop-blur-2xl mb-8 font-mono shadow-[0_0_40px_rgba(0,0,0,0.8)]">
           {/* XP Meter */}
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-inner">

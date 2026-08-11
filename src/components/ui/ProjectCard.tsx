@@ -177,7 +177,7 @@ export default function ProjectCard({
         {/* Inner Floating Image container in Z-space */}
         <div
           style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
-          className="relative w-full h-full border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
+          className="relative w-full h-full premium-card rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black"
         >
           <Image
             src={imageSrc}
