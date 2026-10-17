@@ -1,8 +1,7 @@
 import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
-import RedGambit from "@/components/work/RedGambit";
-import Todar from "@/components/work/Todar";
-import ElevateHub from "@/components/work/ElevateHub";
+import ProjectsSection from "@/components/work/ProjectsSection";
+import Research from "@/components/Research";
 import Internships from "@/components/Internships";
 import Leadership from "@/components/Leadership";
 import Achievements from "@/components/Achievements";
@@ -25,9 +24,8 @@ export default function Home() {
         <ScrollyCanvas />
         <Overlay />
       </div>
-      <RedGambit />
-      <Todar />
-      <ElevateHub />
+      <ProjectsSection />
+      <Research />
       <Internships />
       <Leadership />
       <Achievements />

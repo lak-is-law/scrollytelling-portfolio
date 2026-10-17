@@ -5,8 +5,8 @@ import ProjectCard from "@/components/ui/ProjectCard";
 export default function RedGambit() {
   return (
     <ProjectCard
-      id="projects"
-      sectionNumber="03 // Research"
+      id="redgambit"
+      sectionNumber="05.4 // Adversarial AI"
       title="Red Gambit."
       subtitle="Where AI red-teaming meets grandmaster chess."
       description={

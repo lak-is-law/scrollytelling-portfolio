@@ -18,6 +18,7 @@ interface ProjectCardProps {
   imageAlt: string;
   accent?: AccentColor;
   layout?: "story-first" | "image-first";
+  imageBg?: string;
 }
 
 const GLOW_COLOR_MAP: Record<AccentColor, string> = {
@@ -77,6 +78,7 @@ export default function ProjectCard({
   imageAlt,
   accent = "cyan",
   layout = "story-first",
+  imageBg,
 }: ProjectCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -176,8 +178,12 @@ export default function ProjectCard({
 
         {/* Inner Floating Image container in Z-space */}
         <div
-          style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
-          className="relative w-full h-full premium-card rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-black"
+          style={{ 
+            transform: "translateZ(50px)", 
+            transformStyle: "preserve-3d",
+            backgroundColor: imageBg || "#000000"
+          }}
+          className="relative w-full h-full premium-card rounded-[2rem] md:rounded-[2.5rem] overflow-hidden flex items-center justify-center"
         >
           <Image
             src={imageSrc}
@@ -185,7 +191,7 @@ export default function ProjectCard({
             fill
             quality={95}
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-contain"
+            className="object-cover"
           />
         </div>
 

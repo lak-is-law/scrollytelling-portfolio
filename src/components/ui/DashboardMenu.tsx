@@ -13,14 +13,15 @@ interface DirectoryItem {
 }
 
 const DIRECTORY_ITEMS: DirectoryItem[] = [
-  { number: "01", label: "Featured Work", targetId: "projects", tag: "Case Studies" },
-  { number: "02", label: "Experience", targetId: "experience", tag: "Engineering & AI" },
-  { number: "03", label: "Leadership", targetId: "leadership", tag: "Tech Initiatives" },
-  { number: "04", label: "Achievements", targetId: "achievements", tag: "Honors & Awards" },
-  { number: "05", label: "Credentials", targetId: "credentials", tag: "Specializations" },
-  { number: "06", label: "Tech Stack", targetId: "languages", tag: "Neural & Systems" },
-  { number: "07", label: "Global Matrix", targetId: "matrix", tag: "3D Telemetry" },
-  { number: "08", label: "Arcade Zone", targetId: "arcade", tag: "4 Minigames" },
+  { number: "01", label: "Featured Work", targetId: "projects", tag: "Selected Projects" },
+  { number: "02", label: "Research", targetId: "research", tag: "Applied AI" },
+  { number: "03", label: "Experience", targetId: "experience", tag: "Engineering" },
+  { number: "04", label: "Leadership", targetId: "leadership", tag: "Initiatives" },
+  { number: "05", label: "Achievements", targetId: "achievements", tag: "Honors & Awards" },
+  { number: "06", label: "Credentials", targetId: "credentials", tag: "Specializations" },
+  { number: "07", label: "Tech Stack", targetId: "languages", tag: "Interactive Arsenal" },
+  { number: "08", label: "Global Matrix", targetId: "matrix", tag: "3D Telemetry" },
+  { number: "09", label: "Arcade Zone", targetId: "arcade", tag: "4 Minigames" },
 ];
 
 export default function DashboardMenu() {

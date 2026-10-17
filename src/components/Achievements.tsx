@@ -5,8 +5,8 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "fram
 import Image from "next/image";
 
 const otherAchievements = [
-  { title: "1st Runner Up", context: "Language Exchange, SRM PBL 2024 (Represented Korea)" },
-  { title: "Semi-Finalist", context: "TechXcelerate, BITS Hyderabad" },
+  { title: "Winner (1st Place)", context: "BITS Hyderabad TechXcelerate Hackathon 2025" },
+  { title: "1st Runner Up", context: "Language Exchange, SRM PBL 2024 (Represented Republic of Korea)" },
   { title: "Special Mention", context: "ICA Model United Nations (MUN)" },
   { title: "Nominee", context: "International Award for Young People (IAYP)" },
   { title: "Flight Experience", context: "Commercial Jet Airliner, Singapore Flyer" },
@@ -61,7 +61,7 @@ export default function Achievements() {
           
           <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-4 md:space-y-6">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-400 uppercase mb-2 md:mb-4">
-              <span>08 // Pinnacle Achievement</span>
+              <span>09 // Pinnacle Achievement</span>
               <div className="h-px w-12 bg-yellow-500/30" />
             </div>
             

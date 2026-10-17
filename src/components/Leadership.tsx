@@ -6,39 +6,39 @@ import Image from "next/image";
 
 const milestones = [
   {
-    role: "Public Relations Intern",
-    org: "Cherry+ Network",
-    desc: "Managed PR campaigns, Instagram reel ideation, and contributed to corporate social responsibility initiatives.",
-    logo: "/logos/cherry.png",
-    scale: 0.5,
-  },
-  {
-    role: "Editorial Associate",
-    org: "Coding Ninjas 10X Club",
-    desc: "Led editorial strategy and co-organized technical events that drew student participation from 150+ colleges across India, shifting from hands-on execution to strategic planning.",
-    logo: "/logos/coding-ninjas.jpeg",
-    scale: 1,
-  },
-  {
-    role: "Committee Member",
-    org: "Aaruush, SRM University",
-    desc: "Contributed in managing on-ground coordination for celebrity guests (incl. Bhuvan Bam, Raghav Chaitanya) at Aaruush tech fest, alongside broader corporate communications and community-facing events.",
-    logo: "/logos/aaruush.png",
-    scale: 1.1,
+    role: "Head of Alumni Relations",
+    org: "Alumni Affairs (DAA), SRMIST",
+    desc: "Connected with 10,000+ alumni and managed a database of 300,000+ alumni; executed 100+ engagement events and mentored fellow members via LinkedIn branding workshops for 1,000+ participants.",
+    logo: "/logos/daa.png",
+    scale: 1.4,
   },
   {
     role: "Official EMCEE",
     org: "SRMIST Directorate of Student Affairs",
-    desc: "Anchored large-scale institutional events for audiences of 5,000+ attendees, representing the university on stage through live hosting and intercultural communication.",
+    desc: "Anchored flagship stage events including Rendezvous, commanding live audiences of 5,000+ attendees through hosting, improvisation, and intercultural communication.",
     logo: "/logos/srm-dsa.png",
     scale: 1.25,
   },
   {
-    role: "Trainee Lead",
-    org: "Alumni Affairs (DAA), SRMIST",
-    desc: "Mentored incoming recruits and spearheaded alumni-engagement strategy across 100+ alumni-engagement events, serving as a primary point of contact for high-profile alumni relationships.",
-    logo: "/logos/daa.png",
-    scale: 1.4,
+    role: "Committee Member",
+    org: "Aaruush, SRM University",
+    desc: "Produced large-scale campus events including Aaruush techno-management fest and Grand Tech Conclave; managed celebrity guest logistics (Bhuvan Bam, Raghav Chaitanya) and secured Red Bull sponsorship.",
+    logo: "/logos/aaruush.png",
+    scale: 1.1,
+  },
+  {
+    role: "Editorial Associate",
+    org: "Coding Ninjas 10X Club",
+    desc: "Led editorial strategy and co-organized technical events that drew student participation from 150+ colleges across India.",
+    logo: "/logos/coding-ninjas.jpeg",
+    scale: 1,
+  },
+  {
+    role: "Public Relations Intern",
+    org: "Cherry+ Network",
+    desc: "Managed PR campaigns, outreach ideation, and corporate social responsibility initiatives for flagship university events.",
+    logo: "/logos/cherry.png",
+    scale: 0.5,
   }
 ];
 
@@ -60,7 +60,7 @@ export default function Leadership() {
       <div className="mx-auto max-w-4xl w-full relative z-10">
         <div className="mb-16 md:mb-24 text-center">
           <div className="flex items-center justify-center gap-4 text-sm font-medium tracking-widest text-amber-400 uppercase mb-4 md:mb-6">
-            <span>07 // Leadership</span>
+            <span>08 // Leadership</span>
             <div className="h-px w-12 bg-amber-500/30" />
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-medium tracking-tight text-white mb-4 md:mb-6">

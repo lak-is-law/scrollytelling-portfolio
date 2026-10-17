@@ -511,7 +511,7 @@ export default function Arcade() {
           
           {/* Section Header */}
           <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-amber-400 uppercase mb-6">
-            <span>12 // Interactive Vault</span>
+            <span>13 // Interactive Vault</span>
             <div className="h-px w-12 bg-amber-500/30" />
           </div>
 

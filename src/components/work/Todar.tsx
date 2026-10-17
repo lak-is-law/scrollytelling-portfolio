@@ -6,7 +6,7 @@ export default function Todar() {
   return (
     <ProjectCard
       id="todar"
-      sectionNumber="04 // FinTech"
+      sectionNumber="05 // FinTech"
       title="Todar 2.0."
       subtitle="Transforming chaos into financial clarity."
       description={
@@ -26,6 +26,7 @@ export default function Todar() {
       imageAlt="Todar 2.0 Financial Terminal"
       accent="emerald"
       layout="image-first"
+      imageBg="#e4d4ba"
     />
   );
 }

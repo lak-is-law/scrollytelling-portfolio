@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#05050a"/>
+      <stop offset="50%" stop-color="#0b0b18"/>
+      <stop offset="100%" stop-color="#040407"/>
+    </linearGradient>
+    <radialGradient id="glow-gold" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#fce082" stop-opacity="0.35"/>
+      <stop offset="40%" stop-color="#d4af37" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#07070c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-purple" cx="50%" cy="60%" r="60%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#07070c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fce082"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#996515"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Midnight Cosmos Background -->
+  <rect width="1200" height="800" fill="url(#bg-grad)"/>
+  <rect width="1200" height="800" fill="url(#glow-purple)"/>
+  <circle cx="600" cy="380" r="420" fill="url(#glow-gold)"/>
+
+  <!-- Geometric Grid & Constellation Lines -->
+  <g stroke="#e8bd59" stroke-opacity="0.12" stroke-width="1" fill="none">
+    <circle cx="600" cy="380" r="320"/>
+    <circle cx="600" cy="380" r="240" stroke-dasharray="6 6"/>
+    <circle cx="600" cy="380" r="160"/>
+    <line x1="600" y1="60" x2="600" y2="700"/>
+    <line x1="280" y1="380" x2="920" y2="380"/>
+    <line x1="373" y1="153" x2="827" y2="607"/>
+    <line x1="373" y1="607" x2="827" y2="153"/>
+  </g>
+
+  <!-- Sacred Pyramid & Triangle of Insight -->
+  <polygon points="600,190 770,490 430,490" fill="#12101e" fill-opacity="0.75" stroke="url(#gold-stroke)" stroke-width="3"/>
+  <polygon points="600,240 730,470 470,470" fill="none" stroke="#e8bd59" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Golden Egyptian Ankh at Pyramid Apex -->
+  <g transform="translate(600, 310)" stroke="url(#gold-stroke)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="0" cy="-32" rx="16" ry="22"/>
+    <line x1="0" y1="-10" x2="0" y2="38"/>
+    <line x1="-24" y1="4" x2="24" y2="4"/>
+  </g>
+
+  <!-- The All-Seeing Oracle Eye -->
+  <g transform="translate(600, 410)">
+    <path d="M -60 0 Q 0 -45 60 0 Q 0 45 -60 0 Z" fill="#07070c" stroke="url(#gold-stroke)" stroke-width="3"/>
+    <circle cx="0" cy="0" r="18" fill="#e8bd59"/>
+    <circle cx="0" cy="0" r="8" fill="#07070c"/>
+    <circle cx="-3" cy="-3" r="3" fill="#ffffff"/>
+  </g>
+
+  <!-- Typography: JINN -->
+  <text x="600" y="590" text-anchor="middle" font-family="'Cinzel', Georgia, 'Times New Roman', serif" font-size="76" font-weight="800" letter-spacing="18" fill="url(#gold-stroke)">JINN</text>
+  <text x="600" y="635" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="16" font-weight="600" letter-spacing="8" fill="#e8bd59" opacity="0.9">THE ANCIENT ORACLE OF MINDS</text>
+  <text x="600" y="670" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="4" fill="#a1a1aa">MULTI-LLM // NVIDIA NIM • CLAUDE • GROQ • GEMINI</text>
+</svg>
