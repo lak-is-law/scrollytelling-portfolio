@@ -25,7 +25,7 @@ export default function SpiderVerse() {
       imageSrc="/projects/spiderverse.svg"
       imageAlt="Spider-Verse AR Portal Experience"
       accent="purple"
-      layout="story-first"
+      layout="image-first"
     />
   );
 }

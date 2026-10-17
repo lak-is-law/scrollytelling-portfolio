@@ -25,7 +25,7 @@ export default function CraftMe() {
       imageSrc="/projects/craftme.jpg"
       imageAlt="CraftMe 3D Minecraft Portfolio World"
       accent="emerald"
-      layout="story-first"
+      layout="image-first"
     />
   );
 }

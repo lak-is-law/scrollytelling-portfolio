@@ -25,7 +25,7 @@ export default function ElevateHub() {
       imageSrc="/projects/elevate-hub-v2.jpg"
       imageAlt="ElevateHub Collaboration Platform"
       accent="amber"
-      layout="story-first"
+      layout="image-first"
     />
   );
 }

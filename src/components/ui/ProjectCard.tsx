@@ -20,6 +20,7 @@ interface ProjectCardProps {
   accent?: AccentColor;
   layout?: "story-first" | "image-first";
   imageBg?: string;
+  hasBorderTop?: boolean;
 }
 
 const GLOW_COLOR_MAP: Record<AccentColor, string> = {
@@ -81,6 +82,7 @@ export default function ProjectCard({
   accent = "cyan",
   layout = "story-first",
   imageBg,
+  hasBorderTop = true,
 }: ProjectCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -217,7 +219,9 @@ export default function ProjectCard({
     <section
       ref={ref}
       id={id}
-      className="relative z-20 min-h-screen bg-transparent flex items-center py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08]"
+      className={`relative z-20 min-h-screen bg-transparent flex items-center py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden ${
+        hasBorderTop ? "border-t border-white/[0.08]" : ""
+      }`}
     >
       {/* Signature Ambient Glow */}
       <div

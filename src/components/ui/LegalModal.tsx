@@ -134,15 +134,16 @@ export default function LegalModal({ type, onClose }: LegalModalProps) {
                     Primary Sections
                   </h3>
                   <ul className="text-sm space-y-1.5 text-zinc-300">
-                    <li><a href="#projects" onClick={handleClose} className="hover:text-white underline">01 // Featured Projects</a></li>
-                    <li><a href="#research" onClick={handleClose} className="hover:text-white underline">02 // Applied Research</a></li>
-                    <li><a href="#experience" onClick={handleClose} className="hover:text-white underline">03 // Professional Experience</a></li>
-                    <li><a href="#leadership" onClick={handleClose} className="hover:text-white underline">04 // Leadership</a></li>
-                    <li><a href="#achievements" onClick={handleClose} className="hover:text-white underline">05 // Pinnacle Honors</a></li>
-                    <li><a href="#credentials" onClick={handleClose} className="hover:text-white underline">06 // Credentials</a></li>
-                    <li><a href="#languages" onClick={handleClose} className="hover:text-white underline">07 // Tech Stack Arsenal</a></li>
-                    <li><a href="#matrix" onClick={handleClose} className="hover:text-white underline">08 // Global Telemetry</a></li>
-                    <li><a href="#arcade" onClick={handleClose} className="hover:text-white underline">09 // Arcade Zone</a></li>
+                    <li><a href="#projects" onClick={handleClose} className="hover:text-white underline">03 // Featured Projects</a></li>
+                    <li><a href="#research" onClick={handleClose} className="hover:text-white underline">04 // Applied Research</a></li>
+                    <li><a href="#experience" onClick={handleClose} className="hover:text-white underline">05 // Professional Experience</a></li>
+                    <li><a href="#leadership" onClick={handleClose} className="hover:text-white underline">06 // Leadership</a></li>
+                    <li><a href="#achievements" onClick={handleClose} className="hover:text-white underline">07 // Pinnacle Honors</a></li>
+                    <li><a href="#credentials" onClick={handleClose} className="hover:text-white underline">08 // Verified Credentials</a></li>
+                    <li><a href="#languages" onClick={handleClose} className="hover:text-white underline">09 // Tech Stack Arsenal</a></li>
+                    <li><a href="#matrix" onClick={handleClose} className="hover:text-white underline">10 // Global Telemetry</a></li>
+                    <li><a href="#arcade" onClick={handleClose} className="hover:text-white underline">11 // Arcade Zone</a></li>
+                    <li><a href="#contact" onClick={handleClose} className="hover:text-white underline">12 // Open Network</a></li>
                   </ul>
                 </div>
 

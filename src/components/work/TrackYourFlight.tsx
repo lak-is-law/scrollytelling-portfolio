@@ -25,7 +25,7 @@ export default function TrackYourFlight() {
       imageSrc="/projects/trackyourflight.png"
       imageAlt="TrackYourFlight Global Flight Observatory"
       accent="cyan"
-      layout="story-first"
+      layout="image-first"
       imageBg="#000908"
     />
   );

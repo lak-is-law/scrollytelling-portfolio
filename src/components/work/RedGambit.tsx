@@ -25,7 +25,7 @@ export default function RedGambit() {
       imageSrc="/projects/red-gambit-v2.jpg"
       imageAlt="Red Gambit Adversarial Platform"
       accent="cyan"
-      layout="image-first"
+      layout="story-first"
     />
   );
 }

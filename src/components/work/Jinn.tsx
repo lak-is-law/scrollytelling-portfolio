@@ -25,7 +25,7 @@ export default function Jinn() {
       imageSrc="/projects/jinn-oracle.svg"
       imageAlt="Jinn Ancient Oracle of Minds"
       accent="gold"
-      layout="image-first"
+      layout="story-first"
     />
   );
 }

@@ -25,8 +25,9 @@ export default function LocateArt() {
       imageSrc="/projects/locate-art.png"
       imageAlt="Locate Art Cultural-Heritage Mapping Platform"
       accent="amber"
-      layout="image-first"
+      layout="story-first"
       imageBg="#fbf9f4"
+      hasBorderTop={false}
     />
   );
 }

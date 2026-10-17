@@ -25,7 +25,7 @@ export default function Todar() {
       imageSrc="/projects/todar-v2.jpg"
       imageAlt="Todar 2.0 Financial Terminal"
       accent="emerald"
-      layout="image-first"
+      layout="story-first"
       imageBg="#e4d4ba"
     />
   );

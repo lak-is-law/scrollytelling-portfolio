@@ -25,7 +25,7 @@ export default function GtaPortfolio() {
       imageSrc="/projects/gta-map.png"
       imageAlt="GTA V Themed Interactive Portfolio"
       accent="purple"
-      layout="image-first"
+      layout="story-first"
     />
   );
 }

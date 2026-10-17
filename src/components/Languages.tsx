@@ -507,6 +507,13 @@ export default function Languages() {
   const lastShotTimeRef = useRef(0);
   const selectedWeaponRef = useRef<Weapon>(selectedWeapon);
   const comboRef = useRef(0);
+  const masteredTargetsRef = useRef<string[]>(masteredTargets);
+  const isMouseInsideRef = useRef(false);
+  const isIntersectingRef = useRef(true);
+  const isLoopRunningRef = useRef(false);
+  const animIdRef = useRef<number | null>(null);
+  const sizeRef = useRef<{ width: number; height: number; dpr: number }>({ width: 0, height: 0, dpr: 1 });
+  const containerRectRef = useRef<{ left: number; top: number }>({ left: 0, top: 0 });
 
   // Keep refs synced
   useEffect(() => {
@@ -516,6 +523,17 @@ export default function Languages() {
   useEffect(() => {
     comboRef.current = combo;
   }, [combo]);
+
+  useEffect(() => {
+    masteredTargetsRef.current = masteredTargets;
+  }, [masteredTargets]);
+
+  const updateContainerRect = useCallback(() => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      containerRectRef.current = { left: rect.left, top: rect.top };
+    }
+  }, []);
 
   // Check milestone when all 12 targets are mastered
   useEffect(() => {
@@ -538,90 +556,140 @@ export default function Languages() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // High-performance canvas particle & text animation loop
-  useEffect(() => {
+  // High-performance canvas particle & text animation loop (0 layout thrashing)
+  const renderFrame = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Handle high DPI
+    const { width, height, dpr } = sizeRef.current;
+    if (width === 0 || height === 0) return;
+
+    // Check if particles and popups are drained
+    if (particles.current.length === 0 && textPopups.current.length === 0) {
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+      isLoopRunningRef.current = false;
+      return;
+    }
+
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.scale(dpr, dpr);
+
+    // 1. Draw Hit Particles
+    for (let i = particles.current.length - 1; i >= 0; i--) {
+      const p = particles.current[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.12; // gravity
+      p.life++;
+      p.alpha = Math.max(0, 1 - p.life / p.maxLife);
+
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (1 - (p.life / p.maxLife) * 0.4), 0, Math.PI * 2);
+      ctx.fill();
+
+      if (p.life >= p.maxLife) {
+        particles.current.splice(i, 1);
+      }
+    }
+
+    // 2. Draw Floating Damage / XP Texts
+    for (let i = textPopups.current.length - 1; i >= 0; i--) {
+      const t = textPopups.current[i];
+      t.y += t.vy;
+      t.vy *= 0.96;
+      t.life++;
+      t.alpha = Math.max(0, 1 - t.life / t.maxLife);
+
+      ctx.save();
+      ctx.globalAlpha = t.alpha;
+      ctx.fillStyle = t.color;
+      ctx.font = t.isCrit
+        ? "900 16px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+        : "700 13px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+      ctx.shadowColor = t.isCrit ? "rgba(251, 191, 36, 0.8)" : "rgba(0, 0, 0, 0.8)";
+      ctx.shadowBlur = t.isCrit ? 10 : 4;
+      ctx.fillText(t.text, t.x, t.y);
+      ctx.restore();
+
+      if (t.life >= t.maxLife) {
+        textPopups.current.splice(i, 1);
+      }
+    }
+
+    ctx.restore();
+
+    if (isIntersectingRef.current && (particles.current.length > 0 || textPopups.current.length > 0)) {
+      animIdRef.current = requestAnimationFrame(renderFrame);
+    } else {
+      isLoopRunningRef.current = false;
+    }
+  }, []);
+
+  const startLoop = useCallback(() => {
+    if (!isLoopRunningRef.current && isIntersectingRef.current) {
+      isLoopRunningRef.current = true;
+      animIdRef.current = requestAnimationFrame(renderFrame);
+    }
+  }, [renderFrame]);
+
+  // Unified Resize & Visibility management
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
     const resize = () => {
-      if (!containerRef.current || !canvas) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      sizeRef.current = { width: rect.width, height: rect.height, dpr };
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      updateContainerRect();
     };
 
     resize();
     window.addEventListener("resize", resize);
 
-    let animId: number;
-
-    const render = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
-
-      // 1. Draw Hit Particles
-      for (let i = particles.current.length - 1; i >= 0; i--) {
-        const p = particles.current[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.12; // gravity
-        p.life++;
-        p.alpha = Math.max(0, 1 - p.life / p.maxLife);
-
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.alpha;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (1 - (p.life / p.maxLife) * 0.4), 0, Math.PI * 2);
-        ctx.fill();
-
-        if (p.life >= p.maxLife) {
-          particles.current.splice(i, 1);
-        }
+    const handlePassiveScroll = () => {
+      if (isMouseInsideRef.current) {
+        updateContainerRect();
       }
-
-      // 2. Draw Floating Damage / XP Texts
-      for (let i = textPopups.current.length - 1; i >= 0; i--) {
-        const t = textPopups.current[i];
-        t.y += t.vy;
-        t.vy *= 0.96;
-        t.life++;
-        t.alpha = Math.max(0, 1 - t.life / t.maxLife);
-
-        ctx.save();
-        ctx.globalAlpha = t.alpha;
-        ctx.fillStyle = t.color;
-        ctx.font = t.isCrit
-          ? "900 16px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-          : "700 13px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
-        ctx.shadowColor = t.isCrit ? "rgba(251, 191, 36, 0.8)" : "rgba(0, 0, 0, 0.8)";
-        ctx.shadowBlur = t.isCrit ? 10 : 4;
-        ctx.fillText(t.text, t.x, t.y);
-        ctx.restore();
-
-        if (t.life >= t.maxLife) {
-          textPopups.current.splice(i, 1);
-        }
-      }
-
-      ctx.globalAlpha = 1;
-      animId = requestAnimationFrame(render);
     };
+    window.addEventListener("scroll", handlePassiveScroll, { passive: true });
 
-    render();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        isIntersectingRef.current = entry?.isIntersecting ?? true;
+        if (isIntersectingRef.current) {
+          updateContainerRect();
+          if (particles.current.length > 0 || textPopups.current.length > 0) {
+            startLoop();
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
+
     return () => {
-      cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", handlePassiveScroll);
+      observer.disconnect();
+      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
     };
-  }, []);
+  }, [startLoop, updateContainerRect]);
 
-  const spawnParticles = (x: number, y: number, color: string, count = 16) => {
-    // Prevent particle flooding
+  const spawnParticles = useCallback((x: number, y: number, color: string, count = 16) => {
     if (particles.current.length > 80) {
       particles.current.splice(0, 20);
     }
@@ -640,9 +708,10 @@ export default function Languages() {
         maxLife: Math.random() * 20 + 16
       });
     }
-  };
+    startLoop();
+  }, [startLoop]);
 
-  const spawnTextPopup = (x: number, y: number, text: string, color: string, isCrit = false) => {
+  const spawnTextPopup = useCallback((x: number, y: number, text: string, color: string, isCrit = false) => {
     if (textPopups.current.length > 25) {
       textPopups.current.shift();
     }
@@ -657,7 +726,8 @@ export default function Languages() {
       life: 0,
       maxLife: 45
     });
-  };
+    startLoop();
+  }, [startLoop]);
 
   // Weapon Sound Dispatcher
   const playWeaponSound = useCallback((wId: Weapon["id"]) => {
@@ -677,7 +747,7 @@ export default function Languages() {
     }
   }, []);
 
-  const triggerMuzzleFlash = () => {
+  const triggerMuzzleFlash = useCallback(() => {
     if (muzzleFlashRef.current) {
       muzzleFlashRef.current.style.opacity = "0.35";
       setTimeout(() => {
@@ -686,9 +756,9 @@ export default function Languages() {
         }
       }, 60);
     }
-  };
+  }, []);
 
-  // Shoot Target Action
+  // Shoot Target Action - Stabilized callback for optimal React memoization
   const handleShootTarget = useCallback(
     (target: LanguageTarget, e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
@@ -701,11 +771,11 @@ export default function Languages() {
       playWeaponSound(weapon.id);
       triggerMuzzleFlash();
 
-      const containerRect = containerRef.current?.getBoundingClientRect();
+      const rect = containerRectRef.current;
       const clientX = e.clientX;
       const clientY = e.clientY;
-      const canvasX = containerRect ? clientX - containerRect.left : 0;
-      const canvasY = containerRect ? clientY - containerRect.top : 0;
+      const canvasX = rect.left ? clientX - rect.left : 0;
+      const canvasY = rect.top ? clientY - rect.top : 0;
 
       // Critical Hit calculation
       const isCrit = weapon.id === "sniper" || Math.random() > 0.75;
@@ -742,8 +812,8 @@ export default function Languages() {
         const currentHp = prev[target.id] ?? target.maxHp;
         const newHp = Math.max(0, currentHp - damageDealt);
 
-        if (newHp === 0 && !masteredTargets.includes(target.id)) {
-          setMasteredTargets((m) => [...m, target.id]);
+        if (newHp === 0 && !masteredTargetsRef.current.includes(target.id)) {
+          setMasteredTargets((m) => (m.includes(target.id) ? m : [...m, target.id]));
           arcadeAudio.playComboChime(8);
           spawnTextPopup(
             canvasX - 40,
@@ -756,7 +826,7 @@ export default function Languages() {
         return { ...prev, [target.id]: newHp };
       });
     },
-    [masteredTargets, playWeaponSound]
+    [playWeaponSound, triggerMuzzleFlash, spawnParticles, spawnTextPopup]
   );
 
   // Blank Shot (Miss)
@@ -769,24 +839,21 @@ export default function Languages() {
     playWeaponSound(weapon.id);
     triggerMuzzleFlash();
 
-    const containerRect = containerRef.current?.getBoundingClientRect();
-    if (containerRect) {
-      const clickX = e.clientX - containerRect.left;
-      const clickY = e.clientY - containerRect.top;
-      spawnParticles(clickX, clickY, weapon.color, 8);
-      spawnTextPopup(clickX - 30, clickY - 15, "SYNTAX MISS", "#ef4444", false);
-    }
+    const rect = containerRectRef.current;
+    const clickX = rect.left ? e.clientX - rect.left : 0;
+    const clickY = rect.top ? e.clientY - rect.top : 0;
+    spawnParticles(clickX, clickY, weapon.color, 8);
+    spawnTextPopup(clickX - 30, clickY - 15, "SYNTAX MISS", "#ef4444", false);
 
     setShotsFired((prev) => prev + 1);
     setCombo(0);
   };
 
-  // High-performance direct DOM Crosshair tracking (0 React re-renders)
+  // High-performance direct DOM Crosshair tracking (0 getBoundingClientRect reflows)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!crosshairRef.current || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    if (!crosshairRef.current) return;
+    const x = e.clientX - containerRectRef.current.left;
+    const y = e.clientY - containerRectRef.current.top;
     crosshairRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   };
 
@@ -823,12 +890,15 @@ export default function Languages() {
       onClick={handleRangeClick}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => {
+        isMouseInsideRef.current = true;
+        updateContainerRect();
         if (crosshairRef.current) crosshairRef.current.style.display = "block";
       }}
       onMouseLeave={() => {
+        isMouseInsideRef.current = false;
         if (crosshairRef.current) crosshairRef.current.style.display = "none";
       }}
-      className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-16 overflow-hidden border-t border-white/[0.08] select-none cursor-crosshair"
+      className="relative bg-transparent py-20 md:py-32 px-4 sm:px-6 md:px-24 overflow-hidden border-t border-white/[0.08] select-none cursor-crosshair"
     >
       {/* Background Depth Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-600/10 rounded-full blur-[160px] pointer-events-none" />
