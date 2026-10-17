@@ -70,7 +70,7 @@ export default function Internships() {
       <div className="mx-auto max-w-7xl w-full relative z-10">
         <div className="mb-14 md:mb-20">
           <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-emerald-400 uppercase mb-4 md:mb-6">
-            <span>07 // Professional Experience</span>
+            <span>05 // Professional Experience</span>
             <div className="h-px w-12 bg-emerald-500/30" />
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-medium tracking-tight text-white mb-4 md:mb-6">

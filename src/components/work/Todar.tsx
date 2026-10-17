@@ -6,7 +6,7 @@ export default function Todar() {
   return (
     <ProjectCard
       id="todar"
-      sectionNumber="05 // FinTech"
+      category="FinTech"
       title="Todar 2.0."
       subtitle="Transforming chaos into financial clarity."
       description={

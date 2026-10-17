@@ -5,8 +5,8 @@ import ProjectCard from "@/components/ui/ProjectCard";
 export default function LocateArt() {
   return (
     <ProjectCard
-      id="projects"
-      sectionNumber="03 // Cultural Mapping"
+      id="locateart"
+      category="Cultural Mapping"
       title="Locate Art."
       subtitle="Cataloging 120+ cultural art forms across India."
       description={

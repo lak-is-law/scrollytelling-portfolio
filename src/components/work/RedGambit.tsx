@@ -6,7 +6,7 @@ export default function RedGambit() {
   return (
     <ProjectCard
       id="redgambit"
-      sectionNumber="05.4 // Adversarial AI"
+      category="Adversarial AI"
       title="Red Gambit."
       subtitle="Where AI red-teaming meets grandmaster chess."
       description={
@@ -25,7 +25,7 @@ export default function RedGambit() {
       imageSrc="/projects/red-gambit-v2.jpg"
       imageAlt="Red Gambit Adversarial Platform"
       accent="cyan"
-      layout="story-first"
+      layout="image-first"
     />
   );
 }

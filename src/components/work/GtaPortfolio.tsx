@@ -6,7 +6,7 @@ export default function GtaPortfolio() {
   return (
     <ProjectCard
       id="gta"
-      sectionNumber="05.6 // Los Santos Simulation"
+      category="Los Santos Simulation"
       title="Los Santos Portfolio."
       subtitle="Grand Theft Auto V inspired interactive dossier."
       description={
@@ -25,7 +25,7 @@ export default function GtaPortfolio() {
       imageSrc="/projects/gta-map.png"
       imageAlt="GTA V Themed Interactive Portfolio"
       accent="purple"
-      layout="story-first"
+      layout="image-first"
     />
   );
 }

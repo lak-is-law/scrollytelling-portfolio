@@ -61,7 +61,7 @@ export default function Achievements() {
           
           <motion.div style={{ opacity }} className="relative z-10 w-full xl:w-1/2 space-y-4 md:space-y-6">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-yellow-400 uppercase mb-2 md:mb-4">
-              <span>09 // Pinnacle Achievement</span>
+              <span>07 // Pinnacle Achievement</span>
               <div className="h-px w-12 bg-yellow-500/30" />
             </div>
             

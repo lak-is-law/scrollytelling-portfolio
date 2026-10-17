@@ -27,7 +27,7 @@ export default function Contact() {
               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           <div className="text-center space-y-6 md:space-y-8 max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-4 text-sm font-medium tracking-widest text-emerald-400 uppercase">
-              <span>14 // Open Network</span>
+              <span>12 // Open Network</span>
               <div className="h-px w-12 bg-emerald-500/30" />
             </div>
             
@@ -87,14 +87,14 @@ export default function Contact() {
               <ul className="space-y-2 text-zinc-400 font-light">
                 <li><a href="#" className="hover:text-emerald-300 transition-colors">Top // Manifesto</a></li>
                 <li><a href="#projects" className="hover:text-emerald-300 transition-colors">03 // Featured Projects</a></li>
-                <li><a href="#research" className="hover:text-emerald-300 transition-colors">06 // Applied Research</a></li>
-                <li><a href="#experience" className="hover:text-emerald-300 transition-colors">07 // Experience</a></li>
-                <li><a href="#leadership" className="hover:text-emerald-300 transition-colors">08 // Leadership</a></li>
-                <li><a href="#achievements" className="hover:text-emerald-300 transition-colors">09 // Honors & Awards</a></li>
-                <li><a href="#credentials" className="hover:text-emerald-300 transition-colors">10 // Verified Credentials</a></li>
-                <li><a href="#languages" className="hover:text-emerald-300 transition-colors">11 // Tech Arsenal</a></li>
-                <li><a href="#matrix" className="hover:text-emerald-300 transition-colors">12 // Global Matrix</a></li>
-                <li><a href="#arcade" className="hover:text-emerald-300 transition-colors">13 // Interactive Arcade</a></li>
+                <li><a href="#research" className="hover:text-emerald-300 transition-colors">04 // Applied Research</a></li>
+                <li><a href="#experience" className="hover:text-emerald-300 transition-colors">05 // Experience</a></li>
+                <li><a href="#leadership" className="hover:text-emerald-300 transition-colors">06 // Leadership</a></li>
+                <li><a href="#achievements" className="hover:text-emerald-300 transition-colors">07 // Honors & Awards</a></li>
+                <li><a href="#credentials" className="hover:text-emerald-300 transition-colors">08 // Verified Credentials</a></li>
+                <li><a href="#languages" className="hover:text-emerald-300 transition-colors">09 // Tech Arsenal</a></li>
+                <li><a href="#matrix" className="hover:text-emerald-300 transition-colors">10 // Global Matrix</a></li>
+                <li><a href="#arcade" className="hover:text-emerald-300 transition-colors">11 // Interactive Arcade</a></li>
               </ul>
             </div>
 

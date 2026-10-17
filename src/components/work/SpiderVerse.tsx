@@ -6,7 +6,7 @@ export default function SpiderVerse() {
   return (
     <ProjectCard
       id="spiderverse"
-      sectionNumber="05.1 // AR & Computer Vision"
+      category="AR & Computer Vision"
       title="Spider-Verse."
       subtitle="GPU-native AR portal with edge gesture tracking."
       description={

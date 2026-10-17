@@ -7,7 +7,8 @@ import { FuturisticLaunchLink, AccentColor } from "@/components/ui/FuturisticNav
 
 interface ProjectCardProps {
   id?: string;
-  sectionNumber: string;
+  category?: string;
+  sectionNumber?: string;
   title: string;
   subtitle: string;
   description: React.ReactNode;
@@ -67,6 +68,7 @@ const PILL_COLOR_MAP: Record<AccentColor, string> = {
 
 export default function ProjectCard({
   id,
+  category,
   sectionNumber,
   title,
   subtitle,
@@ -122,10 +124,12 @@ export default function ProjectCard({
   const StoryBlock = (
     <div className="space-y-8 md:space-y-12 relative z-20">
       <div className="space-y-4 md:space-y-6">
-        <div className={`flex items-center gap-4 text-sm font-medium tracking-widest ${headerStyle.text} uppercase`}>
-          <span>{sectionNumber}</span>
-          <div className={`h-px w-12 ${headerStyle.line}`} />
-        </div>
+        {(category || sectionNumber) && (
+          <div className={`flex items-center gap-4 text-xs font-mono font-medium tracking-widest ${headerStyle.text} uppercase`}>
+            <span>{category || sectionNumber}</span>
+            <div className={`h-px w-12 ${headerStyle.line}`} />
+          </div>
+        )}
 
         <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.1]">
           {title}
@@ -191,7 +195,7 @@ export default function ProjectCard({
             fill
             quality={95}
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
+            className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         </div>
 

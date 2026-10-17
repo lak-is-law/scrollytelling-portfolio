@@ -38,15 +38,15 @@ export default function SitemapDirectoryPage() {
           </h2>
           <ul className="space-y-2.5 text-zinc-300 font-mono text-xs">
             <li><Link href="/#projects" className="hover:text-cyan-300 underline">03 // Featured Projects</Link></li>
-            <li><Link href="/#research" className="hover:text-cyan-300 underline">06 // Applied Research & Publications</Link></li>
-            <li><Link href="/#experience" className="hover:text-cyan-300 underline">07 // Professional Experience</Link></li>
-            <li><Link href="/#leadership" className="hover:text-cyan-300 underline">08 // Leadership & Public Relations</Link></li>
-            <li><Link href="/#achievements" className="hover:text-cyan-300 underline">09 // Pinnacle Honors & Awards</Link></li>
-            <li><Link href="/#credentials" className="hover:text-cyan-300 underline">10 // Verified Certifications</Link></li>
-            <li><Link href="/#languages" className="hover:text-cyan-300 underline">11 // Interactive Tech Arsenal</Link></li>
-            <li><Link href="/#matrix" className="hover:text-cyan-300 underline">12 // Global Geodesic Network</Link></li>
-            <li><Link href="/#arcade" className="hover:text-cyan-300 underline">13 // Interactive Vault & Minigames</Link></li>
-            <li><Link href="/#contact" className="hover:text-cyan-300 underline">14 // Open Network & Communications</Link></li>
+            <li><Link href="/#research" className="hover:text-cyan-300 underline">04 // Applied Research & Publications</Link></li>
+            <li><Link href="/#experience" className="hover:text-cyan-300 underline">05 // Professional Experience</Link></li>
+            <li><Link href="/#leadership" className="hover:text-cyan-300 underline">06 // Leadership & Public Relations</Link></li>
+            <li><Link href="/#achievements" className="hover:text-cyan-300 underline">07 // Pinnacle Honors & Awards</Link></li>
+            <li><Link href="/#credentials" className="hover:text-cyan-300 underline">08 // Verified Certifications</Link></li>
+            <li><Link href="/#languages" className="hover:text-cyan-300 underline">09 // Interactive Tech Arsenal</Link></li>
+            <li><Link href="/#matrix" className="hover:text-cyan-300 underline">10 // Global Geodesic Network</Link></li>
+            <li><Link href="/#arcade" className="hover:text-cyan-300 underline">11 // Interactive Vault & Minigames</Link></li>
+            <li><Link href="/#contact" className="hover:text-cyan-300 underline">12 // Open Network & Communications</Link></li>
           </ul>
         </div>
 

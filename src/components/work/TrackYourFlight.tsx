@@ -6,7 +6,7 @@ export default function TrackYourFlight() {
   return (
     <ProjectCard
       id="skyward"
-      sectionNumber="04 // Aviation Tech"
+      category="Aviation Tech"
       title="Skyward."
       subtitle="Global flight observatory on live radar."
       description={

@@ -6,7 +6,7 @@ export default function ElevateHub() {
   return (
     <ProjectCard
       id="elevatehub"
-      sectionNumber="05.5 // Community Architecture"
+      category="Community Architecture"
       title="ElevateHub."
       subtitle="Bridging the gap between talent and opportunity."
       description={

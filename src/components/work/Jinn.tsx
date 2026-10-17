@@ -6,7 +6,7 @@ export default function Jinn() {
   return (
     <ProjectCard
       id="jinn"
-      sectionNumber="05.2 // Cognitive AI"
+      category="Cognitive AI"
       title="Jinn."
       subtitle="The ancient oracle of minds."
       description={
@@ -25,7 +25,7 @@ export default function Jinn() {
       imageSrc="/projects/jinn-oracle.svg"
       imageAlt="Jinn Ancient Oracle of Minds"
       accent="gold"
-      layout="story-first"
+      layout="image-first"
     />
   );
 }

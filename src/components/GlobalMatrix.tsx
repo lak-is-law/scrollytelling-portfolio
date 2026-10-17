@@ -554,7 +554,7 @@ export default function GlobalMatrix() {
         {/* Header */}
         <div className="mb-14 md:mb-20">
           <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-indigo-400 uppercase mb-4 md:mb-6">
-            <span>12 // Global Network</span>
+            <span>10 // Global Network</span>
             <div className="h-px w-12 bg-indigo-500/30" />
           </div>
           <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6">

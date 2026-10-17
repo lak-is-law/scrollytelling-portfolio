@@ -22,7 +22,23 @@ export default function ProjectsSection() {
   };
 
   return (
-    <div className="relative">
+    <div id="projects" className="relative">
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          SECTION HEADER: 03 // FEATURED WORK
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="pt-24 pb-8 px-4 sm:px-6 md:px-24 max-w-7xl mx-auto w-full border-t border-white/[0.08]">
+        <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-cyan-400 uppercase mb-4 md:mb-6">
+          <span>03 // Featured Work</span>
+          <div className="h-px w-12 bg-cyan-500/30" />
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-medium tracking-tight text-white mb-4 md:mb-6">
+          Selected Projects.
+        </h2>
+        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl">
+          High-performance production systems, distributed infrastructure, and interactive simulations.
+        </p>
+      </div>
+
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           TOP 3 PRIORITY SHOWCASE (Locate Art, Skyward, Todar)
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}

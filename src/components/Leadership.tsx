@@ -60,7 +60,7 @@ export default function Leadership() {
       <div className="mx-auto max-w-4xl w-full relative z-10">
         <div className="mb-16 md:mb-24 text-center">
           <div className="flex items-center justify-center gap-4 text-sm font-medium tracking-widest text-amber-400 uppercase mb-4 md:mb-6">
-            <span>08 // Leadership</span>
+            <span>06 // Leadership</span>
             <div className="h-px w-12 bg-amber-500/30" />
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-medium tracking-tight text-white mb-4 md:mb-6">

@@ -146,6 +146,7 @@ const ACCENT_STYLES = {
 export default function Research() {
   const containerRef = useRef<HTMLElement>(null);
   const [selectedResearch, setSelectedResearch] = useState<ResearchProject | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -153,6 +154,92 @@ export default function Research() {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ["4%", "-4%"]);
+
+  const visibleProjects = RESEARCH_PROJECTS.slice(0, 2);
+  const drawerProjects = RESEARCH_PROJECTS.slice(2);
+
+  const renderResearchCard = (item: ResearchProject, index: number) => {
+    const styles = ACCENT_STYLES[item.accentColor];
+
+    return (
+      <motion.div
+        key={item.id}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        onClick={() => {
+          arcadeAudio.playClick();
+          setSelectedResearch(item);
+        }}
+        className={`group relative p-6 sm:p-8 rounded-3xl bg-zinc-950/40 backdrop-blur-2xl border ${styles.border} ${styles.glow} transition-all duration-500 cursor-pointer overflow-hidden`}
+      >
+        {/* Subtle Hover Gradient Sweep */}
+        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent pointer-events-none" />
+
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+          <span className={`px-3 py-1 rounded-full text-xs font-mono font-medium border ${styles.badgeBg}`}>
+            {item.badge}
+          </span>
+          <span className="text-[11px] font-mono px-3 py-0.5 rounded-full border border-zinc-700/60 bg-zinc-900/60 text-zinc-400">
+            {item.status}
+          </span>
+        </div>
+
+        <h3 className="text-xl sm:text-2xl font-semibold text-white group-hover:text-cyan-200 transition-colors mb-2">
+          {item.title}
+        </h3>
+
+        <div className="text-sm font-mono text-zinc-400 mb-4 flex flex-wrap items-center gap-2">
+          <span>{item.affiliation}</span>
+          {item.guide && (
+            <>
+              <span className="text-zinc-600">•</span>
+              <span className="text-zinc-300">{item.guide}</span>
+            </>
+          )}
+        </div>
+
+        <p className="text-zinc-300 font-light text-sm sm:text-base leading-relaxed mb-6">
+          {item.abstract}
+        </p>
+
+        {/* Key Methodologies Highlight */}
+        <div className="space-y-2 mb-6 p-4 rounded-2xl bg-black/40 border border-white/5">
+          <p className="text-xs font-mono font-semibold text-zinc-400 uppercase tracking-wider">
+            Core Methodologies & Architecture
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300 font-light">
+            {item.methodology.map((m, mIdx) => (
+              <li key={mIdx} className="flex items-start gap-2">
+                <span className={`mt-1 h-1 w-1 rounded-full ${styles.tagText} shrink-0`} />
+                <span>{m}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tags & Action Row */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/5">
+          <div className="flex flex-wrap gap-2">
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                className={`px-3 py-1 rounded-full text-xs font-mono border backdrop-blur-sm ${styles.pillBg}`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+            <span>Inspect Details</span>
+            <span>→</span>
+          </span>
+        </div>
+      </motion.div>
+    );
+  };
 
   return (
     <section
@@ -168,7 +255,7 @@ export default function Research() {
         <div className="lg:w-1/3">
           <div className="lg:sticky lg:top-32">
             <div className="flex items-center gap-4 text-sm font-medium tracking-widest text-cyan-400 uppercase mb-4 md:mb-6">
-              <span>06 // Research & Publications</span>
+              <span>04 // Research & Publications</span>
               <div className="h-px w-12 bg-cyan-500/30" />
             </div>
 
@@ -199,88 +286,62 @@ export default function Research() {
 
         {/* Research List Column */}
         <motion.div style={{ y }} className="lg:w-2/3 flex flex-col gap-6">
-          {RESEARCH_PROJECTS.map((item, index) => {
-            const styles = ACCENT_STYLES[item.accentColor];
+          {visibleProjects.map((item, index) => renderResearchCard(item, index))}
 
-            return (
+          <AnimatePresence initial={false}>
+            {isExpanded && (
               <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => {
-                  arcadeAudio.playClick();
-                  setSelectedResearch(item);
-                }}
-                className={`group relative p-6 sm:p-8 rounded-3xl bg-zinc-950/40 backdrop-blur-2xl border ${styles.border} ${styles.glow} transition-all duration-500 cursor-pointer overflow-hidden`}
+                key="drawer-research"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden flex flex-col gap-6"
               >
-                {/* Subtle Hover Gradient Sweep */}
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent pointer-events-none" />
-
-                <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                  <span className={`px-3 py-1 rounded-full text-xs font-mono font-medium border ${styles.badgeBg}`}>
-                    {item.badge}
-                  </span>
-                  <span className="text-[11px] font-mono px-3 py-0.5 rounded-full border border-zinc-700/60 bg-zinc-900/60 text-zinc-400">
-                    {item.status}
-                  </span>
-                </div>
-
-                <h3 className="text-xl sm:text-2xl font-semibold text-white group-hover:text-cyan-200 transition-colors mb-2">
-                  {item.title}
-                </h3>
-
-                <div className="text-sm font-mono text-zinc-400 mb-4 flex flex-wrap items-center gap-2">
-                  <span>{item.affiliation}</span>
-                  {item.guide && (
-                    <>
-                      <span className="text-zinc-600">•</span>
-                      <span className="text-zinc-300">{item.guide}</span>
-                    </>
-                  )}
-                </div>
-
-                <p className="text-zinc-300 font-light text-sm sm:text-base leading-relaxed mb-6">
-                  {item.abstract}
-                </p>
-
-                {/* Key Methodologies Highlight */}
-                <div className="space-y-2 mb-6 p-4 rounded-2xl bg-black/40 border border-white/5">
-                  <p className="text-xs font-mono font-semibold text-zinc-400 uppercase tracking-wider">
-                    Core Methodologies & Architecture
-                  </p>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300 font-light">
-                    {item.methodology.map((m, mIdx) => (
-                      <li key={mIdx} className="flex items-start gap-2">
-                        <span className={`mt-1 h-1 w-1 rounded-full ${styles.tagText} shrink-0`} />
-                        <span>{m}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Tags & Action Row */}
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/5">
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`px-3 py-1 rounded-full text-xs font-mono border backdrop-blur-sm ${styles.pillBg}`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <span className="text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                    <span>Inspect Details</span>
-                    <span>→</span>
-                  </span>
-                </div>
+                {drawerProjects.map((item, idx) => renderResearchCard(item, idx + 2))}
               </motion.div>
-            );
-          })}
+            )}
+          </AnimatePresence>
+
+          {/* Interactive Toggle Control */}
+          <div className="pt-2 flex justify-center lg:justify-start">
+            <motion.button
+              type="button"
+              onClick={() => {
+                arcadeAudio.playClick();
+                setIsExpanded((prev) => !prev);
+              }}
+              onMouseEnter={() => arcadeAudio.playHover()}
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="group relative inline-flex items-center gap-3.5 px-7 py-3.5 rounded-full bg-zinc-950/80 backdrop-blur-2xl border border-cyan-500/30 text-white font-mono text-sm tracking-wider uppercase shadow-[0_0_30px_-5px_rgba(6,182,212,0.2),inset_0_1px_1px_rgba(255,255,255,0.15)] hover:border-cyan-400 hover:shadow-[0_0_45px_rgba(6,182,212,0.35)] transition-all duration-300 cursor-pointer overflow-hidden"
+              aria-expanded={isExpanded}
+            >
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent pointer-events-none" />
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,1)]" />
+              </span>
+              <span className="font-semibold text-zinc-100 group-hover:text-cyan-300 transition-colors">
+                {isExpanded ? "Collapse Research" : `View All Research (${drawerProjects.length} More)`}
+              </span>
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-cyan-400 transition-transform duration-300"
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </motion.svg>
+            </motion.button>
+          </div>
         </motion.div>
       </div>
 

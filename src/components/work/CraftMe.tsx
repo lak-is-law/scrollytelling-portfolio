@@ -6,7 +6,7 @@ export default function CraftMe() {
   return (
     <ProjectCard
       id="craftme"
-      sectionNumber="05.3 // 3D Voxel World"
+      category="3D Voxel World"
       title="CraftMe."
       subtitle="Interactive 3D voxel world portfolio."
       description={
@@ -25,7 +25,7 @@ export default function CraftMe() {
       imageSrc="/projects/craftme.jpg"
       imageAlt="CraftMe 3D Minecraft Portfolio World"
       accent="emerald"
-      layout="image-first"
+      layout="story-first"
     />
   );
 }
