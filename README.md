@@ -313,3 +313,13 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
 - **Code of Conduct**: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
 - **Security Policy**: [SECURITY.md](SECURITY.md)
+
+
+---
+
+## License & Commercial Use Restrictions
+
+This project and its assets are licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE).
+
+- **Permitted**: Personal exploration, educational use, academic research, and non-commercial forks.
+- **Prohibited**: Any commercial use, selling, monetizing, or utilizing this software/assets to generate revenue or provide commercial services without explicit prior written authorization from Lakshya Agarwal.
